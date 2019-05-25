@@ -1,0 +1,113 @@
+SEMICOLONS ARE NEEDED
+
+Data Types
+
+arrays - numpy array - [1, 2, 3]
+lists - python lists - ("foo", "bar")
+tuples - python tuples - <"foo", "bar"> // should not use
+string - python string - "Hello world"
+integer - python int - 12314235
+float - python float - 1.23325123
+booleans - python boolean - true false
+
+Operators
+
+Logical Operators
+
+or - |
+and - &
+not - !
+greater than - >
+less than - <
+equal to - ==
+greater than or equal to - =>
+less than or equal to - =<
+
+Math
+
+addition - +
+subtraction - -
+multiplication - *
+division - /
+
+Variable Declarations
+
+variable - Can't start with number - e.g. a_variable
+declaration - variable = expression
+
+If Else Statements
+
+if (expression) {
+  something;
+} elsif (expression) {
+  something;
+} else {
+  something;
+}
+
+Comments
+// This is a Comment
+# This is too!
+
+Loops
+loop { // Forever loop
+ something;
+ if (something) {
+  break;
+  cont;
+ }
+}
+
+
+for (something in something) { // For loop
+  print(something)
+  break;
+  cont;
+}
+
+Functions
+function call - this_is_a_function(arg1, arg2, optional_arg=op_arg)
+function declaration - func function(arg1, arg2) {
+  something here;
+  --return-- = something;
+}
+
+Create custom rules to interpret to
+`some_python_code_here`;
+to use local variables, you must call self.object["name_of_variable"]
+to use global variables, you must use global_objects["name_of_variable"]
+
+Create classes
+class file(filename) {
+  def --init--(this) {
+    me::filename = filename;
+    stuff;
+  }
+  def read(this, thing) {
+    stuff;
+  }
+
+}
+
+make class - file_obj = file(filename);
+call method - file_obj::read()
+
+Functions to be made
+
+file(filename);
+file::read();
+file::write();
+file::append();
+
+Keyword Thing:
+kword name_of_keyword(arg1) {
+  --GLOBAL-- = "global"
+  --parse-- = "GLOBAL arg1 ';'";
+  `global_objects[str(self.object["arg1"])] = self.object[str(self.object["arg1"])]`;
+}
+
+print(arg)
+
+Get from other file
+get sys;
+sys::classes_and_function

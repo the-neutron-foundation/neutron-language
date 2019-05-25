@@ -1,0 +1,5 @@
+get!("io/print");
+
+x = (10, 10);
+
+print(y);

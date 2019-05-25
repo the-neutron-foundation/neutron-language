@@ -1,0 +1,19 @@
+func get!(path_of_file) {
+    `from os import path
+from neutron import main
+import errors
+path_dir_file = path.abspath(path.join(path.dirname(paths_to_look_in[0]), self.objects["path_of_file"]))
+path_file = path.abspath(path_dir_file + ".ntn")
+if path.isfile(path_file):
+    program = main(path_file)
+    global_class_templates.update(program[2])
+    global_objects.update(program[1])
+elif path.isdir(path_dir_file):
+    file_name = path.join(path_dir_file, "--init--.ntn")
+    program = main(file_name)
+    global_class_templates.update(program[2])
+    global_objects.update(program[1])
+else:
+    get_error_obj = errors.get_error()
+    get_error_obj.raise_error(f"An error occured while getting package {path_dir_file}")`;
+}

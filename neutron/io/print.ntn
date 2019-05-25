@@ -1,0 +1,3 @@
+func print(text){
+  `print(self.objects["text"])`;
+}
