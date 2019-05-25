@@ -163,10 +163,14 @@ class Process:
             return False
     def eval_not(self, tree):
         return False if self.eval_expression(tree) == True else True
+
     def eval_numpy(self, tree):
         return NumpyArray(tree, scope=self)
     def eval_list(self, tree):
         return ListType(tree, scope=self)
+    def eval_tuple(self, tree):
+        return TupleType(tree, scope=self)
+
     def eval_expression(self, tree):
         _type = tree[0]
         body = tree[1:]
@@ -181,6 +185,7 @@ class Process:
             "ID": self.eval_id,
             "NUMPY": self.eval_numpy,
             "LIST": self.eval_list,
+            "TUPLE": self.eval_tuple,
 
             # Bin Ops
             "SUB": self.eval_sub,
@@ -451,6 +456,16 @@ class ListType(DataType):
         for item in tree:
             value.append(self.scope.eval_expression(item))
         return list(value)
+    def __str__(self):
+        return self.value.__str__()
+
+class TupleType(DataType):
+    def eval_tree(self):
+        tree = self.tree[0]["ITEMS"]
+        value = ()
+        for item in tree:
+            value += (item, )
+        return tuple(value)
     def __str__(self):
         return self.value.__str__()
 
