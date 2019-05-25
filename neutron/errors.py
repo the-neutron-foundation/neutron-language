@@ -3,7 +3,7 @@ class ErrorClass:
         self.type = type
 
     def raise_error(self, msg, ln="?", col="?"):
-        print(f"chain::{self.type}: {msg}. line: {ln} column: {col}")
+        print(f"neutron::{self.type}: {msg}. line: {ln} column: {col}")
         quit()
 
 class positional_argument_error(ErrorClass):

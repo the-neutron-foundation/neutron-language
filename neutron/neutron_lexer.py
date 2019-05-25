@@ -4,7 +4,7 @@ from sly import Lexer
 class NeutronLexer(Lexer):
 
     tokens = {ID, FLOAT, INT, FUNC, CLASS, STRING, EQ_GREATER, EQ_LESS, EQEQ, PYTHON_CODE, COLON_COLON, KWORD, IF, ELSE, TRUE, FALSE, NOT_EQEQ}
-    literals = { "+", "-", "*", "/", "%", "|", "&", "!", ">", "<", "=", "(", ")", "{", "}", ";", ",", ":"}
+    literals = { "+", "-", "*", "/", "%", "|", "&", "!", ">", "<", "=", "(", ")", "{", "}", ";", ",", ":", "[", "]"}
 
     ignore = " \t"
     ignore_comment_slash = r"//.*"

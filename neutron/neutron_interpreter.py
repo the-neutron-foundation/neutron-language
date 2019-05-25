@@ -43,11 +43,11 @@ class Process:
         return value
 
     def eval_float(self, tree):
-        value = float(tree[0]["VALUE"])
+        value = FloatType(tree)
         return value
 
     def eval_string(self, tree):
-        value = str(tree[0]["VALUE"])
+        value = StringType(tree)
         return value
 
     def eval_id(self, tree):
@@ -164,8 +164,9 @@ class Process:
     def eval_not(self, tree):
         return False if self.eval_expression(tree) == True else True
     def eval_numpy(self, tree):
-        return NumpyArray(tree)
-
+        return NumpyArray(tree, scope=self)
+    def eval_list(self, tree):
+        return ListType(tree, scope=self)
     def eval_expression(self, tree):
         _type = tree[0]
         body = tree[1:]
@@ -179,6 +180,7 @@ class Process:
             "STRING": self.eval_string,
             "ID": self.eval_id,
             "NUMPY": self.eval_numpy,
+            "LIST": self.eval_list,
 
             # Bin Ops
             "SUB": self.eval_sub,
@@ -396,27 +398,66 @@ class ClassInstance(ClassTemplate):
 
 
 class DataType:
-    def __init__(self, tree):
-        self.value = None
+    def __init__(self, tree, scope=None):
         self.tree = tree
-
-class IntType(DataType):
-    def __init__(self, tree):
-        DataType.__init__(self, tree)
+        self.scope = scope
+        self.value = self.eval_tree()
 
     def eval_tree(self):
-        return self.tree[0]["VALUE"]
+        return None
+
+    def __repr__(self):
+        return f"neutron::{self.__class__.__name__} <value: {self.value}>"
+    def __add__(self, other):
+        return self.value + other.value
+    def __mul__(self, other):
+        print(self.value, other.value)
+        return self.value * other.value
+    def __sub__(self, other):
+        return self.value - other.value
+    def __truediv__(self, other):
+        return self.value / other.value
+    def __mod__(self, other):
+        return self.value % other.value
+    def __str__(self):
+        return self.value
+
+
+class IntType(DataType):
+    def eval_tree(self):
+        return int(self.tree[0]["VALUE"])
+
+
+class FloatType(DataType):
+    def eval_tree(self):
+        return float(self.tree[0]["VALUE"])
 
 
 class NumpyArray(DataType):
-    def __init__(self, tree):
-        DataType.__init__(self, tree)
     def eval_tree(self):
         tree = self.tree[0]["ITEMS"]
         value = []
         for item in tree:
-            value.append(eval_expression(item))
+            value.append(self.scope.eval_expression(item))
         return array(value)
+    def __str__(self):
+        return f"({self.value.__str__()[1:-1]})"
+
+
+class ListType(DataType):
+    def eval_tree(self):
+        tree = self.tree[0]["ITEMS"]
+        value = []
+        for item in tree:
+            value.append(self.scope.eval_expression(item))
+        return list(value)
+    def __str__(self):
+        return self.value.__str__()
+
+
+class StringType(DataType):
+    def eval_tree(self):
+        return str(self.tree[0]["VALUE"])
 
 
 
