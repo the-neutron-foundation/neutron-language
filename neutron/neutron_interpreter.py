@@ -3,18 +3,17 @@ import pprint
 import errors
 from os import path
 import sly
-import pysnooper
 from numpy import array
+import builtin_types as tm
 
-global global_objects, global_class_templates, paths_to_look_in
-global_objects, global_class_templates = {}, {}
+global global_objects, paths_to_look_in
+global_objects = {}
 paths_to_look_in = [path.abspath(__file__)]
 
 class Process:
     def __init__(self, tree, filename="?"):
         self.tree = tree
         self.objects = {}
-        self.class_templates = {}
         self.type = "PROGRAM"
         self.file_path = filename
         self.stmt = {
@@ -38,18 +37,6 @@ class Process:
             for line in tree:
                 self.stmt[line[0]](line[1:])
 
-    def eval_int(self, tree):
-        value = IntType(tree)
-        return value
-
-    def eval_float(self, tree):
-        value = FloatType(tree)
-        return value
-
-    def eval_string(self, tree):
-        value = StringType(tree)
-        return value
-
     def eval_id(self, tree):
         name = tree[0]["VALUE"]
         if name in global_objects:
@@ -66,9 +53,9 @@ class Process:
         name = dictionary["ID"]
         program = dictionary["PROGRAM"]
         if self.in_program():
-            global_class_templates[name] = ClassTemplate(program, name)
+            global_objects[name] = ClassTemplate(program, name)
         elif not self.in_program():
-            self.class_templates[name] = ClassTemplate(program, name)
+            self.objects[name] = ClassTemplate(program, name)
 
     def class_attribute(self, body):
         if self.type == "FUNCTION" and body["CLASS"] == "this":
@@ -132,9 +119,6 @@ class Process:
     def eval_pos(self, tree):
         return +self.eval_expression(tree)
 
-    def eval_bool(self, tree):
-        val = tree["VALUE"]
-        return True if val == "true" else False
     def eval_eqeq(self, tree):
         return self.eval_expression(tree[0]) == self.eval_expression(tree[1])
     def eval_not_eqeq(self, tree):
@@ -152,6 +136,8 @@ class Process:
         if self.eval_expression(tree[0]) == True:
             if self.eval_expression(tree[1]) == True:
                 return True
+            else:
+                return False
         else:
             return False
     def eval_or(self, tree):
@@ -162,25 +148,37 @@ class Process:
         else:
             return False
     def eval_not(self, tree):
-        return False if self.eval_expression(tree) == True else True
+        return False if self.eval_expression(tree[0]) == True else True
 
+    # Defult Types
+    def eval_int(self, tree):
+        value = tm.IntType(tree)
+        return value
+    def eval_float(self, tree):
+        value = tm.FloatType(tree)
+        return value
+    def eval_string(self, tree):
+        value = tm.StringType(tree)
+        return value
+    def eval_bool(self, tree):
+        value = tm.BoolType(tree)
+        return value
     def eval_numpy(self, tree):
-        return NumpyArray(tree, scope=self)
+        return tm.NumpyArray(tree, scope=self)
     def eval_list(self, tree):
-        return ListType(tree, scope=self)
+        return tm.ListType(tree, scope=self)
     def eval_tuple(self, tree):
-        return TupleType(tree, scope=self)
+        return tm.TupleType(tree, scope=self)
 
     def eval_expression(self, tree):
         _type = tree[0]
         body = tree[1:]
         value = None
-
         type_to_function = {
             # Data Types
             "INT": self.eval_int,
             "FLOAT": self.eval_float,
-            "BOOl": self.eval_bool,
+            "BOOL": self.eval_bool,
             "STRING": self.eval_string,
             "ID": self.eval_id,
             "NUMPY": self.eval_numpy,
@@ -211,12 +209,10 @@ class Process:
             "FUNCTION_CALL": self.object_call,
             "CLASS_ATTRIBUTE": self.class_attribute
         }
-
         if _type in type_to_function:
             value = type_to_function[_type](body)
         elif type == "PYTHON_CODE":
             value = self.python_code((body, ), eval_or_not=True)
-
         return value
 
     ### End of Spaghetti Code *relief* ###
@@ -249,7 +245,6 @@ class Process:
         dictionary_func = tree[0]
         dictionary = dictionary_func["FUNCTION_ARGUMENTS"]
         new_pos_arguments = []
-        class_template = {**self.class_templates, **global_class_templates}
         objects = {**self.objects, **global_objects}
 
         if "POSITIONAL_ARGS" in dictionary:
@@ -263,10 +258,10 @@ class Process:
 
         if dictionary_func["ID"][0] == "ID":
             name = dictionary_func["ID"][1]["VALUE"]
-            if name in class_template:
+            if name in objects and isinstance(objects[name], ClassTemplate):
                 return_value = ClassInstance(class_template[name], None, new_pos_arguments, dictionary["KWARGS"])
-            elif name not in objects and name not in class_template:
-                errors.variable_referenced_before_assignment_error().raise_error(f"variable \"{name}\" referenced before assignment")
+            elif name not in objects:
+                errors.variable_referenced_before_assignment_error().raise_error(f"object \"{name}\" referenced before assignment")
             elif isinstance(objects[name], Function):
                 return_value = objects[name].run_function(new_pos_arguments, dictionary["KWARGS"])
             else:
@@ -400,80 +395,6 @@ class ClassInstance(ClassTemplate):
         self.name = name
         self.type = "CLASS_INSTANCE"
         self.run_method("--init--", pos_arguments, kw_arguments)
-
-
-class DataType:
-    def __init__(self, tree, scope=None):
-        self.tree = tree
-        self.scope = scope
-        self.value = self.eval_tree()
-
-    def eval_tree(self):
-        return None
-
-    def __repr__(self):
-        return f"neutron::{self.__class__.__name__} <value: {self.value}>"
-    def __add__(self, other):
-        return self.value + other.value
-    def __mul__(self, other):
-        print(self.value, other.value)
-        return self.value * other.value
-    def __sub__(self, other):
-        return self.value - other.value
-    def __truediv__(self, other):
-        return self.value / other.value
-    def __mod__(self, other):
-        return self.value % other.value
-    def __str__(self):
-        return self.value
-
-
-class IntType(DataType):
-    def eval_tree(self):
-        return int(self.tree[0]["VALUE"])
-
-
-class FloatType(DataType):
-    def eval_tree(self):
-        return float(self.tree[0]["VALUE"])
-
-
-class NumpyArray(DataType):
-    def eval_tree(self):
-        tree = self.tree[0]["ITEMS"]
-        value = []
-        for item in tree:
-            value.append(self.scope.eval_expression(item))
-        return array(value)
-    def __str__(self):
-        return f"({self.value.__str__()[1:-1]})"
-
-
-class ListType(DataType):
-    def eval_tree(self):
-        tree = self.tree[0]["ITEMS"]
-        value = []
-        for item in tree:
-            value.append(self.scope.eval_expression(item))
-        return list(value)
-    def __str__(self):
-        return self.value.__str__()
-
-class TupleType(DataType):
-    def eval_tree(self):
-        tree = self.tree[0]["ITEMS"]
-        value = ()
-        for item in tree:
-            value += (item, )
-        return tuple(value)
-    def __str__(self):
-        return self.value.__str__()
-
-
-class StringType(DataType):
-    def eval_tree(self):
-        return str(self.tree[0]["VALUE"])
-
 
 
 ## Tests

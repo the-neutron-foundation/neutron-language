@@ -1,4 +1,0 @@
-func stdin() {
-`from sys import stdin
-self.objects["--return--"] = stdin.readline()`;
-}

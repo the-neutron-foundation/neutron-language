@@ -1,7 +1,6 @@
+get!("io/stdin");
 get!("io/print");
 
-x = (23, 13, 45);
-y = (10, 203, 12) / x;
+x = stdin();
 
 print(x);
-print(y);
