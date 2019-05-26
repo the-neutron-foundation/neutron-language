@@ -50,6 +50,10 @@ class NeutronParser(Parser):
     def statement(self, p):
         return p.conditional
 
+    @_("while_loop")
+    def statement(self, p):
+        return p.while_loop
+
     @_("python_code_stmt")
     def statement(self, p):
         return p.python_code_stmt
@@ -109,6 +113,10 @@ class NeutronParser(Parser):
     @_("CLASS ID '{' program '}'")
     def class_declaration(self, p):
         return ("CLASS_DECLARATION", {"ID": p.ID, "PROGRAM": p.program})
+
+    @_("WHILE '(' expression ')' '{' program '}'")
+    def while_loop(self, p):
+        return ("WHILE", {"PROGRAM": p.program, "CONDITION": p.expression})
 
     @_("positional_args ',' expression")
     def positional_args(self, p):
@@ -265,7 +273,7 @@ class NeutronParser(Parser):
     @_("id")
     def expression(self, p):
         return p.id
-
+        
     @_("class_attribute")
     def expression(self, p):
         return p.class_attribute

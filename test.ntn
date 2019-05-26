@@ -1,6 +1,7 @@
-get!("io/stdin");
 get!("io/print");
 
-x = stdin();
-
-print(x);
+x = 0;
+while (x < 10) {
+  print(x);
+  x = x+1;
+}

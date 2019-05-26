@@ -3,8 +3,8 @@ from sly import Lexer
 
 class NeutronLexer(Lexer):
 
-    tokens = {ID, FLOAT, INT, FUNC, CLASS, STRING, EQ_GREATER, EQ_LESS, EQEQ, PYTHON_CODE, COLON_COLON, KWORD, IF, ELSE, TRUE, FALSE, NOT_EQEQ}
-    literals = { "+", "-", "*", "/", "%", "|", "&", "!", ">", "<", "=", "(", ")", "{", "}", ";", ",", ":", "[", "]"}
+    tokens = {ID, FLOAT, INT, FUNC, CLASS, STRING, EQ_GREATER, EQ_LESS, EQEQ, PYTHON_CODE, COLON_COLON, KWORD, IF, ELSE, TRUE, FALSE, NOT_EQEQ, WHILE}
+    literals = { "+", "-", "*", "/", "%", "|", "&", "!", ">", "<", "=", "(", ")", "{", "}", ";", ",", ":", "[", "]", "'"}
 
     ignore = " \t"
     ignore_comment_slash = r"//.*"
@@ -20,6 +20,7 @@ class NeutronLexer(Lexer):
     ID["kword"] = KWORD
     ID["true"] = TRUE
     ID["false"] = FALSE
+    ID["while"] = WHILE
     ID["if"] = IF
     ID["else"] = ELSE
 
