@@ -13,10 +13,11 @@ Structs?                No.        **PLANNED!**
 Basic Features:
 
 ======================  =========
-Feature                 Python 3?
+Feature                 Neutron?
 ----------------------  ---------
 Primative Types?        **YES!**
 Lists and Tuples?       **YES!**
 Classes and Functions?  **YES!**
 Importing?              **YES!**
+While Loops?            **YES!**
 ======================  =========
