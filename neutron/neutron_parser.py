@@ -236,11 +236,11 @@ class NeutronParser(Parser):
 
     @_("expression '<' expression")
     def expression(self, p):
-        return ("GREATER", p[0], p[2])
+        return ("LESS", p[0], p[2])
 
     @_("expression '>' expression")
     def expression(self, p):
-        return ("LESS", p[0], p[2])
+        return ("GREATER", p[0], p[2])
 
     @_("'(' expression ')'")
     def expression(self, p):
@@ -273,7 +273,7 @@ class NeutronParser(Parser):
     @_("id")
     def expression(self, p):
         return p.id
-        
+
     @_("class_attribute")
     def expression(self, p):
         return p.class_attribute

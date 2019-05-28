@@ -4,7 +4,7 @@ import errors
 from os import path
 import sly
 from numpy import array
-import builtin_types as tm
+import builtin_types as bt
 
 global global_objects, paths_to_look_in
 global_objects = {}
@@ -24,6 +24,7 @@ class Process:
             "CLASS_DECLARATION": self.class_declaration,
             "GET": self.get_stmt,
             "CONDITIONAL": self.conditional,
+            "WHILE": self.while_statment
         }
 
     def in_program(self):
@@ -36,6 +37,13 @@ class Process:
         elif tree != None:
             for line in tree:
                 self.stmt[line[0]](line[1:])
+
+    def while_statment(self, tree):
+        dictionary = tree[0]
+        condition = dictionary["CONDITION"]
+        program = dictionary["PROGRAM"]
+        while self.eval_expression(condition) == True:
+            self.run(tree=program)
 
     def eval_id(self, tree):
         name = tree[0]["VALUE"]
@@ -120,17 +128,17 @@ class Process:
         return +self.eval_expression(tree)
 
     def eval_eqeq(self, tree):
-        return self.eval_expression(tree[0]) == self.eval_expression(tree[1])
+        return bt.BoolType(self.eval_expression(tree[0]) == self.eval_expression(tree[1]), enter_value=True)
     def eval_not_eqeq(self, tree):
-        return self.eval_expression(tree[0]) != self.eval_expression(tree[1])
+        return bt.BoolType(self.eval_expression(tree[0]) != self.eval_expression(tree[1]), enter_value=True)
     def eval_eq_greater(self, tree):
-        return self.eval_expression(tree[0]) >= self.eval_expression(tree[1])
+        return bt.BoolType(self.eval_expression(tree[0]) >= self.eval_expression(tree[1]), enter_value=True)
     def eval_eq_less(self, tree):
-        return self.eval_expression(tree[0]) <= self.eval_expression(tree[1])
+        return bt.BoolType(self.eval_expression(tree[0]) <= self.eval_expression(tree[1]), enter_value=True)
     def eval_less(self, tree):
-        return self.eval_expression(tree[0]) < self.eval_expression(tree[1])
+        return bt.BoolType(self.eval_expression(tree[0]) < self.eval_expression(tree[1]), enter_value=True)
     def eval_greater(self, tree):
-        return self.eval_expression(tree[0]) > self.eval_expression(tree[1])
+        return bt.BoolType(self.eval_expression(tree[0]) > self.eval_expression(tree[1]), enter_value=True)
 
     def eval_and(self, tree):
         if self.eval_expression(tree[0]) == True:
@@ -152,23 +160,23 @@ class Process:
 
     # Defult Types
     def eval_int(self, tree):
-        value = tm.IntType(tree)
+        value = bt.IntType(tree)
         return value
     def eval_float(self, tree):
-        value = tm.FloatType(tree)
+        value = bt.FloatType(tree)
         return value
     def eval_string(self, tree):
-        value = tm.StringType(tree)
+        value = bt.StringType(tree)
         return value
     def eval_bool(self, tree):
-        value = tm.BoolType(tree)
+        value = bt.BoolType(tree)
         return value
     def eval_numpy(self, tree):
-        return tm.NumpyArray(tree, scope=self)
+        return bt.NumpyArray(tree, scope=self)
     def eval_list(self, tree):
-        return tm.ListType(tree, scope=self)
+        return bt.ListType(tree, scope=self)
     def eval_tuple(self, tree):
-        return tm.TupleType(tree, scope=self)
+        return bt.TupleType(tree, scope=self)
 
     def eval_expression(self, tree):
         _type = tree[0]
