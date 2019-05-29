@@ -29,6 +29,8 @@ Design Principles
    :caption: Documentation Contents:
 
    features
+   introduction
+   customization
    license
 
 

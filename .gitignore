@@ -58,7 +58,7 @@ docs/_build/
 target/
 
 # test file .ntn
-test.ntn
+test*.ntn
 
 tests/
 tests/*
