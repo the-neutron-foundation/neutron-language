@@ -4,7 +4,7 @@ Data Types
 
 arrays - numpy array - [1, 2, 3]
 lists - python lists - ("foo", "bar")
-tuples - python tuples - <"foo", "bar"> // should not use
+tuples - python tuples - {"foo", "bar"} // should not use
 string - python string - "Hello world"
 integer - python int - 12314235
 float - python float - 1.23325123
@@ -20,8 +20,12 @@ not - !
 greater than - >
 less than - <
 equal to - ==
-greater than or equal to - =>
-less than or equal to - =<
+greater than or equal to - >=<
+25
+<
+25
+
+less than or equal to - <=
 
 Math
 
@@ -32,14 +36,14 @@ division - /
 
 Variable Declarations
 
-variable - Can't start with number - e.g. a_variable
+variable - Can't start with number - e.g. a_variable NOT 2123_x
 declaration - variable = expression
 
 If Else Statements
 
 if (expression) {
   something;
-} elsif (expression) {
+} else if (expression) {
   something;
 } else {
   something;
@@ -47,9 +51,13 @@ if (expression) {
 
 Comments
 // This is a Comment
-# This is too!
 
 Loops
+
+while (condition) { // While loop
+  do something;
+}
+
 loop { // Forever loop
  something;
  if (something) {
@@ -73,14 +81,14 @@ function declaration - func function(arg1, arg2) {
 }
 
 Create custom rules to interpret to
-`some_python_code_here`;
+`some_python_code_here e.g. print("Foo")`;
 to use local variables, you must call self.object["name_of_variable"]
 to use global variables, you must use global_objects["name_of_variable"]
 
 Create classes
 class file(filename) {
   def --init--(this) {
-    me::filename = filename;
+    this::filename = filename;
     stuff;
   }
   def read(this, thing) {
@@ -106,8 +114,9 @@ kword name_of_keyword(arg1) {
   `global_objects[str(self.object["arg1"])] = self.object[str(self.object["arg1"])]`;
 }
 
-print(arg)
+print(arg);
 
 Get from other file
-get sys;
-sys::classes_and_function
+get!("io/print") //import print with namespace
+get!("io/stdin")
+print("Hi"); // use imported function
