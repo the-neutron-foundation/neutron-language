@@ -10,3 +10,6 @@ Neutron is a programming language insspired by C, Python, and Java.
 - [x] **Numpy  arrays Builtin!!**
 - [ ] For Loops
 - [x] Whille loops
+
+# Documentation
+There is a readthedocs [here](https://neutron-lang.readthedocs.io/en/latest/). You may also look at the [grammar file](./grammar.txt) (very rough).
