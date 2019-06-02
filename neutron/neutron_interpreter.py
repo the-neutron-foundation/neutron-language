@@ -1,10 +1,10 @@
-import neutron_lexer, neutron_parser
+import neutron.neutron_lexer as neutron_lexer
+import neutron.neutron_parser as neutron_parser
 import pprint
-import errors
+import neutron.errors as errors
 from os import path
 import sly
-from numpy import array
-import builtin_types as bt
+import neutron.builtin_types as bt
 
 global global_objects, paths_to_look_in
 global_objects = {}

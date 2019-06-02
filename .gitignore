@@ -65,3 +65,7 @@ tests/*
 
 # parser file
 parser.out
+
+*.build/
+neutron.bin
+neutron.exe

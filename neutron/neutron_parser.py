@@ -1,5 +1,5 @@
 from sly import Parser
-from neutron_lexer import NeutronLexer
+from neutron.neutron_lexer import NeutronLexer
 import pprint
 import logging
 

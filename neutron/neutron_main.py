@@ -1,4 +1,6 @@
-import neutron_interpreter, neutron_parser, neutron_lexer
+import neutron.neutron_lexer as neutron_lexer
+import neutron.neutron_parser as neutron_parser
+import neutron.neutron_interpreter as neutron_interpreter
 import pprint
 from os import path
 
@@ -19,7 +21,7 @@ def get_objects(filename):
     program.run()
     return (program.objects, neutron_interpreter.global_objects)
 
-def main(filename, if_return=True):
+def main(filename, if_return=True, verbose=False):
     text = read_file(filename)
     defult_functions = get_objects(path.join(path.dirname(path.abspath(__file__)), "defult.ntn"))
     pp = pprint.PrettyPrinter(indent=2)

@@ -1,8 +1,10 @@
 get!("io/print");
 
-x = 0;
+x = 3;
+t = 0;
 
-while (x < 10) {
-  print(x);
-  x = x+1;
+while (t < 22) {
+  x = x*x;
+  t = t+1;
 }
+print(x);
