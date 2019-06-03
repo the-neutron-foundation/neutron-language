@@ -55,28 +55,28 @@ Primitive Types
 ^^^^^^^^^^^^^^^
 ``IntType``
 ***************
-This type implement the python 3 ``int`` class. It can only include whole numbers (not decimals). You may not mix types (e.g. ``IntType`` and ``FloatType``). If you divide integers, if results in a decimal, it rounds down. Note adding an integer to an integer returns an integer.
+This type implement the python 3 ``int`` class. It can only include whole numbers (not decimals). If you divide integers, if results in a decimal, it rounds down. Note adding an integer to an integer returns an integer.
 Here is an example:
 
 .. code-block:: java
 
-  1 + 1; // Returns 2
-  3 / 2; // Returns 1 (round down)
-  2 * 3; // Returns 6
-  20 - 3; // Returns 17
+  1 + 1; // Evaluates to 2
+  3 / 2; // Evaluates to 1 (round down)
+  2 * 3; // Evaluates to 6
+  20 - 3; // Evaluates to 17
   3 + 2.1; // Error can't add int to float
 
 ``FloatType``
 *************
-This type implement the python 3 ``float`` class. It can decimals and whole numbers. Note it must contain a decimal (i.e ``1.00``). You may not mix types (e.g. ``IntType`` and ``FloatType``). Note adding a float to a float returns a float.
+This type implement the python 3 ``float`` class. It can decimals and whole numbers. Note it must contain a decimal (i.e ``1.00``). Note adding a float to a float returns a float.
 Example:
 
 .. code-block:: java
 
-  1.0 + 1.2; // Returns 2.2
-  3.0 / 2.0; // Returns 1.5
-  2.2 * 3.7; // Returns 8.14
-  20.0 - 3.2; // Returns 16.8
+  1.0 + 1.2; // Evaluates to 2.2
+  3.0 / 2.0; // Evaluates to 1.5
+  2.2 * 3.7; // Evaluates to 8.14
+  20.0 - 3.2; // Evaluates to 16.8
   3.5 + 2; // Error can't add int to float
 
 Other types
@@ -84,3 +84,10 @@ Other types
 ``StringType``
 **************
 This type implements the python 3 ``str`` class. You can concatenate strings in neutron in the same way as python.
+
+.. code-block:: java
+
+  "Hello, " + "World!"; // Evaluates to "Hello, World"
+
+.. warning::
+  Types cannot mix (e.g. ``IntType`` and ``FloatType``, or ``StringType`` and ``BoolType``)
