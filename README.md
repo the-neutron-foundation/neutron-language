@@ -1,5 +1,5 @@
 # Neutron
-Neutron is a programming language inspired by C, Python, and Java. It is faster than normal Python 3 in most tests. Binary releases [here](https://github.com/the-neutron-foundation/neutron/releases).
+Neutron is a programming language inspired by C, Python, and Java. It is faster than normal Python 3 in most tests. Binary releases [here](https://github.com/the-neutron-foundation/neutron/releases). NOTE: the procomilled binaries don't work on Windows 10 (even the `.exe` ones). If on windows, you can try to [compile](https://neutron-lang.readthedocs.io/en/latest/introduction.html#installation) yourself.
 
 # Documentation
 There is a ReadTheDocs [here](https://neutron-lang.readthedocs.io/en/latest/). You may also look at the [grammar file](./grammar.txt) (very rough). There is also a [Gitter Chat here](https://gitter.im/The-Neutron-Foundation)
