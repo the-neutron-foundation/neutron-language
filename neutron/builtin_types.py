@@ -1,5 +1,3 @@
-from numpy import array
-
 def add(item1, item2):
     return item1 + item2
 
@@ -82,22 +80,28 @@ class IntType(DataType):
 class FloatType(DataType):
     def __init__(self, tree, scope=None, enter_value=False):
         DataType.__init__(self, tree, scope=scope, enter_value=enter_value)
-        self.value = float
+        self.type = float
     def eval_tree(self):
         return float(self.tree[0]["VALUE"])
 
 
 class StringType(DataType):
+    def __init__(self, tree, scope=None, enter_value=False):
+        DataType.__init__(self, tree, scope=scope, enter_value=enter_value)
+        self.type = str
     def eval_tree(self):
         return str(self.tree[0]["VALUE"])
 
 
 class BoolType(DataType):
+    def __init__(self, tree, scope=None, enter_value=False):
+        DataType.__init__(self, tree, scope=scope, enter_value=enter_value)
+        self.type = bool
     def eval_tree(self):
         value = self.tree[0]["VALUE"]
         return True if value == "true" else False
     def __str__(self):
-        return self.tree[0]["VALUE"]
+        return "true" if self.value else "false"
 
 
 class NumpyArray(DataType):

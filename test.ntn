@@ -1,10 +1,6 @@
 get!("io/print");
 
-x = 3;
-t = 0;
+x = 3.0 + 2.0;
+y = x + 10.0;
 
-while (t < 22) {
-  x = x*x;
-  t = t+1;
-}
-print(x);
+print(y+120.2);

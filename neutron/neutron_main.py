@@ -3,6 +3,7 @@ import neutron.neutron_parser as neutron_parser
 import neutron.neutron_interpreter as neutron_interpreter
 import pprint
 from os import path
+import logging
 
 
 def read_file(filename):
@@ -27,10 +28,12 @@ def main(filename, if_return=True, verbose=False):
     pp = pprint.PrettyPrinter(indent=2)
     lexer = neutron_lexer.NeutronLexer()
     parser = neutron_parser.NeutronParser()
-    for tok in lexer.tokenize(text):
-        print(tok)
+    if verbose:
+        for tok in lexer.tokenize(text):
+            print(tok)
     tree = parser.parse(lexer.tokenize(text))
-    pp.pprint(tree)
+    if verbose:
+        pp.pprint(tree)
     program = neutron_interpreter.Process(tree, filename=path.abspath(filename))
     program.objects["--file--"] = path.abspath(filename)
     neutron_interpreter.global_objects["--file--"] = path.abspath(filename)

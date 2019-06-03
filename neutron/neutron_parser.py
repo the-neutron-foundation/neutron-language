@@ -7,7 +7,7 @@ class NeutronParser(Parser):
     tokens = NeutronLexer.tokens
     debugfile = 'parser.out'
     log = logging.getLogger()
-    log.setLevel(logging.DEBUG)
+    log.setLevel(logging.ERROR)
 
     precedence = (
        ('left', ','),
