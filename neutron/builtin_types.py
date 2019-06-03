@@ -1,3 +1,5 @@
+from numpy import array
+
 def add(item1, item2):
     return item1 + item2
 
@@ -32,7 +34,7 @@ class DataType:
     def __sub__(self, other):
         return sub(self.value, other) if isinstance(other, self.type) else sub(self, other.value)
     def __truediv__(self, other):
-        return div(self.value, other) if isinstance(other, self.type) else div(self, other.value)
+        return self.type(div(self.value, other) if isinstance(other, self.type) else div(self, other.value))
     def __mod__(self, other):
         return mod(self.value, other) if isinstance(other, self.type) else mod(self, other.value)
 
@@ -41,7 +43,7 @@ class DataType:
     def __rsub__(self, other):
         return sub(other, self.value) if isinstance(other, self.type) else sub(other.value, self.value)
     def __rtruediv__(self, other):
-        return div(other / self.value) if isinstance(other, self.type) else div(other.value, self.value)
+        return self.type(div(other / self.value) if isinstance(other, self.type) else div(other.value, self.value))
     def __rmod__(self, other):
         return mod(other, self.value) if isinstance(other, self.type) else mod(other.value, self.value)
 

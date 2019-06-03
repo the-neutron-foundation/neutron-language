@@ -16,7 +16,7 @@ Here are all the terms:
 
                           Preamble
 
-  The GNU General Public License is a free, copyleft license forsoftware
+  The GNU General Public License is a free, copyleft license for software
   and other kinds of works.
 
   The licenses for most software and other practical works are designed to

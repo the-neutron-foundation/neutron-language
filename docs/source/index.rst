@@ -22,7 +22,7 @@ Design Principles
 
 - **Be different.** You might be thinking, why would I ever use this over Python?
   It's just another language to learn, and it provides the same features as a lot of other programming languages.
-  That's where your wrong. Neutron is going to have **C-like structs, switch statements, and more**. Oh, and also it has **built-in numpy support** and **built-in functions**.
+  That's where your wrong. Neutron is going to have **C-like structs, switch statements, and more**. Oh, and also it has **built-in Numpy support** and **built-in functions**.
 
 .. toctree::
    :maxdepth: 3

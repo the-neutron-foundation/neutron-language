@@ -23,7 +23,7 @@ Basic Features:
 ======================  =========
 Feature                 Neutron?
 ----------------------  ---------
-Primative Types?        **YES!**
+Primitive Types?        **YES!**
 Lists and Tuples?       **YES!**
 Classes and Functions?  **YES!**
 Importing?              **YES!**

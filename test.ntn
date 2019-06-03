@@ -1,6 +1,6 @@
 get!("io/print");
 
-x = 3.0 + 2.0;
-y = x + 10.0;
+x = "Hello, ";
+y = "world!";
 
-print(y+120.2);
+print(x+y);

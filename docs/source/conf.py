@@ -22,7 +22,7 @@ copyright = '2019, Jonathan Li'
 author = 'Jonathan Li'
 
 # The full version, including alpha/beta/rc tags
-release = '0.0.1'
+release = 'v0.0.1-alpha.1'
 
 
 # -- General configuration ---------------------------------------------------
