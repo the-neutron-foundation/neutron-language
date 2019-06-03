@@ -2,7 +2,7 @@
 Neutron is a programming language inspired by C, Python, and Java. It is faster than normal Python 3 in most tests.
 
 # Documentation
-There is a readthedocs [here](https://neutron-lang.readthedocs.io/en/latest/). You may also look at the [grammar file](./grammar.txt) (very rough).
+There is a readthedocs [here](https://neutron-lang.readthedocs.io/en/latest/). You may also look at the [grammar file](./grammar.txt) (very rough). THere is also a [Gitter Chat here](https://gitter.im/The-Neutron-Foundation)
 
 # Features
 - [x] **Numpy  arrays Builtin!!**
@@ -13,6 +13,3 @@ There is a readthedocs [here](https://neutron-lang.readthedocs.io/en/latest/). Y
 - [x] Python Lists and Tuples
 - [x] Whille loops
 - [ ] For Loops
-
-# Documentation
-There is a readthedocs [here](https://neutron-lang.readthedocs.io/en/latest/). You may also look at the [grammar file](./grammar.txt) (very rough).
