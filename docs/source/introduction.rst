@@ -91,3 +91,41 @@ This type implements the python 3 ``str`` class. You can concatenate strings in 
 
 .. warning::
   Types cannot mix (e.g. ``IntType`` and ``FloatType``, or ``StringType`` and ``BoolType``)
+
+``NumpyArray``
+**************
+This type is the same as the Numpy ``array()`` class. This is built in and ever object in the array is separated by commas. all of that is around a pair of square brackets.
+
+.. code-block:: java
+
+  [1, 2, 3, 4, 5];  // Evaluates to Numpy Array
+
+``ListType``
+************
+
+``TupleType``
+*************
+
+Variable Assignment
+^^^^^^^^^^^^^^^^^^^
+
+Function
+^^^^^^^^
+
+Function Definition
+*******************
+
+Function Call
+*************
+
+Classes
+^^^^^^^
+
+Defining a Class
+****************
+
+Making Instance of Class
+************************
+
+Running Methods
+***************
