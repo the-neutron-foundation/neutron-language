@@ -94,11 +94,11 @@ This type implements the python 3 ``str`` class. You can concatenate strings in 
 
 ``NumpyArray``
 **************
-This type is the same as the Numpy ``array()`` class. This is built in and ever object in the array is separated by commas. all of that is around a pair of square brackets.
+This type is the same as the Numpy ``array()`` class. This is built in and ever object in the array is separated by commas. all of that is around a pair of brackets.
 
 .. code-block:: java
 
-  [1, 2, 3, 4, 5];  // Evaluates to Numpy Array
+  (1, 2, 3, 4, 5);  // Evaluates to Numpy Array
 
 ``ListType``
 ************

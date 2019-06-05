@@ -1,7 +1,20 @@
 get!("io/print");
+get!("io/stdin");
+get!("types/to_int");
 
-x = (1, 2, 3, 4, 5);
-y = (1, 2, 3, 4, 5);
-e = x*y;
 
-print(e);
+is_not_win = true;
+number = 10;
+
+while (is_not_win) {
+  print("Enter A Number:");
+  guess = to_int(stdin());
+  if (guess == number) {
+    print("You Win!");
+    is_not_win = false;
+  } else if (guess > number) {
+    print("Too High");
+  } else if (guess < number) {
+    print("Too Low");
+  }
+}

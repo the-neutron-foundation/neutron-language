@@ -107,6 +107,9 @@ class BoolType(DataType):
 
 
 class NumpyArray(DataType):
+    def __init__(self, tree, scope=None, enter_value=False):
+        DataType.__init__(self, tree, scope=scope, enter_value=enter_value)
+        self.type = array
     def eval_tree(self):
         tree = self.tree[0]["ITEMS"]
         value = []
@@ -118,6 +121,9 @@ class NumpyArray(DataType):
 
 
 class ListType(DataType):
+    def __init__(self, tree, scope=None, enter_value=False):
+        DataType.__init__(self, tree, scope=scope, enter_value=enter_value)
+        self.type = list
     def eval_tree(self):
         tree = self.tree[0]["ITEMS"]
         value = []
@@ -129,6 +135,9 @@ class ListType(DataType):
 
 
 class TupleType(DataType):
+    def __init__(self, tree, scope=None, enter_value=False):
+        DataType.__init__(self, tree, scope=scope, enter_value=enter_value)
+        self.type = tuple
     def eval_tree(self):
         tree = self.tree[0]["ITEMS"]
         value = ()
