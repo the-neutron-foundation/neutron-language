@@ -1,4 +1,5 @@
 func stdin() {
 `from sys import stdin
-self.objects["--return--"] = stdin.readline().strip()`;
+from .builtin_types import StringType
+self.objects["--return--"] = StringType(stdin.readline().strip(), enter_value=True)`;
 }

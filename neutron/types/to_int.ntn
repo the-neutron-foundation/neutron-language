@@ -2,5 +2,5 @@
 func to_int(value) {
 `
 from .builtin_types import IntType
-self.objects["--return--"] = IntType(int(self.objects["value"]), enter_value=True)`;
+self.objects["--return--"] = IntType(int(self.objects["value"].value), enter_value=True)`;
 }

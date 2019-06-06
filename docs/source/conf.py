@@ -56,6 +56,6 @@ html_static_path = ['_static']
 
 master_doc = 'index'
 
-html_context = {
-    'css_files': ['_static/custom.css'],
-}
+# html_context = {
+#     'css_files': ['_static/custom.css'],
+# }
