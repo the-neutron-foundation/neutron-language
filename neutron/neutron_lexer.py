@@ -34,15 +34,3 @@ class NeutronLexer(Lexer):
     @_(r"\n+")
     def ignore_newline(self, t):
         self.lineno += len(t.value)
-
-if __name__ == '__main__':
-    data = '''# Counting
-boolthing = -1239283.132 / +123132.23 == +12317.324 / 24873847823784784;
-pfunc (hi) {
-    code = "print(hi)";
-    pcode code;
-}
-'''
-    lexer = NeutronLexer()
-    for tok in lexer.tokenize(data):
-        print(tok)

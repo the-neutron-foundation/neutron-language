@@ -41,7 +41,3 @@ def main(filename, if_return=True, verbose=False):
     neutron_interpreter.global_objects.update(defult_functions[1])
     program.run()
     return (program, neutron_interpreter.global_objects) if if_return else None
-
-
-if __name__ == '__main__':
-    main("test.ntn")

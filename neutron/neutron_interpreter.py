@@ -407,23 +407,3 @@ class ClassInstance(ClassTemplate):
         self.name = name
         self.type = "CLASS_INSTANCE"
         self.run_method("--init--", pos_arguments, kw_arguments)
-
-
-## Tests
-"""if __name__ == '__main__':
-pp = pprint.PrettyPrinter(indent=2)
-text = """
-"""
-get("io/console");
-print("hi");
-"""
-"""
-
-lexer = neutron_lexer.NeutronLexer()
-parser = neutron_parser.NeutronParser()
-# for tok in lexer.tokenize(text_test + text):
-#    print(tok)
-tree = parser.parse(lexer.tokenize(text_test + text))
-pp.pprint(tree)
-program = Process(tree)
-program.run()text_test"""

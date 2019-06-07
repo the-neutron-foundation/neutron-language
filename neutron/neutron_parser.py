@@ -337,12 +337,3 @@ class NeutronParser(Parser):
     @_("")
     def empty(self, p):
         pass
-
-
-if __name__ == '__main__':
-    pprinter = pprint.PrettyPrinter()
-    lexer = NeutronLexer()
-    parser = NeutronParser()
-    text = r"func print(text, end=text) {var = 10;} print(text, end=text);"
-    result = parser.parse(lexer.tokenize(text))
-    pprinter.pprint(result)
