@@ -30,7 +30,7 @@ class Process:
     def in_program(self):
         return True if self.type == "PROGRAM" else False
 
-    def run(self, tree = None):
+    def run(self, tree=None):
         if tree == None:
             for line in self.tree:
                 self.stmt[line[0]](line[1:])
@@ -85,30 +85,33 @@ class Process:
     def conditional(self, tree):
         dictionary = tree[0]
         _if = dictionary["IF"][1]
-        _elsif = dictionary["ELSE_IF"][1]
+        _elsif = dictionary["ELSE_IF"][1:]
         _else = dictionary["ELSE"][1]
         if _if != None and _elsif == None and _else == None:
             if self.eval_expression(_if["CONDITION"]) == True:
                 self.run(tree=_if["CODE"])
-        if _if != None and _elsif == None and _else != None:
+        elif _if != None and _elsif == None and _else != None:
             if self.eval_expression(_if["CONDITION"]) == True:
                 self.run(tree=_if["CODE"])
             else:
                 self.run(tree=_else["CODE"])
-        if _if != None and _elsif != None and _else == None:
+        elif _if != None and _elsif != None and _else == None:
             if self.eval_expression(_if["CONDITION"]) == True:
                 self.run(tree=_if["CODE"])
-            for stmt in _elsif:
-                if self.eval_expression(stmt["CONDITION"]) == True:
-                    self.run(stmt["CODE"])
-        if _if != None and _elsif != None and _else != None:
+            else:
+                is_true = False
+                for stmt in _elsif:
+                    if self.eval_expression(stmt[0]["CONDITION"]) == True and not is_true:
+                        is_true = True
+                        self.run(stmt[0]["CODE"])
+        elif _if != None and _elsif != None and _else != None:
             if self.eval_expression(_if["CONDITION"]) == True:
                 self.run(tree=_if["CODE"])
-                return
-            for stmt in _elsif:
-                if self.eval_expression(stmt["CONDITION"]) == True:
-                    self.run(stmt["CODE"])
-                    return
+            else:
+                for stmt in _elsif:
+                    if self.eval_expression(stmt[0]["CONDITION"]) == True:
+                        self.run(stmt[0]["CODE"])
+                        return
             self.run(tree=_else["CODE"])
 
     def eval_sub(self, tree):
@@ -181,7 +184,7 @@ class Process:
     def eval_expression(self, tree):
         _type = tree[0]
         body = tree[1:]
-        value = None
+        value = "something went wrong"
         type_to_function = {
             # Data Types
             "INT": self.eval_int,
@@ -256,8 +259,9 @@ class Process:
         objects = {**self.objects, **global_objects}
 
         if "POSITIONAL_ARGS" in dictionary:
-            for expr in dictionary["POSITIONAL_ARGS"]:
-                new_pos_arguments.append(self.eval_expression(expr))
+            if not None in dictionary["POSITIONAL_ARGS"]:
+                for expr in dictionary["POSITIONAL_ARGS"]:
+                    new_pos_arguments.append(self.eval_expression(expr))
 
         elif "POSITIONAL_ARGS" not in dictionary:
             dictionary["POSITIONAL_ARGS"] = (None, )

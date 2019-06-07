@@ -12,9 +12,9 @@ while (is_not_win) {
   if (guess == number) {
     print("You Win!");
     is_not_win = false;
-  } else if (guess > number) {
-    print("Too High");
   } else if (guess < number) {
     print("Too Low");
+  } else if (guess > number) {
+    print("Too High");
   }
 }
