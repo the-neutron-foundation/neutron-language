@@ -1,9 +1,5 @@
-import neutron.neutron_lexer as neutron_lexer
-import neutron.neutron_parser as neutron_parser
-import pprint
 import neutron.errors as errors
 from os import path
-import sly
 import neutron.builtin_types as bt
 
 global global_objects, paths_to_look_in
@@ -22,7 +18,6 @@ class Process:
             "FUNCTION_CALL": self.object_call,
             "PYTHON_CODE": self.python_code,
             "CLASS_DECLARATION": self.class_declaration,
-            "GET": self.get_stmt,
             "CONDITIONAL": self.conditional,
             "WHILE": self.while_statment
         }
@@ -162,16 +157,20 @@ class Process:
         return False if self.eval_expression(tree[0]) == True else True
 
     # Defult Types
-    def eval_int(self, tree):
+    @staticmethod
+    def eval_int(tree):
         value = bt.IntType(tree)
         return value
-    def eval_float(self, tree):
+    @staticmethod
+    def eval_float(tree):
         value = bt.FloatType(tree)
         return value
-    def eval_string(self, tree):
+    @staticmethod
+    def eval_string(tree):
         value = bt.StringType(tree)
         return value
-    def eval_bool(self, tree):
+    @staticmethod
+    def eval_bool(tree):
         value = bt.BoolType(tree)
         return value
     def eval_numpy(self, tree):
@@ -228,7 +227,8 @@ class Process:
 
     ### End of Spaghetti Code *relief* ###
 
-    def python_code(self, tree, eval_or_not=False):
+    @staticmethod
+    def python_code(tree, eval_or_not=False):
         code = tree[0]["CODE"]
         if eval_or_not:
             return eval(code)
@@ -284,7 +284,7 @@ class Process:
 
         elif dictionary_func["ID"][0] == "CLASS_ATTRIBUTE":
             if self.type == "PROGRAM":
-                classes = {**self.objects, **global_objects}
+                # classes = {**self.objects, **global_objects}
                 attribute = dictionary_func["ID"][1]["ATTRIBUTE"]
                 class_name = dictionary_func["ID"][1]["CLASS"]
                 return_value = objects[class_name].run_method(attribute, dictionary_func["FUNCTION_ARGUMENTS"]["POSITIONAL_ARGS"], dictionary_func["FUNCTION_ARGUMENTS"]["KWARGS"])
@@ -300,11 +300,6 @@ class Process:
             object_not_callable.raise_error(f"{dictionary_func['ID'][0].lower()} type is not callable")
 
         return return_value
-
-    def get_stmt(self, tree):
-        dictionary = tree[0]
-        for path in paths_to_look_in:
-            pass
 
 
     def function_declaration(self, tree):
