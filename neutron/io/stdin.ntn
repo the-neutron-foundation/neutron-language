@@ -1,5 +1,8 @@
 func stdin() {
 `from sys import stdin
-from .builtin_types import StringType
+try:
+    from neutron.builtin_types import StringType
+except ModuleNotFoundError:
+    from builtin_types import StringType
 self.objects["--return--"] = StringType(stdin.readline().strip(), enter_value=True)`;
 }

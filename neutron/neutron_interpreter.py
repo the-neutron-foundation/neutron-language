@@ -1,6 +1,11 @@
-import neutron.errors as errors
+try:
+    import neutron.errors as errors
+    import neutron.builtin_types as bt
+except ModuleNotFoundError:
+    import errors as errors
+    import builtin_types as bt
+
 from os import path
-import neutron.builtin_types as bt
 
 global global_objects, paths_to_look_in
 global_objects = {}
@@ -227,8 +232,7 @@ class Process:
 
     ### End of Spaghetti Code *relief* ###
 
-    @staticmethod
-    def python_code(tree, eval_or_not=False):
+    def python_code(self, tree, eval_or_not=False):
         code = tree[0]["CODE"]
         if eval_or_not:
             return eval(code)

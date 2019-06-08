@@ -3,7 +3,7 @@ Introduction
 
 Installation
 ------------
-To use, either install the binaries (find them `here <https://github.com/the-neutron-foundation/neutron/releases>`_), or build them yourself. If you choose to build it yourself, you should have `Numpy <https://www.numpy.org/>`_ installed. Neutron uses a python 3 compiler called `Nuitka <https://nuitka.net/pages/overview.html>`_, which is faster.
+To use, either install the binaries (find them `here <https://github.com/the-neutron-foundation/neutron/releases>`_), build them yourself, or directly run the python 3 code (slower). If you choose to build it yourself, you should have `Numpy <https://www.numpy.org/>`_ installed. Neutron uses a python 3 compiler called `Nuitka <https://nuitka.net/pages/overview.html>`_, which is faster.
 Note that running neutron with the defult python implantation (CPython) won't work, because the import system works differently. To compile from source, get `Nuitka <https://nuitka.net/pages/overview.html>`_.
 After that, go to the source folder (the master folder) there should be a ``neutron`` folder in the master folder, and run the Nuitka build commands. Here are the commands (run in order):
 
@@ -24,11 +24,17 @@ Usage
 -----
 Running a file
 ^^^^^^^^^^^^^^
-To use neutron, pass the filename as the first argument to the neutron binary.
+To use neutron, pass the filename as the first argument to the neutron binary if you built it from source.
 
 .. code-block:: bash
 
  ./neutron path/to/neutron/file.ntn
+
+If you plan to just run the normal source code, just pass neutron as the package and the normal arguments after. Make sure you are in the main directory, and not in the `neutron-repo/neutron` path. Example:
+
+.. code-block:: bash
+
+ python3 neutron path/to/neutron/file.ntn
 
 Optional Flags
 ^^^^^^^^^^^^^^
@@ -39,7 +45,6 @@ Option: ``--verbose`` or ``-v``
 Info: make neutron print out the parse tree and the tokens and general debug info.
 
 Example: ``neutron file.ntn -v``
-
 
 Writing Neutron
 ---------------

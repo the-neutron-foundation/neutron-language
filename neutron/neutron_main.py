@@ -1,6 +1,11 @@
-import neutron.neutron_lexer as neutron_lexer
-import neutron.neutron_parser as neutron_parser
-import neutron.neutron_interpreter as neutron_interpreter
+try:
+    import neutron.neutron_lexer as neutron_lexer
+    import neutron.neutron_parser as neutron_parser
+    import neutron.neutron_interpreter as neutron_interpreter
+except ModuleNotFoundError:
+    import neutron_lexer as neutron_lexer
+    import neutron_parser as neutron_parser
+    import neutron_interpreter as neutron_interpreter
 import pprint
 from os import path
 import logging

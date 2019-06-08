@@ -2,12 +2,11 @@ Why Use  Neutron?
 =================
 Why use neutron?
 
-Well, because of two things:
-- The **SPEED**
-- The `Features`
+Well, because of:
+- The **`Features`**
 
 The Features
-^^^^^^^^^^^^
+------------
 Exciting Features:
 
 ======================  =========  =============
@@ -29,9 +28,3 @@ Classes and Functions?  **YES!**
 Importing?              **YES!**
 While Loops?            **YES!**
 ======================  =========
-
-The **SPEED**
-^^^^^^^^^^^^^
-For most tests, Neutron is **faster** than python 3, thanks to `Nuitka <https://nuitka.net/pages/overview.html>`_.
-
-SPEED TEST COMING SOON.

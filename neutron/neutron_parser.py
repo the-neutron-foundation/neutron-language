@@ -1,5 +1,8 @@
+try:
+    from neutron.neutron_lexer import NeutronLexer
+except ModuleNotFoundError:
+    from neutron_lexer import NeutronLexer
 from sly import Parser
-from neutron.neutron_lexer import NeutronLexer
 import pprint
 import logging
 
