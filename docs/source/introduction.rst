@@ -17,7 +17,7 @@ After that, go to the source folder (the master folder) there should be a ``neut
 
  $ python3 -m nuitka --follow-imports --include-plugin-directory=./neutron --show-progress --show-scons neutron # compile neutron using python -m flag
 
-After compilling, you should see a ``neutron.exe`` file and a ``neutron.bin`` file. These are your binaries. To use the .bin binaries on Unix systems just run ``./neutron.bin``. On windows, the ``.exe`` file can just be run as ``neutron`` in the command prompt.
+After compiling, you should see a ``neutron.exe`` file and a ``neutron.bin`` file. These are your binaries. To use the .bin binaries on Unix systems just run ``./neutron.bin``. On windows, the ``.exe`` file can just be run as ``neutron`` in the command prompt.
 
 
 Usage
@@ -218,6 +218,25 @@ Boolean
 
 Built-In Functions
 ^^^^^^^^^^^^^^^^^^
+There are many builtin functions that are the building blocks of Neutron.
+
+``get!``
+********
+
+``io/print``
+************
+
+``io/print_type``
+*****************
+
+``io/type``
+***********
+
+``io/stdin``
+************
+
+``types/to_int``
+****************
 
 While Loops
 ^^^^^^^^^^^
