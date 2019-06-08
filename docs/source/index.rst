@@ -32,6 +32,7 @@ Design Principles
    introduction
    customization
    license
+   faq
 
 
 
