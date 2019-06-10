@@ -10,7 +10,7 @@
 Neutron is a programming language inspired by C, Python, and Java.
 
 # Documentation
-There is a ReadTheDocs [here](https://neutron-lang.readthedocs.io/en/latest/). You may also look at the [grammar file](./grammar.txt) (very rough). There is also a [Gitter Chat here](https://gitter.im/The-Neutron-Foundation).
+**[There is a Readthedocs here](https://neutron-lang.readthedocs.io/en/latest/)** for full documentation and installation instructions. You may also look at the [grammar file](./grammar.txt) (very rough). There is also a [Gitter Chat here](https://gitter.im/The-Neutron-Foundation).
 
 # Basic Usage
 To use, run the filename as the first argument. For example, on Unix-like systems, you could do:
