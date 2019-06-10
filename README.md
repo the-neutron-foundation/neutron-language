@@ -22,6 +22,7 @@ To use, run the filename as the first argument. For example, on Unix-like system
 The filename for neutron files is `.ntn`. For example, `important_file.ntn`.
 
 # Features
+There are cnstantly new features being devloped in neutron. TO see the features that are comming and the one that are being worked on, go [here](https://github.com/the-neutron-foundation/neutron/projects/1).
 - [x] **Numpy  arrays Builtin!!**
 - [x] Classes
 - [x] Functions
