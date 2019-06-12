@@ -13,13 +13,17 @@ Neutron is a programming language inspired by C, Python, and Java.
 **[There is a Readthedocs here](https://neutron-lang.readthedocs.io/en/latest/)** for full documentation and installation instructions. You may also look at the [grammar file](./grammar.txt) (very rough). There is also a [Gitter Chat here](https://gitter.im/The-Neutron-Foundation).
 
 # Basic Usage
-To use, run the filename as the first argument. For example, on Unix-like systems, you could do:
+To use, run the filename as the first argument. It is recommended to use the python interpreter to run the code (just run the `neutron` folder), like so:
+
+```
+python3 neutron path/to/neutron/file.ntn
+```
+
+The filename for neutron files is `.ntn`. For example, `important_file.ntn`. If you want to use the compiled binaries, on Unix-like systems, you could do:
 
 ```
 ./neutron.bin path/to/neutron/file.ntn
 ```
-
-The filename for neutron files is `.ntn`. For example, `important_file.ntn`.
 
 # Features
 There are cnstantly new features being devloped in neutron. TO see the features that are comming and the one that are being worked on, go [here](https://github.com/the-neutron-foundation/neutron/projects/1).
