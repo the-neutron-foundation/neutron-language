@@ -7,8 +7,7 @@ is_not_win = true;
 number = 10;
 
 while (is_not_win) {
-  print("Enter A Number:");
-  guess = to_int(stdin());
+  guess = to_int(stdin(prompt="Enter A Number:"));
   if (guess == number) {
     print("You Win!");
     is_not_win = false;

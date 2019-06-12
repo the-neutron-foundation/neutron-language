@@ -1,8 +1,8 @@
-func stdin() {
+func stdin(prompt="") {
 `from sys import stdin
 try:
     from neutron.builtin_types import StringType
 except ModuleNotFoundError:
     from builtin_types import StringType
-self.objects["--return--"] = StringType(stdin.readline().strip(), enter_value=True)`;
+self.objects["--return--"] = StringType(input(self.objects["prompt"].value), enter_value=True)`;
 }

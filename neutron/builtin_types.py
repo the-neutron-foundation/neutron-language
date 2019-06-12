@@ -1,4 +1,4 @@
-#from numpy import array
+from numpy import array
 
 def add(item1, item2):
     return item1 + item2

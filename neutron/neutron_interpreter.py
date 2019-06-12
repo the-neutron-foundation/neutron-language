@@ -275,10 +275,11 @@ class Process:
         if dictionary_func["ID"][0] == "ID":
             name = dictionary_func["ID"][1]["VALUE"]
             if name in objects and isinstance(objects[name], ClassTemplate):
-                return_value = ClassInstance(class_template[name], None, new_pos_arguments, dictionary["KWARGS"])
+                return_value = ClassInstance(objects[name], None, new_pos_arguments, dictionary["KWARGS"])
             elif name not in objects:
                 errors.variable_referenced_before_assignment_error().raise_error(f"object \"{name}\" referenced before assignment")
             elif isinstance(objects[name], Function):
+                print(dictionary["KWARGS"])
                 return_value = objects[name].run_function(new_pos_arguments, dictionary["KWARGS"])
             else:
                 try:
@@ -288,13 +289,11 @@ class Process:
 
         elif dictionary_func["ID"][0] == "CLASS_ATTRIBUTE":
             if self.type == "PROGRAM":
-                # classes = {**self.objects, **global_objects}
                 attribute = dictionary_func["ID"][1]["ATTRIBUTE"]
-                class_name = dictionary_func["ID"][1]["CLASS"]
+                class_name = dictionary_func["ID"][1]["CLASS"][1]["VALUE"]
                 return_value = objects[class_name].run_method(attribute, dictionary_func["FUNCTION_ARGUMENTS"]["POSITIONAL_ARGS"], dictionary_func["FUNCTION_ARGUMENTS"]["KWARGS"])
             elif self.type == "FUNCTION":
                 if isinstance(self.positional_arguments[0], ClassTemplate) and dictionary_func["ID"][1]["CLASS"] == "this":
-                    classes = {"this": self.positional_arguments[0]}
                     attribute = dictionary_func["ID"][1]["ATTRIBUTE"]
                     class_name = dictionary_func["ID"][1]["CLASS"]
                     return_value = objects[class_name].run_method(attribute, dictionary_func["FUNCTION_ARGUMENTS"]["POSITIONAL_ARGS"], dictionary_func["FUNCTION_ARGUMENTS"]["KWARGS"])
@@ -346,18 +345,20 @@ class Function(Process):
         for i, name in enumerate(self.positional_arguments):
             self.objects[name] = pos_arguments[i]
 
-        try:
-            for item in kw_args:
-                    kw_arguments[item["ID"]] = item["EXPRESSION"]
+        #try:
+        for item in kw_args:
+            if item is None:
+                continue
+            kw_arguments[item["ID"]] = self.eval_expression(item["EXPRESSION"])
 
-            for variable in self.kw_arguments:
-                if variable not in kw_args:
-                    self.objects[variable] = self.kw_arguments[variable]
-                elif variable in kw_args:
-                    self.objects[variable] = kw_arguments["ID"]
+        for variable in self.kw_arguments:
+            if variable not in kw_arguments:
+                self.objects[variable] = self.kw_arguments[variable]
+            elif variable in kw_arguments:
+                self.objects[variable] = kw_arguments[variable]
 
-        except TypeError:
-            pass
+        #xcept TypeError:
+        #    pass
 
         self.run()
         if "--return--" in self.objects:
