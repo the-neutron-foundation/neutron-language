@@ -1,3 +1,8 @@
 func print(text){
-  `print(self.objects["text"].value)`;
+  `try:
+    from neutron.builtin_types import BoolType
+except ModuleNotFoundError:
+    from builtin_types import BoolType
+text = self.objects["text"]
+print(text.value if not isinstance(text, BoolType) else text)`;
 }

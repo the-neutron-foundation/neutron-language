@@ -144,22 +144,22 @@ class Process:
         return bt.BoolType(self.eval_expression(tree[0]) > self.eval_expression(tree[1]), enter_value=True)
 
     def eval_and(self, tree):
-        if self.eval_expression(tree[0]) == True:
-            if self.eval_expression(tree[1]) == True:
-                return True
+        if self.eval_expression(tree[0]).value == True:
+            if self.eval_expression(tree[1]).value == True:
+                return bt.BoolType(True, enter_value=True)
             else:
-                return False
+                return bt.BoolType(False, enter_value=True)
         else:
-            return False
+            return bt.BoolType(False, enter_value=True)
     def eval_or(self, tree):
-        if self.eval_expression(tree[0]) == True:
-            return True
-        elif self.eval_expression(tree[1]) == True:
-            return True
+        if self.eval_expression(tree[0]).value == True:
+            return bt.BoolType(True, enter_value=True)
+        elif self.eval_expression(tree[1]).value == True:
+            return bt.BoolType(True, enter_value=True)
         else:
-            return False
+            return bt.BoolType(False, enter_value=True)
     def eval_not(self, tree):
-        return False if self.eval_expression(tree[0]) == True else True
+        return bt.BoolType(False, enter_value=True) if self.eval_expression(tree[0]).value == True else bt.BoolType(True, enter_value=True)
 
     # Defult Types
     @staticmethod
