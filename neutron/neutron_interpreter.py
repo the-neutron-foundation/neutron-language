@@ -23,6 +23,7 @@ class Process:
             "FUNCTION_CALL": self.object_call,
             "PYTHON_CODE": self.python_code,
             "CLASS_DECLARATION": self.class_declaration,
+            "CLASS_ATTRIBUTE_ASSIGNMENT": self.attribute_assignment,
             "CONDITIONAL": self.conditional,
             "WHILE": self.while_statment
         }
@@ -66,6 +67,7 @@ class Process:
             self.objects[name] = ClassTemplate(program, name)
 
     def class_attribute(self, body):
+        body = body[0]
         if self.type == "FUNCTION" and body["CLASS"] == "this":
             if isinstance(self.objects["this"], ClassTemplate):
                 value = self.objects["this"].objects[body["ATTRIBUTE"]]
@@ -77,7 +79,7 @@ class Process:
 
         else:
             classes = {**self.objects, **global_objects}
-            value = classes[body["CLASS"]].objects[body["ATTRIBUTE"]]
+            value = classes[body["CLASS"][1]["VALUE"]].objects[body["ATTRIBUTE"]]
 
         return value
 
@@ -115,15 +117,15 @@ class Process:
             self.run(tree=_else["CODE"])
 
     def eval_sub(self, tree):
-        return self.eval_expression(tree[0]) - self.eval_expression(tree[1])
+        return bt.IntType(self.eval_expression(tree[0]) - self.eval_expression(tree[1]), enter_value=True)
     def eval_add(self, tree):
-        return self.eval_expression(tree[0]) + self.eval_expression(tree[1])
+        return bt.IntType(self.eval_expression(tree[0]) + self.eval_expression(tree[1]), enter_value=True)
     def eval_mul(self, tree):
-        return self.eval_expression(tree[0]) * self.eval_expression(tree[1])
+        return bt.IntType(self.eval_expression(tree[0]) * self.eval_expression(tree[1]), enter_value=True)
     def eval_div(self, tree):
-        return self.eval_expression(tree[0]) / self.eval_expression(tree[1])
+        return bt.IntType(self.eval_expression(tree[0]) / self.eval_expression(tree[1]), enter_value=True)
     def eval_mod(self, tree):
-        return self.eval_expression(tree[0]) % self.eval_expression(tree[1])
+        return bt.IntType(self.eval_expression(tree[0]) % self.eval_expression(tree[1]), enter_value=True)
 
     def eval_neg(self, tree):
         return -self.eval_expression(tree)
@@ -296,6 +298,10 @@ class Process:
                     attribute = dictionary_func["ID"][1]["ATTRIBUTE"]
                     class_name = dictionary_func["ID"][1]["CLASS"]
                     return_value = objects[class_name].run_method(attribute, dictionary_func["FUNCTION_ARGUMENTS"]["POSITIONAL_ARGS"], dictionary_func["FUNCTION_ARGUMENTS"]["KWARGS"])
+                elif isinstance(self.positional_arguments[0], ClassTemplate):
+                    attribute = dictionary_func["ID"][1]["ATTRIBUTE"]
+                    class_name = dictionary_func["ID"][1]["CLASS"]
+                    return_value = objects[class_name].run_method(attribute, dictionary_func["FUNCTION_ARGUMENTS"]["POSITIONAL_ARGS"], dictionary_func["FUNCTION_ARGUMENTS"]["KWARGS"])
 
         elif dictionary_func["ID"][0] != "ID":
             object_not_callable = errors.ErrorClass(f"{dictionary_func['ID'][0].lower()}_not_callable_error")
@@ -313,6 +319,11 @@ class Process:
             global_objects[name] = Function(program, name, arguments)
         elif not self.in_program():
             self.objects[name] = Function(program, name, arguments)
+
+    def attribute_assignment(self, tree):
+        print(tree)
+        tree = tree[0] if isinstance(tree, tuple) else tree
+        self.objects[tree["CLASS_ATTRIBUTE"][1]["CLASS"][1]["VALUE"]].objects[tree["CLASS_ATTRIBUTE"][1]["ATTRIBUTE"]] = self.eval_expression(tree["EXPRESSION"])
 
 
 class Function(Process):
@@ -338,6 +349,9 @@ class Function(Process):
 
     def run_function(self, pos_arguments, kw_args):
         kw_arguments = {}
+
+        pos_arguments = [x for x in pos_arguments if x is not None]
+
         if len(pos_arguments) != len(self.positional_arguments):
             errors.positional_argument_error.raise_error(self, f"{len(self.positional_arguments)} arguments expected {len(pos_arguments)} were found")
 
@@ -368,16 +382,16 @@ class Function(Process):
 
     def attribute_assignment(self, tree):
         dictionary = tree[0]
+        dictionary = dictionary[0] if isinstance(dictionary, tuple) else dictionary
         if "this" in self.objects and isinstance(self.objects["this"], ClassTemplate):
-            if dictionary["CLASS_ATTRIBUTE"][1]["CLASS"] == "this":
+            if dictionary["CLASS_ATTRIBUTE"][1]["CLASS"][1]["VALUE"] == "this":
                 attribute = dictionary["CLASS_ATTRIBUTE"][1]["ATTRIBUTE"]
-            else:
-                errors.variable_referenced_before_assignment_error().raise_error(f"\"{dictionary['CLASS_ATTRIBUTE'][1]['CLASS']}\" class attributes cannot be changed. Consider making a setter method in the class")
-
+                self.objects["this"].objects[attribute] = self.eval_expression(dictionary["EXPRESSION"])
         else:
-            errors.type_error().raise_error("\"this\" object is not defined or is not a class")
-
-        self.objects["this"].objects[attribute] = self.eval_expression(dictionary["EXPRESSION"])
+            try:
+                self.objects[dictionary["CLASS_ATTRIBUTE"][1]["CLASS"][1]["VALUE"]].objects[dictionary["CLASS_ATTRIBUTE"][1]["ATTRIBUTE"]] = self.eval_expression(dictionary["EXPRESSION"])
+            except KeyError:
+                errors.variable_referenced_before_assignment_error().raise_error(f'object "{dictionary["CLASS_ATTRIBUTE"][1]["ATTRIBUTE"]}" referenced before assignment')
 
 
 class ClassTemplate(Function):

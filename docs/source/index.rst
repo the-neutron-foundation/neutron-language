@@ -25,10 +25,11 @@ Design Principles
   That's where your wrong. Neutron is going to have **C-like structs, switch statements, and more**. Oh, and also it has **built-in Numpy support** and **built-in functions**.
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 3
    :caption: Documentation Contents:
 
    features
+   examples
    introduction
    customization
    license

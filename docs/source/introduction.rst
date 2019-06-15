@@ -3,8 +3,8 @@ Introduction
 
 Installation
 ------------
-To use, either install the binaries (find them `here <https://github.com/the-neutron-foundation/neutron/releases>`_), build them yourself, or directly run the python 3 code (slower). If you choose to build it yourself, you should have `Numpy <https://www.numpy.org/>`_ installed. Neutron uses a python 3 compiler called `Nuitka <https://nuitka.net/pages/overview.html>`_, which is faster.
-Note that running neutron with the defult python implantation (CPython) won't work, because the import system works differently. To compile from source, get `Nuitka <https://nuitka.net/pages/overview.html>`_.
+To use, either install the binaries (find them `here <https://github.com/the-neutron-foundation/neutron/releases>`_), build them yourself, or directly run (using the default CPython interpreter) the python 3 code (slower). If you choose to build it yourself, you should have `Numpy <https://www.numpy.org/>`_ installed. Neutron uses a python 3 compiler called `Nuitka <https://nuitka.net/pages/overview.html>`_, which is faster.
+To compile from source, get `Nuitka <https://nuitka.net/pages/overview.html>`_.
 After that, go to the source folder (the master folder) there should be a ``neutron`` folder in the master folder, and run the Nuitka build commands. Here are the commands (run in order):
 
 .. code-block:: bash
@@ -75,7 +75,7 @@ Here is an example:
 
 ``FloatType``
 *************
-This type implement the python 3 ``float`` class. It can decimals and whole numbers. Note it must contain a decimal (i.e ``1.00``). Note adding a float to a float returns a float.
+This type implement the python 3 ``float`` class. It can decimals and whole numbers. Note it must contain a decimal (i.e ``1.00``). Adding a float to a float returns a float.
 Example:
 
 .. code-block:: java
@@ -93,6 +93,15 @@ This type implements the python 3 ``str`` class. You can concatenate strings in 
 .. code-block:: java
 
   "Hello, " + "World!"; // Evaluates to "Hello, World"
+
+``BoolType``
+**************
+This type implements the python 3 ``bool`` class.
+
+.. code-block:: java
+
+  true; // Evaluates to true
+  false; // Evaluates to false
 
 .. warning::
   Types cannot mix (e.g. adding ``IntType`` and ``FloatType``, or adding ``StringType`` and ``BoolType``)
@@ -190,36 +199,151 @@ A variable or anything, for that matter, may be assigned as a function (yes, the
 
 Classes
 ^^^^^^^
+Classes in Neutron are very similar to those in python. Right now, there are magic methods, like python. Here is a list of python-like magic methods:
+
+- ``--init--`` - is run when an instance of the class is made
+
+They are an object, and any function defined in the class will be defined. Classes are used through methods, which are really just functions defined in a class.
 
 Defining a Class
 ****************
+To make a class, use the ``class`` keyword, and provide the name of the class after. Inside the class, define functions that you want to make into methods. Note that instead of ``self``, like in python, the ``this`` argument should be used, in fact, if you don't use the the ``this`` argument as your first argument, the neutron interpreter will complain. Example:
+
+.. code-block:: java
+
+  class MyClass {
+    func --init--(this, foo) {
+      this::foo = 10;
+      this::numpy_array = (230, 34, 23);
+    }
+    func return_numpy_array(this) {
+      --return-- = this::numpy_array;
+    }
+  }
+
+Note that you can also use the special variable ``--return--`` in a method.
 
 Making Instance of Class
 ************************
+To make an instance of a class, simply just call the class like a function, and provide the arguments needed by the ``--init--`` method. Note that the ``this`` argument is passed by the neutron interpreter. For example:
+
+.. code-block:: java
+
+  class MyClass {
+    func --init--(this, _foo) {  // Don't pollute variables
+      this::foo = _foo;
+      this::numpy_array = (230, 34, 23);
+    }
+    func return_numpy_array(this) {
+      --return-- = this::numpy_array;
+    }
+  }
+
+  instance_of_my_class = MyClass(123);  // Make instance of MyClass
+
+Now, ``instance_of_my_class`` is an instance of the ``MyClass`` class.
 
 Running Methods
 ***************
+To run a method, simply use double colons and a pair of parentheses. Note that you also don't need to provide the ``this`` argument either, because the neutron interpreter does it for you. Example:
+
+.. code-block:: java
+
+  instance_of_my_class = MyClass(123);  // Make instance of MyClass
+  my_array = instance_of_my_class::return_numpy_array();  // Run return_numpy_array method on MyClass
+
+Getting and Setting Attributes
+******************************
+To set and get attributes, simply just assign values using a single equals sign. Example:
+
+.. code-block:: java
+
+  instance_of_my_class::array = [12, 45, 23, 42, 87];  // Redefine array attribute in instance_of_my_class
+  x = instance_of_my_class::foo;  // Assign x to the value of instance_of_my_class's attribute foo
 
 Conditionals
 ^^^^^^^^^^^^
+Conditionals work around the same in python.
 
 If
 ****
+If statements use the ``if`` keyword, followed by the condition in parentheses, followed by the code to run. Example:
+
+.. code-block:: java
+
+  if (true) {
+    // run code here
+  }
 
 Else If
 *******
+Else if statements use the ``else`` and ``if`` keyword, followed by the condition in parentheses, followed by the code to run. They go after if statements and are run if the previous if statement evaluated to ``false``. Note the python ``elif`` keyowrd does not work. Example:
+
+.. code-block:: java
+
+  if (false) {
+    // code that won't run
+  } else if (true) {
+    // run code here
+  }
 
 Else
 ****
+Else if statements also go after if or else if statements, and are run when everything before it evaluated to false. They do not need a condition and use the ``else`` keyword. Example:
+
+.. code-block:: java
+
+  if (false) {
+    // code that won't run
+  } else if (false) {
+    // code that won't run
+  } else {
+    // code that will run
+  }
 
 Operators
 ^^^^^^^^^
+There are many operators on different types in neutron. You can use parentheses for grouping.
 
 Math
 ****
+Note that with math, order of operations is applied.
 
-Boolean
-*******
+
+**``+``** - add two values together
+
+**``-``** - subtract two values
+
+**``/``** - divide first value by second value
+
+**``\*``** - multiply two values together
+
+**``%``** - get remainder of division (modulo operation)
+
+
+Logic
+*****
+
+The order of which logic operations are applied are: ``!``, ``&``, ``|``
+
+**``!``** - NOT operation: return true if false and false if true
+
+**``&``** - AND operation: return true if both values are true otherwise return false
+
+**``|``** - OR operation: return true if both values or one value is true, otherwise false
+
+
+While Loops
+^^^^^^^^^^^
+While loops are like while loops in python. They keep on looping until a certain condition is false. This condition is put in parentheses and the code that is to be run is but in curly braces. Example:
+
+.. code-block:: java
+
+  x = 0;  // Declare variable x
+  while (x < 10) {  // Check if x is greater than 10, if so, break out of loop
+    x += 1;
+  }
+  // now x == 10
 
 Built-In Functions
 ^^^^^^^^^^^^^^^^^^
@@ -227,21 +351,28 @@ There are many builtin functions that are the building blocks of Neutron.
 
 ``get!``
 ********
+The ``get!`` function is how you import packages into you neutron file. The first argument is the path to the file youare trying to import. When looking for the file, neutron looks in the system directory first, then the relative path of the neutron file that is being run. You can do ``get!("io")`` to get the entire ``io`` package namespaced (that is, without the ``io::`` needed), or you can get individual files (e.g. ``get!("io/print")``).
+
+``io``
+******
+The ``io`` package deals with the input/output of the program.
 
 ``io/print``
-************
+""""""""""""
+``io/print`` prints the raw value of the argument passed.
 
 ``io/print_type``
-*****************
-
-``io/type``
-***********
+"""""""""""""""""
+``io/print_type`` prints the type of the argument given and some extra info.
 
 ``io/stdin``
-************
+""""""""""""
+``io/stdin`` gets user input and is similar to the python ``input`` function. It takes an optional keyword argument called ``prompt``. The prompt is printed out. After the user presses enter, the value will be returned.
+
+``types``
+*********
+This package is responsible for the conversion of types.
 
 ``types/to_int``
-****************
-
-While Loops
-^^^^^^^^^^^
+""""""""""""""""
+``types/to_int`` converts any given type to ``IntType``. (``FloatType``, ``StringType``, etc.)
