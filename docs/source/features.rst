@@ -3,7 +3,8 @@ Why Use  Neutron?
 Why use neutron?
 
 Well, because of:
-- The **`Features`**
+
+- The **Features**
 
 The Features
 ------------

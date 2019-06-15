@@ -56,6 +56,13 @@ html_static_path = ['_static']
 
 master_doc = 'index'
 
+html_theme_options = {
+    "logo": "ntn_logo.png",
+    "description": "A simple, extensible and efficient programming language based on C and Python",
+    "fixed_sidebar": "true",
+    "show_powered_by": "false"
+}
+
 # html_context = {
 #     'css_files': ['_static/custom.css'],
 # }

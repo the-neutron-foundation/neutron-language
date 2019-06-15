@@ -316,7 +316,7 @@ Note that with math, order of operations is applied.
 
 ``/`` - divide first value by second value
 
-``\*`` - multiply two values together
+``\`` - multiply two values together
 
 ``%`` - get remainder of division (modulo operation)
 
