@@ -310,15 +310,15 @@ Math
 Note that with math, order of operations is applied.
 
 
-**``+``** - add two values together
+``+`` - add two values together
 
-**``-``** - subtract two values
+``-`` - subtract two values
 
-**``/``** - divide first value by second value
+``/`` - divide first value by second value
 
-**``\*``** - multiply two values together
+``\*`` - multiply two values together
 
-**``%``** - get remainder of division (modulo operation)
+``%`` - get remainder of division (modulo operation)
 
 
 Logic
@@ -326,11 +326,11 @@ Logic
 
 The order of which logic operations are applied are: ``!``, ``&``, ``|``
 
-**``!``** - NOT operation: return true if false and false if true
+``!`` - NOT operation: return true if false and false if true
 
-**``&``** - AND operation: return true if both values are true otherwise return false
+``&`` - AND operation: return true if both values are true otherwise return false
 
-**``|``** - OR operation: return true if both values or one value is true, otherwise false
+``|`` - OR operation: return true if both values or one value is true, otherwise false
 
 
 While Loops
