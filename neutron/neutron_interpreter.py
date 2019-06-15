@@ -279,7 +279,6 @@ class Process:
             elif name not in objects:
                 errors.variable_referenced_before_assignment_error().raise_error(f"object \"{name}\" referenced before assignment")
             elif isinstance(objects[name], Function):
-                print(dictionary["KWARGS"])
                 return_value = objects[name].run_function(new_pos_arguments, dictionary["KWARGS"])
             else:
                 try:
@@ -324,11 +323,11 @@ class Function(Process):
         self.arguments = arguments
         self.tree = tree
         self.stmt = {**self.stmt, "CLASS_ATTRIBUTE_ASSIGNMENT": self.attribute_assignment}
+        self.positional_arguments = []
+        self.kw_arguments = {}
         self.evaluate_arguments()
 
     def evaluate_arguments(self):
-        self.positional_arguments = []
-        self.kw_arguments = {}
         for key in self.arguments:
             if key == "POSITIONAL_ARGS":
                 for item in self.arguments[key]:
@@ -343,7 +342,8 @@ class Function(Process):
             errors.positional_argument_error.raise_error(self, f"{len(self.positional_arguments)} arguments expected {len(pos_arguments)} were found")
 
         for i, name in enumerate(self.positional_arguments):
-            self.objects[name] = pos_arguments[i]
+            single_argument = pos_arguments[i]
+            self.objects[name] = self.eval_expression(single_argument) if isinstance(single_argument, tuple) else single_argument
 
         #try:
         for item in kw_args:
@@ -398,7 +398,8 @@ class ClassTemplate(Function):
 
     def run_method(self, name_func, pos_arguments, kw_arguments):
         objects = {**self.objects, **global_objects}
-        return objects[name_func].run_function([self, ] + list(pos_arguments), kw_arguments)
+        positional_arguments = list((self, ) + tuple(pos_arguments))
+        return objects[name_func].run_function(positional_arguments, kw_arguments)
 
 
 class ClassInstance(ClassTemplate):

@@ -33,6 +33,10 @@ class NeutronParser(Parser):
     def program(self, p):
         return (p.statement, )
 
+    @_("empty")
+    def program(self, p):
+        return ()
+
     @_("function_declaration")
     def statement(self, p):
         return p.function_declaration + ()
