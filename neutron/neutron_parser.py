@@ -145,6 +145,10 @@ class NeutronParser(Parser):
     def variable_assignment(self, p):
         return ("VARIABLE_ASSIGNMENT", {"ID": p.ID, "EXPRESSION": p.expression})
 
+    @_("get_index '=' expression ';'")
+    def variable_assignment(self, p):
+        return ("VARIABLE_ASSIGNMENT", {"ID": p.get_index, "EXPRESSION": p.expression})
+
     @_("class_attribute '=' expression ';'")
     def class_attribute_assignment(self, p):
         return ("CLASS_ATTRIBUTE_ASSIGNMENT", {"CLASS_ATTRIBUTE": p.class_attribute, "EXPRESSION": p.expression})
@@ -260,6 +264,14 @@ class NeutronParser(Parser):
     @_("function_call")
     def expression(self, p):
         return p.function_call
+
+    @_("get_index")
+    def expression(self, p):
+        return p.get_index
+
+    @_("expression '[' expression ']'")
+    def get_index(self, p):
+        return ("GET_INDEX", {"EXPRESSION": p.expression0, "INDEX": p.expression1})
 
     @_("int")
     def expression(self, p):

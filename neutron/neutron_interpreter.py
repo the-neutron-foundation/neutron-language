@@ -187,6 +187,13 @@ class Process:
     def eval_tuple(self, tree):
         return bt.TupleType(tree, scope=self)
 
+    def get_index(self, tree):
+        tree = tree[0]
+        _object = self.eval_expression(tree["EXPRESSION"])
+        _index = self.eval_expression(tree["INDEX"])
+        return _object[_index]
+        return None
+
     def eval_expression(self, tree):
         _type = tree[0]
         body = tree[1:]
@@ -224,7 +231,8 @@ class Process:
 
             # Functionality
             "FUNCTION_CALL": self.object_call,
-            "CLASS_ATTRIBUTE": self.class_attribute
+            "CLASS_ATTRIBUTE": self.class_attribute,
+            "GET_INDEX": self.get_index
         }
         if _type in type_to_function:
             value = type_to_function[_type](body)
@@ -244,10 +252,14 @@ class Process:
     def assign_variable(self, tree):
         dictionary = tree[0]
         value = self.eval_expression(dictionary["EXPRESSION"])
-        if not isinstance(value, Function):
+        if isinstance(dictionary["ID"], str):
             self.objects[dictionary["ID"]] = value
-        elif isinstance(value, Function):
-            self.objects[dictionary["ID"]] = value
+        elif isinstance(dictionary["ID"], tuple):
+            print(dictionary)
+            name = dictionary["ID"][1]["EXPRESSION"][1]["VALUE"]
+            variable = self.objects[name]
+            if isinstance(variable, (bt.ListType, ClassInstance, bt.StringType, bt.NumpyArray, bt.TupleType)):
+                self.objects[name][self.eval_expression(dictionary["ID"][1]["INDEX"])] = self.eval_expression(dictionary["EXPRESSION"])
 
     def get_variable(self, name):
         if name in global_objects:

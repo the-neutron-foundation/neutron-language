@@ -25,3 +25,7 @@ class type_error(ErrorClass):
 class get_error(ErrorClass):
     def __init__(self):
         self.type = "get_error"
+
+class statement_not_expected_error(ErrorClass):
+    def __init__(self):
+        self.type = "statement_not_expected_error"

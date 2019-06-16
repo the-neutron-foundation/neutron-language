@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to neutron's documentation!
-===================================
+Neutron: A Programming Language
+===============================
 
 This is the official documentation for `neutron-lang <https://github.com/MonliH/neutron>`_.
 Neutron is a dynamically typed programming language implemented in `Python 3 <https://www.python.org/>`_.

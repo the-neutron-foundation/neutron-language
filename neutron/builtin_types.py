@@ -73,6 +73,10 @@ class DataType:
     def __ge__(self, other):
         return self.value >= other if isinstance(other, self.type) else self.value >= other.value
 
+    def __getitem__(self, index):
+        return self.value[index.value]
+    def __setitem__(self, key, value):
+        self.value[key.value] = value
 
 class IntType(DataType):
     def eval_tree(self):
@@ -118,7 +122,6 @@ class NumpyArray(DataType):
         return array(value)
     def __str__(self):
         return f"({self.value.__str__()[1:-1]})"
-
 
 class ListType(DataType):
     def __init__(self, tree, scope=None, enter_value=False):

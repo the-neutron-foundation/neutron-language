@@ -58,7 +58,7 @@ master_doc = 'index'
 
 html_theme_options = {
     "logo": "ntn_logo.png",
-    "description": "A simple, extensible and efficient programming language based on C and Python",
+    "description": "A simple, extensible and efficient programming language",
     "fixed_sidebar": "true",
     "show_powered_by": "false"
 }
