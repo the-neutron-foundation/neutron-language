@@ -192,7 +192,6 @@ class Process:
         _object = self.eval_expression(tree["EXPRESSION"])
         _index = self.eval_expression(tree["INDEX"])
         return _object[_index]
-        return None
 
     def eval_expression(self, tree):
         _type = tree[0]
