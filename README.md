@@ -12,6 +12,12 @@ Neutron is a programming language inspired by C, Python, and Java.
 # Documentation
 **[There is a Readthedocs here](https://neutron-lang.readthedocs.io/en/latest/)** for full documentation and installation instructions. You may also look at the [grammar file](./grammar.txt) (very rough). There is also a [Gitter Chat here](https://gitter.im/The-Neutron-Foundation).
 
+# Dependencies
+Before installing/building/running neutron, you should first install the dependencies. you can do this via `pip3` or any other package manager. The dependencies required are:
+
+* [Numpy](https://www.numpy.org/)
+* [SLY](https://github.com/dabeaz/sly)
+
 # Basic Usage
 To use, run the filename as the first argument. It is recommended to use the python interpreter to run the code (just run the `neutron` folder), like so:
 

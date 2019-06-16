@@ -7,7 +7,7 @@ Neutron: A Programming Language
 ===============================
 
 This is the official documentation for `neutron-lang <https://github.com/MonliH/neutron>`_.
-Neutron is a dynamically typed programming language implemented in `Python 3 <https://www.python.org/>`_.
+Neutron is a dynamically typed programming language implemented in `Python 3 <https://www.python.org/>`_. It can be run using `CPython <https://www.python.org/downloads/>`_ (slow), `PyPy <https://pypy.org/>`_ (very fast) or `Nuika <https://nuitka.net/>`_ (fast?), depending on your needs.
 It is inspired by C, Java, and Python. Neutron uses a LALR\(1\) parser to parse its grammar, and the `SLY <https://github.com/dabeaz/sly>`_ parsing library.
 Neutron is an interpreted language (for now...).
 

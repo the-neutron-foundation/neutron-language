@@ -1,9 +1,16 @@
 Introduction
 ============
 
+Dependencies
+------------
+Before installing/building/running neutron, you should first install the dependencies. you can do this via `pip3` or any other package manager. The dependencies required are:
+
+- `Numpy <https://www.numpy.org/>`_
+- `SLY <https://github.com/dabeaz/sly>`_
+
 Installation
 ------------
-To use, either install the binaries (find them `here <https://github.com/the-neutron-foundation/neutron/releases>`_), build them yourself, or directly run (using the default CPython interpreter) the python 3 code (slower). If you choose to build it yourself, you should have `Numpy <https://www.numpy.org/>`_ installed. Neutron uses a python 3 compiler called `Nuitka <https://nuitka.net/pages/overview.html>`_, which is faster.
+To use, either install the binaries (find them `here <https://github.com/the-neutron-foundation/neutron/releases>`_), build them yourself, or directly run the python 3 code using `CPython <https://www.python.org/downloads/>`_ (slow) or `PyPy <https://pypy.org/>`_ (very fast). It is recommended to use `PyPy <https://pypy.org/>`_, for its speed. If you choose to build it yourself, you should have `Numpy <https://www.numpy.org/>`_ installed. Neutron uses a python 3 compiler called `Nuitka <https://nuitka.net/pages/overview.html>`_, which is faster.
 To compile from source, get `Nuitka <https://nuitka.net/pages/overview.html>`_.
 After that, go to the source folder (the master folder) there should be a ``neutron`` folder in the master folder, and run the Nuitka build commands. Here are the commands (run in order):
 
@@ -26,7 +33,7 @@ Running a file
 ^^^^^^^^^^^^^^
 To use neutron, pass the filename as the first argument to the neutron binary if you built it from source.
 
-.. code-block:: bash
+.. code-block:: bashpython3
 
  ./neutron path/to/neutron/file.ntn
 
@@ -34,7 +41,11 @@ If you plan to just run the normal source code, just pass neutron as the package
 
 .. code-block:: bash
 
- python3 neutron path/to/neutron/file.ntn
+ pypy neutron path/to/neutron/file.ntn  # Faster than python3
+
+ # OR
+
+ python3 neutron path/to/neutron/file.ntn  # Using default python implementation (slower)
 
 Optional Flags
 ^^^^^^^^^^^^^^
