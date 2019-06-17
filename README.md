@@ -9,6 +9,8 @@
 
 Neutron is a programming language inspired by C, Python, and Java.
 
+![Keystroke Comparison](./images/demo.gif)
+
 # Documentation
 **[There is a Readthedocs here](https://neutron-lang.readthedocs.io/en/latest/)** for full documentation and installation instructions. You may also look at the [grammar file](./grammar.txt) (very rough). There is also a [Gitter Chat here](https://gitter.im/The-Neutron-Foundation).
 
