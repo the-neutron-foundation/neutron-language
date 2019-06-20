@@ -7,7 +7,7 @@
 ![Maintenance](https://img.shields.io/maintenance/yes/2019.svg)
 [![Gitter](https://img.shields.io/gitter/room/The-Neutron_Foundation/Neutron.svg)](https://gitter.im/The-Neutron-Foundation)
 
-Neutron is a programming language inspired by C, Python, and Java.
+Neutron is a soft alternative to python that is inspired by C, Python, and Java.
 
 | ![Keystroke Comparison](./images/demo.gif) |
 |:--:| 
