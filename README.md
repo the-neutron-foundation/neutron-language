@@ -14,7 +14,7 @@ Neutron is a programming language inspired by C, Python, and Java.
 | Comparison of creating a Numpy array in keystrokes |
 
 # Documentation
-**[There is a Readthedocs here](https://neutron-lang.readthedocs.io/en/latest/)** for full documentation and installation instructions. You may also look at the [unupdated inaccurate grammar file](./grammar.txt) (very rough). There is also a [Gitter Chat here](https://gitter.im/The-Neutron-Foundation).
+**[There is a Readthedocs here](https://neutron-lang.readthedocs.io/en/latest/)** for full documentation and installation instructions. There is also a [Gitter Chat here](https://gitter.im/The-Neutron-Foundation).
 
 # Dependencies
 Before installing/building/running neutron, you should first install the dependencies. you can do this via `pip3` or any other package manager. The dependencies required are:
