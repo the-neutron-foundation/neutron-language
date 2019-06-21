@@ -1,0 +1,7 @@
+func to_float(value) {
+`try:
+    from neutron.builtin_types import FloatType
+except ModuleNotFoundError:
+    from builtin_types import FloatType
+self.objects["--return--"] = FloatType(float(self.objects["value"].value), enter_value=True)`;
+}

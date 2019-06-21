@@ -13,7 +13,7 @@ def div(item1, item2):
     return item1 / item2
 
 def mod(item1, item2):
-    return item1 / item2
+    return item1 % item2
 
 class DataType:
     def __init__(self, tree, scope=None, enter_value=False):
@@ -36,7 +36,8 @@ class DataType:
     def __truediv__(self, other):
         return self.type(div(self.value, other) if isinstance(other, self.type) else div(self, other.value))
     def __mod__(self, other):
-        return mod(self.value, other) if isinstance(other, self.type) else mod(self, other.value)
+        return mod(self.value, other) if isinstance(other, self.type)
+        else mod(self, other.value)
 
     def __radd__(self, other): return self.__add__(other)
     def __rmul__(self, other): return self.__mul__(other)
