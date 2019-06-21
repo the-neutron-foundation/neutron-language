@@ -25,7 +25,8 @@ class Process:
             "CLASS_DECLARATION": self.class_declaration,
             "CLASS_ATTRIBUTE_ASSIGNMENT": self.attribute_assignment,
             "CONDITIONAL": self.conditional,
-            "WHILE": self.while_statment
+            "WHILE": self.while_statment,
+            "BREAK": self.break_statement
         }
 
     def in_program(self):
@@ -34,17 +35,25 @@ class Process:
     def run(self, tree=None):
         if tree == None:
             for line in self.tree:
-                self.stmt[line[0]](line[1:])
+                val = self.stmt[line[0]](line[1:])
+                if val == "BREAK":
+                    return "BREAK"
         elif tree != None:
             for line in tree:
-                self.stmt[line[0]](line[1:])
+                val = self.stmt[line[0]](line[1:])
+                if val == "BREAK":
+                    return "BREAK"
+
+    def break_statement(self, tree):
+        return "BREAK"
 
     def while_statment(self, tree):
         dictionary = tree[0]
         condition = dictionary["CONDITION"]
         program = dictionary["PROGRAM"]
         while self.eval_expression(condition) == True:
-            self.run(tree=program)
+            if self.run(tree=program) == "BREAK":
+                break
 
     def eval_id(self, tree):
         name = tree[0]["VALUE"]
@@ -89,15 +98,15 @@ class Process:
         _if = dictionary["IF"][1]
         _elsif = dictionary["ELSE_IF"][1:]
         _else = dictionary["ELSE"][1]
-        if _if != None and _elsif == None and _else == None:
+        if _if != None and _elsif[0] == None and _else == None:
             if self.eval_expression(_if["CONDITION"]) == True:
                 self.run(tree=_if["CODE"])
-        elif _if != None and _elsif == None and _else != None:
+        elif _if != None and _elsif[0] == None and _else != None:
             if self.eval_expression(_if["CONDITION"]) == True:
                 self.run(tree=_if["CODE"])
             else:
                 self.run(tree=_else["CODE"])
-        elif _if != None and _elsif != None and _else == None:
+        elif _if != None and _elsif[0] != None and _else == None:
             if self.eval_expression(_if["CONDITION"]) == True:
                 self.run(tree=_if["CODE"])
             else:
@@ -106,7 +115,7 @@ class Process:
                     if self.eval_expression(stmt[0]["CONDITION"]) == True and not is_true:
                         is_true = True
                         self.run(stmt[0]["CODE"])
-        elif _if != None and _elsif != None and _else != None:
+        elif _if != None and _elsif[0] != None and _else != None:
             if self.eval_expression(_if["CONDITION"]) == True:
                 self.run(tree=_if["CODE"])
             else:

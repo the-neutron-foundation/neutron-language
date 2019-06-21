@@ -36,8 +36,9 @@ The filename for neutron files is `.ntn`. For example, `important_file.ntn`. If 
 ```
 
 # Syntax Highlighting
-| Text Editor | Where to find |
-| Atom | [Atom Package Repository (language-neutron)](https://atom.io/packages/language-neutron) |
+Text Editor | Where to find
+--- | ---
+Atom | [Atom Package Repository (language-neutron)](https://atom.io/packages/language-neutron)
 
 # Features
 There are constantly new features being developed in neutron. TO see the features that are coming and the one that are being worked on, go [here](https://github.com/the-neutron-foundation/neutron/projects/1).

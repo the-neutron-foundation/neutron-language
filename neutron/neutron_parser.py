@@ -69,9 +69,13 @@ class NeutronParser(Parser):
     def statement(self, p):
         return p.variable_assignment
 
-    @_("kword_declaration")
+    @_("break_stmt")
     def statement(self, p):
-        return p.kword_declaration
+        return p.break_stmt
+
+    """@_("kword_declaration")
+    def statement(self, p):
+        return p.kword_declaration"""
 
     @_("function_call ';'")
     def function_call_stmt(self, p):
@@ -80,6 +84,10 @@ class NeutronParser(Parser):
     @_("python_code ';'")
     def python_code_stmt(self, p):
         return p.python_code
+
+    @_("BREAK ';'")
+    def break_stmt(self, p):
+        return ("BREAK", )
 
     @_("expression '(' function_arguments ')'")
     def function_call(self, p):
@@ -97,13 +105,13 @@ class NeutronParser(Parser):
     def function_declaration(self, p):
         return ("FUNCTION_DECLARATION", {"FUNCTION_ARGUMENTS": {}, "ID": p.ID, "PROGRAM": p.program})
 
-    @_("KWORD ID '(' function_arguments ')' '{' program '}'")
+    """@_("KWORD ID '(' function_arguments ')' '{' program '}'")
     def kword_declaration(self, p):
         return ("KWORD_DECLARATION", {"ARGUMENTS": p.function_arguments, "ID": p.ID, "PROGRAM": p.program})
 
     @_("KWORD ID '(' empty ')' '{' program '}'")
     def kword_declaration(self, p):
-        return ("KWORD_DECLARATION", {"ARGUMENTS": {}, "ID": p.ID, "PROGRAM": p.program})
+        return ("KWORD_DECLARATION", {"ARGUMENTS": {}, "ID": p.ID, "PROGRAM": p.program})"""
 
     @_("positional_args")
     def function_arguments(self, p):
