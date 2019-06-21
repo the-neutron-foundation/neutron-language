@@ -305,11 +305,7 @@ class Process:
                 class_name = dictionary_func["ID"][1]["CLASS"][1]["VALUE"]
                 return_value = objects[class_name].run_method(attribute, dictionary_func["FUNCTION_ARGUMENTS"]["POSITIONAL_ARGS"], dictionary_func["FUNCTION_ARGUMENTS"]["KWARGS"])
             elif self.type == "FUNCTION":
-                if isinstance(self.positional_arguments[0], ClassTemplate) and dictionary_func["ID"][1]["CLASS"] == "this":
-                    attribute = dictionary_func["ID"][1]["ATTRIBUTE"]
-                    class_name = dictionary_func["ID"][1]["CLASS"]
-                    return_value = objects[class_name].run_method(attribute, dictionary_func["FUNCTION_ARGUMENTS"]["POSITIONAL_ARGS"], dictionary_func["FUNCTION_ARGUMENTS"]["KWARGS"])
-                elif isinstance(self.positional_arguments[0], ClassTemplate):
+                if isinstance(self.positional_arguments[0], ClassTemplate):
                     attribute = dictionary_func["ID"][1]["ATTRIBUTE"]
                     class_name = dictionary_func["ID"][1]["CLASS"]
                     return_value = objects[class_name].run_method(attribute, dictionary_func["FUNCTION_ARGUMENTS"]["POSITIONAL_ARGS"], dictionary_func["FUNCTION_ARGUMENTS"]["KWARGS"])

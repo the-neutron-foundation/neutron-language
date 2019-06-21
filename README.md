@@ -39,7 +39,7 @@ The filename for neutron files is `.ntn`. For example, `important_file.ntn`. If 
 There is currently a syntax highlighting pack for neutron [here](https://atom.io/packages/language-neutron) in atom.
 
 # Features
-There are cnstantly new features being devloped in neutron. TO see the features that are comming and the one that are being worked on, go [here](https://github.com/the-neutron-foundation/neutron/projects/1).
+There are constantly new features being developed in neutron. TO see the features that are coming and the one that are being worked on, go [here](https://github.com/the-neutron-foundation/neutron/projects/1).
 - [x] **Numpy  arrays Builtin!!**
 - [x] Classes
 - [x] Functions
