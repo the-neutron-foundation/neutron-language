@@ -35,7 +35,9 @@ Design Principles
    license
    faq
 
-
+Syntax Highlighting
+^^^^^^^^^^^^^^^^^^^
+Ther iscurrently a syntax highlighting pack for atom `here <https://atom.io/packages/language-neutron>`_.
 
 Indices and tables
 ^^^^^^^^^^^^^^^^^^

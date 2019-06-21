@@ -10,7 +10,7 @@
 Neutron is a soft alternative to python that is inspired by C, Python, and Java.
 
 | ![Keystroke Comparison](./images/demo.gif) |
-|:--:| 
+|:--:|
 | Comparison of creating a Numpy array in keystrokes |
 
 # Documentation
@@ -34,6 +34,9 @@ The filename for neutron files is `.ntn`. For example, `important_file.ntn`. If 
 ```
 ./neutron.bin path/to/neutron/file.ntn
 ```
+
+# Syntax Highlighting
+There is currently a syntax highlighting pack for neutron [here](https://atom.io/packages/language-neutron) in atom.
 
 # Features
 There are cnstantly new features being devloped in neutron. TO see the features that are comming and the one that are being worked on, go [here](https://github.com/the-neutron-foundation/neutron/projects/1).

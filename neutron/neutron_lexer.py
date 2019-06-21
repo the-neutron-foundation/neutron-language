@@ -3,7 +3,7 @@ from sly import Lexer
 
 class NeutronLexer(Lexer):
 
-    tokens = {ID, FLOAT, INT, FUNC, CLASS, STRING, EQ_GREATER, EQ_LESS, EQEQ, PYTHON_CODE, COLON_COLON, KWORD, IF, ELSE, TRUE, FALSE, NOT_EQEQ, WHILE}
+    tokens = {ID, FLOAT, INT, FUNC, CLASS, STRING, EQ_GREATER, EQ_LESS, EQEQ, PYTHON_CODE, COLON_COLON, IF, ELSE, TRUE, FALSE, NOT_EQEQ, WHILE}
     literals = { "+", "-", "*", "/", "%", "|", "&", "!", ">", "<", "=", "(", ")", "{", "}", ";", ",", ":", "[", "]", "'"}
 
     ignore = " \t"
@@ -17,7 +17,6 @@ class NeutronLexer(Lexer):
     ID = r"(--[a-zA-Z_]([a-zA-Z0-9_]|!)*--|[a-zA-Z_]([a-zA-Z0-9_]|!)*)"
     ID["func"] = FUNC
     ID["class"] = CLASS
-    ID["kword"] = KWORD
     ID["true"] = TRUE
     ID["false"] = FALSE
     ID["while"] = WHILE
