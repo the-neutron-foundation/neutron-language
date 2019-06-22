@@ -312,6 +312,31 @@ Else if statements also go after if or else if statements, and are run when ever
     // code that will run
   }
 
+While Loops
+^^^^^^^^^^^
+While loops are like while loops in python. They keep on looping until a certain condition is false. This condition is put in parentheses and the code that is to be run is but in curly braces. Example:
+
+.. code-block:: java
+
+  x = 0;  // Declare variable x
+  while (x < 10) {  // Check if x is greater than 10, if so, break out of loop
+    x += 1;
+  }
+  // now x == 10
+
+Break Statements
+****************
+To break out of a loop, simply use the ``break`` keyword. Example:
+
+.. code-block:: java
+
+  while (true) {
+    break;
+  }
+
+Make sure not to break inside a program or an area that is not a loop. Doing so may result in glitches and errors. Note that if you have nested while loops, ``break`` will break out of all of them.
+
+
 Operators
 ^^^^^^^^^
 There are many operators on different types in neutron. You can use parentheses for grouping.
@@ -342,31 +367,6 @@ The order of which logic operations are applied are: ``!``, ``&``, ``|``
 ``&`` - AND operation: return true if both values are true otherwise return false
 
 ``|`` - OR operation: return true if both values or one value is true, otherwise false
-
-
-While Loops
-^^^^^^^^^^^
-While loops are like while loops in python. They keep on looping until a certain condition is false. This condition is put in parentheses and the code that is to be run is but in curly braces. Example:
-
-.. code-block:: java
-
-  x = 0;  // Declare variable x
-  while (x < 10) {  // Check if x is greater than 10, if so, break out of loop
-    x += 1;
-  }
-  // now x == 10
-
-Break Statements
-****************
-To break out of a loop, simply use the ``break`` keyword. Example:
-
-.. code-block:: java
-
-  while (true) {
-    break;
-  }
-
-Make sure not to break inside a program or an area that is not a loop. Doing so may result in glitches and errors. Note that if you have nested while loops, ``break`` will break out of all of them.
 
 Built-In Functions
 ^^^^^^^^^^^^^^^^^^
