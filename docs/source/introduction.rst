@@ -356,6 +356,18 @@ While loops are like while loops in python. They keep on looping until a certain
   }
   // now x == 10
 
+Break Statements
+****************
+To break out of a loop, simply use the ``break`` keyword. Example:
+
+.. code-block:: java
+
+  while (true) {
+    break;
+  }
+
+Make sure not to break inside a program or an area that is not a loop. Doing so may result in glitches and errors. Note that if you have nested while loops, ``break`` will break out of all of them.
+
 Built-In Functions
 ^^^^^^^^^^^^^^^^^^
 There are many builtin functions that are the building blocks of Neutron.

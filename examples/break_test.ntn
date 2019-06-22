@@ -1,0 +1,12 @@
+get!("io/print");
+
+x = 10;
+
+while (true) {
+  if (x < 5) {
+    break;
+  } else {
+    print(x);
+    x = x - 1;
+  }
+}

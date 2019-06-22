@@ -1,0 +1,15 @@
+get!("io/print");
+get!("io/stdin");
+
+class io {
+    func --init--(this, _val) {
+      this::val = _val;
+    }
+    func _print(this){
+       print(this::val);
+    }
+}
+
+hi = io("hi");
+hi::val = 10;
+hi::_print();

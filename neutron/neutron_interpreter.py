@@ -7,7 +7,8 @@ except ModuleNotFoundError:
 
 from os import path
 
-global global_objects, paths_to_look_in
+global global_objects, paths_to_look_in, global_break
+global_break = False
 global_objects = {}
 paths_to_look_in = [path.abspath(__file__)]
 
@@ -35,25 +36,23 @@ class Process:
     def run(self, tree=None):
         if tree == None:
             for line in self.tree:
-                val = self.stmt[line[0]](line[1:])
-                if val == "BREAK":
-                    return "BREAK"
+                self.stmt[line[0]](line[1:])
         elif tree != None:
             for line in tree:
-                val = self.stmt[line[0]](line[1:])
-                if val == "BREAK":
-                    return "BREAK"
+                self.stmt[line[0]](line[1:])
 
     def break_statement(self, tree):
-        return "BREAK"
+        global global_break
+        global_break = True
 
     def while_statment(self, tree):
+        global global_break
         dictionary = tree[0]
         condition = dictionary["CONDITION"]
         program = dictionary["PROGRAM"]
-        while self.eval_expression(condition) == True:
-            if self.run(tree=program) == "BREAK":
-                break
+        while self.eval_expression(condition) == True and global_break == False:
+            self.run(tree=program)
+        global_break = False
 
     def eval_id(self, tree):
         name = tree[0]["VALUE"]
