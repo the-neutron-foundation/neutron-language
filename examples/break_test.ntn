@@ -2,9 +2,13 @@ get!("io/print");
 
 x = 10;
 
+func _break() {
+  break;
+}
+
 while (true) {
   if (x =< 5) {
-    break;
+    _break();
   } else {
     print(x);
     x = x - 1;

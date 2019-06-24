@@ -43,9 +43,9 @@ If you plan to just run the normal source code (recommended), just pass neutron 
 
 To use neutron, pass the filename as the first argument to the neutron binary if you built it from source.
 
-.. code-block:: bashpython3
+.. code-block:: bash
 
- ./neutron path/to/neutron/file.ntn
+ python3 ./neutron path/to/neutron/file.ntn
 
 Optional Flags
 ^^^^^^^^^^^^^^
@@ -325,7 +325,7 @@ While loops are like while loops in python. They keep on looping until a certain
   // now x == 10
 
 Break Statements
-****************
+^^^^^^^^^^^^^^^^
 To break out of a loop, simply use the ``break`` keyword. Example:
 
 .. code-block:: java
@@ -334,8 +334,18 @@ To break out of a loop, simply use the ``break`` keyword. Example:
     break;
   }
 
-Make sure not to break inside a program or an area that is not a loop. Doing so may result in glitches and errors. Note that if you have nested while loops, ``break`` will break out of all of them.
+Make sure not to break inside a program or an area that is not a loop. Doing so may result in glitches and errors. Note that if you have nested while loops, ``break`` will break out of the one that it is put in.
+A break statement can also be used in a function, and if called in a loop, will break out of it. Example:
 
+.. code-block:: java
+
+  func break_func() {
+    break;
+  }
+
+  while (true) {
+    break_func(); // Breaks out of loop
+  }
 
 Operators
 ^^^^^^^^^
@@ -390,7 +400,7 @@ The ``io`` package deals with the input/output of the program.
 
 ``io/stdin``
 """"""""""""
-``io/stdin`` gets user input and is similar to the python ``input`` function. It takes an optional keyword argument called ``prompt``. The prompt is printed out. After the user presses enter, the value will be returned.
+``io/stdin`` gets user input and is similar to the python ``input`` function. It takes an optional keyword argument called ``prompt``. The prompt is printed out. After the user presses enter, the value entered will be returned.
 
 ``types``
 *********
@@ -399,3 +409,11 @@ This package is responsible for the conversion of types.
 ``types/to_int``
 """"""""""""""""
 ``types/to_int`` converts any given type to ``IntType``. (``FloatType``, ``StringType``, etc.)
+
+``types/to_string``
+""""""""""""""""
+``types/to_string`` converts any given type to ``StringType``. (``FloatType``, ``BoolType``, etc.)
+
+``types/to_float``
+""""""""""""""""
+``types/to_float`` converts any given type to ``FloatType``. (``IntType``, ``StringType``, etc.)

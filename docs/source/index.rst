@@ -37,7 +37,7 @@ Design Principles
 
 Syntax Highlighting
 ^^^^^^^^^^^^^^^^^^^
-Ther iscurrently a syntax highlighting pack for atom `here <https://atom.io/packages/language-neutron>`_.
+There is currently a syntax highlighting pack for atom `here <https://atom.io/packages/language-neutron>`_.
 
 Indices and tables
 ^^^^^^^^^^^^^^^^^^
