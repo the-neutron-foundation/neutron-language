@@ -36,10 +36,16 @@ class Process:
     def run(self, tree=None):
         if tree == None:
             for line in self.tree:
-                self.stmt[line[0]](line[1:])
+                if global_break == False:
+                    self.stmt[line[0]](line[1:])
+                else:
+                    break
         elif tree != None:
             for line in tree:
-                self.stmt[line[0]](line[1:])
+                if global_break == False:
+                    self.stmt[line[0]](line[1:])
+                else:
+                    break
 
     def break_statement(self, tree):
         global global_break
