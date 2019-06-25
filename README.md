@@ -13,6 +13,31 @@ Neutron is a soft alternative to python that is inspired by C, Python, and Java.
 |:--:|
 | Comparison of creating a Numpy array in keystrokes |
 
+# Example
+Here is how to do the guess the number game in neutron:
+
+```java
+get!("io/print");
+get!("io/stdin");
+get!("types/to_int");
+
+
+is_not_win = true;
+number = 10;
+
+while (is_not_win) {
+  guess = to_int(stdin(prompt="Enter A Number:"));
+  if (guess == number) {
+    print("You Win!");
+    is_not_win = false;
+  } else if (guess < number) {
+    print("Too Low");
+  } else if (guess > number) {
+    print("Too High");
+  }
+}
+```
+
 # Documentation
 **[There is a Readthedocs here](https://neutron-lang.readthedocs.io/en/latest/)** for full documentation and installation instructions. There is also a [Gitter Chat here](https://gitter.im/The-Neutron-Foundation).
 
