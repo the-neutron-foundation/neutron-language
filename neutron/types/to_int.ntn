@@ -1,7 +1,3 @@
 func to_int(value) {
-`try:
-    from neutron.builtin_types import IntType
-except ModuleNotFoundError:
-    from builtin_types import IntType
-self.objects["--return--"] = IntType(int(self.objects["value"].value), enter_value=True)`;
+`self.objects["--return--"] = bt.IntType(int(self.objects["value"].value), enter_value=True)`;
 }

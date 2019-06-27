@@ -1,0 +1,3 @@
+func len(obj) {
+  --return-- = `bt.IntType(len(self.objects["obj"]), enter_value=True)`;
+}

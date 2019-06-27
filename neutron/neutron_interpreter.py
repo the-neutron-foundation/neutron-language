@@ -210,7 +210,7 @@ class Process:
     def eval_expression(self, tree):
         _type = tree[0]
         body = tree[1:]
-        value = "something went wrong"
+        value = "something went wrong tell developers"
         type_to_function = {
             # Data Types
             "INT": self.eval_int,
@@ -249,8 +249,8 @@ class Process:
         }
         if _type in type_to_function:
             value = type_to_function[_type](body)
-        elif type == "PYTHON_CODE":
-            value = self.python_code((body, ), eval_or_not=True)
+        elif _type == "PYTHON_CODE":
+            value = self.python_code(body, eval_or_not=True)
         return value
 
     ### End of Spaghetti Code *relief* ###
@@ -268,7 +268,6 @@ class Process:
         if isinstance(dictionary["ID"], str):
             self.objects[dictionary["ID"]] = value
         elif isinstance(dictionary["ID"], tuple):
-            print(dictionary)
             name = dictionary["ID"][1]["EXPRESSION"][1]["VALUE"]
             variable = self.objects[name]
             if isinstance(variable, (bt.ListType, ClassInstance, bt.StringType, bt.NumpyArray, bt.TupleType)):
@@ -342,7 +341,6 @@ class Process:
             self.objects[name] = Function(program, name, arguments)
 
     def attribute_assignment(self, tree):
-        print(tree)
         tree = tree[0] if isinstance(tree, tuple) else tree
         self.objects[tree["CLASS_ATTRIBUTE"][1]["CLASS"][1]["VALUE"]].objects[tree["CLASS_ATTRIBUTE"][1]["ATTRIBUTE"]] = self.eval_expression(tree["EXPRESSION"])
 

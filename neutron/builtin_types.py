@@ -26,7 +26,7 @@ class DataType:
         return None
 
     def __repr__(self):
-        return f"neutron::{self.__class__.__name__} <value: {self.value}>"
+        return f"{self.value}"
     def __add__(self, other):
         return add(self.value, other) if isinstance(other, self.type) else add(self, other.value)
     def __mul__(self, other):
@@ -77,6 +77,9 @@ class DataType:
         return self.value[index.value]
     def __setitem__(self, key, value):
         self.value[key.value] = value
+
+    def __len__(self):
+        return len(self.value)
 
 class IntType(DataType):
     def eval_tree(self):
