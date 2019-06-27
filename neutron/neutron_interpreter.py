@@ -257,6 +257,8 @@ class Process:
 
     def python_code(self, tree, eval_or_not=False):
         code = tree[0]["CODE"]
+        var = bt.Namespace(self.objects)
+        gvar = bt.Namespace(global_objects)
         if eval_or_not:
             return eval(code)
         elif not eval_or_not:

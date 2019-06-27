@@ -152,3 +152,11 @@ class TupleType(DataType):
         return value
     def __str__(self):
         return self.value.__str__()
+
+class Namespace:
+    def __init__(self, adict):
+        self.variables = adict
+        self.__dict__.update(adict)
+    def __setattr__(self, name, value):
+        self.__dict__.update({name: value})
+        self.variables.update({name: value})
