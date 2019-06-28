@@ -7,16 +7,17 @@
 ![Maintenance](https://img.shields.io/maintenance/yes/2019.svg)
 [![Gitter](https://img.shields.io/gitter/room/The-Neutron_Foundation/Neutron.svg)](https://gitter.im/The-Neutron-Foundation)
 
-Neutron is a soft alternative to python that is inspired by C, Python, and Java.
+Neutron is a programming language that is inspired by C, Python, and Java.
 
 | ![Keystroke Comparison](./images/demo.gif) |
 |:--:|
-| Comparison of creating a Numpy array in keystrokes |
+| Showing one of the features of Neutron: Built-In Numpy arrays |
 
 # Example
 Here is how to do the guess the number game in neutron:
 
 ```java
+// Imports
 get!("io/print");
 get!("io/stdin");
 get!("types/to_int");
@@ -25,8 +26,9 @@ get!("types/to_int");
 is_not_win = true;
 number = 10;
 
+// While loop
 while (is_not_win) {
-  guess = to_int(stdin(prompt="Enter A Number:"));
+  guess = to_int(stdin(prompt="Enter A Number:"));  // Get input from user
   if (guess == number) {
     print("You Win!");
     is_not_win = false;
@@ -69,7 +71,6 @@ Atom | [Atom Package Repository (language-neutron)](https://atom.io/packages/lan
 - It's actively maintained
 - It's a versatile programming language suited for many things
 - New features are constantly being added
-- It is more convenient than python
 
 # Features
 There are constantly new features being developed in neutron. TO see the features that are coming and the one that are being worked on, go [here](https://github.com/the-neutron-foundation/neutron/projects/1).
