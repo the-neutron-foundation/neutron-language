@@ -78,6 +78,9 @@ class DataType:
     def __setitem__(self, key, value):
         self.value[key.value] = value
 
+    def __iter__(self):
+        return iter(self.value)
+
     def __len__(self):
         return len(self.value)
 

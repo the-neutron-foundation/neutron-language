@@ -73,6 +73,10 @@ class NeutronParser(Parser):
     def statement(self, p):
         return p.break_stmt
 
+    @_("for_loop")
+    def statement(self, p):
+        return p.for_loop
+
     """@_("kword_declaration")
     def statement(self, p):
         return p.kword_declaration"""
@@ -128,6 +132,10 @@ class NeutronParser(Parser):
     @_("CLASS ID '{' program '}'")
     def class_declaration(self, p):
         return ("CLASS_DECLARATION", {"ID": p.ID, "PROGRAM": p.program})
+
+    @_("FOR expression IN expression '{' program '}'")
+    def for_loop(self, p):
+        return ("FOR", {"PROGRAM": p.program, "VARIABLE": p.expression0, "ITERABLE": p.expression1})
 
     @_("WHILE '(' expression ')' '{' program '}'")
     def while_loop(self, p):

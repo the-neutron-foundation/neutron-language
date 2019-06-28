@@ -324,6 +324,17 @@ While loops are like while loops in python. They keep on looping until a certain
   }
   // now x == 10
 
+For Loops
+^^^^^^^^^
+For loops are just like for loops in python. They iterate through an object, and repeat until the object "over". Neutron uses the ``in`` keyword for its iteration. Example:
+
+.. code-block:: java
+
+  list_thing = [1, 2, 3, 4, 5, 6, 7, 8];
+  for i in list_thing {
+    // do something with i
+  }
+
 Break Statements
 ^^^^^^^^^^^^^^^^
 To break out of a loop, simply use the ``break`` keyword. Example:
@@ -331,6 +342,10 @@ To break out of a loop, simply use the ``break`` keyword. Example:
 .. code-block:: java
 
   while (true) {
+    break;
+  }
+
+  for i in foo {
     break;
   }
 

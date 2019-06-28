@@ -26,7 +26,8 @@ class Process:
             "CLASS_DECLARATION": self.class_declaration,
             "CLASS_ATTRIBUTE_ASSIGNMENT": self.attribute_assignment,
             "CONDITIONAL": self.conditional,
-            "WHILE": self.while_statment,
+            "WHILE": self.while_loop,
+            "FOR": self.for_loop,
             "BREAK": self.break_statement
         }
 
@@ -51,7 +52,20 @@ class Process:
         global global_break
         global_break = True
 
-    def while_statment(self, tree):
+    def for_loop(self, tree):
+        global global_break
+        dictionary = tree[0]
+        program = dictionary["PROGRAM"]
+        iterable = dictionary["ITERABLE"]
+        variable_name = dictionary["VARIABLE"][1]["VALUE"]
+        for i in self.eval_expression(iterable):
+            if global_break == True:
+                global_break = False
+                break
+            self.objects[variable_name] = i
+            self.run(tree=program)
+
+    def while_loop(self, tree):
         global global_break
         dictionary = tree[0]
         condition = dictionary["CONDITION"]
