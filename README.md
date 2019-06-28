@@ -72,6 +72,8 @@ There are constantly new features being developed in neutron. TO see the feature
 - [x] Functions
 - [x] Built-Ins (e.g. print, get, stdin, to_int)
 - [x] Primitive Types (Integers, Floats, Booleans, Strings)
-- [x] Python Lists and Tuples
+- [x] Python Lists, Tuples and Numpy Arrays Builtin
 - [x] While loops
-- [ ] For Loops
+- [x] For Loops
+- [ ] C-like Structs
+- [ ] Switch Statements
