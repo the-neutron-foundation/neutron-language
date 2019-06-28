@@ -5,7 +5,7 @@ Putting Python Code
 ^^^^^^^^^^^^^^^^^^^
 It is possible to make functions that have python functionality by putting inline python code. This is how the ``io`` packages were written.
 
-To put inline python code into your Neutron code, use the backtick `````. Note that shown here, there are 2 backticks, but there should be 1, but Sphinx does not render a single backtick properly. You can use python code anywhere as an expression, or just pure python code.
+To put inline python code into your Neutron code, use the backtick `````. **Note that shown here, there are 2 backticks, but there should be 1, but Sphinx does not render a single backtick properly.** You can use python code anywhere as an expression, or just pure python code.
 
 Example of pure inline python code:
 
