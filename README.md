@@ -65,6 +65,12 @@ Text Editor | Where to find
 --- | ---
 Atom | [Atom Package Repository (language-neutron)](https://atom.io/packages/language-neutron)
 
+# Why Neutron?
+- It's actively maintained
+- It's a versatile programming language suited for many things
+- New features are constantly being added
+- It is more convenient than python
+
 # Features
 There are constantly new features being developed in neutron. TO see the features that are coming and the one that are being worked on, go [here](https://github.com/the-neutron-foundation/neutron/projects/1).
 - [x] **Numpy  arrays Builtin!!**
