@@ -83,3 +83,7 @@ There are constantly new features being developed in neutron. TO see the feature
 - [x] For Loops
 - [ ] C-like Structs
 - [ ] Switch Statements
+
+# Tools used
+- [Sly lex yacc](https://github.com/dabeaz/sly) used for parsing
+- Python 3 (can be used with [CPython](https://www.python.org/downloads/), [Nuitka](https://nuitka.net/pages/overview.html>), or [PyPy](https://pypy.org/))
