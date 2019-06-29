@@ -10,9 +10,9 @@
 
 Neutron is a programming language that is inspired by C, Python, and Java.
 
- <!---| ![Keystroke Comparison](./images/demo.gif) |
-|:--:|
-| Showing one of the features of Neutron: Built-In Numpy arrays | --->
+| ![python](./images/python_np_array.png) | ![neutron](./images/neutron_np_array.png)
+|:--:|:--:|
+| Numpy array in Python | Numpy array in **Neutron** 
 
 # Example
 Here is how to do the guess the number game in neutron:
@@ -74,7 +74,7 @@ Atom | [Atom Package Repository (language-neutron)](https://atom.io/packages/lan
 - New features are constantly being added
 
 # Features
-There are constantly new features being developed in neutron. TO see the features that are coming and the one that are being worked on, go [here](https://github.com/the-neutron-foundation/neutron/projects/1).
+There are constantly new features being developed in neutron. To see the features that are coming and the one that are being worked on, go [here](https://github.com/the-neutron-foundation/neutron/projects/1).
 - [x] **Numpy  arrays Builtin!!**
 - [x] Classes
 - [x] Functions
