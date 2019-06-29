@@ -12,7 +12,7 @@ Neutron is a programming language that is inspired by C, Python, and Java.
 
 | ![python](./images/python_np_array.png) | ![neutron](./images/neutron_np_array.png)
 |:--:|:--:|
-| Numpy array in Python | Numpy array in **Neutron** 
+| Numpy array in Python | Numpy array in **Neutron**
 
 # Example
 Here is how to do the guess the number game in neutron:
@@ -85,6 +85,7 @@ There are constantly new features being developed in neutron. To see the feature
 - [x] For Loops
 - [ ] C-like Structs
 - [ ] Switch Statements
+- [ ] Syntax Changeable at Runtime
 
 # Tools used
 - [Sly lex yacc](https://github.com/dabeaz/sly) used for parsing
