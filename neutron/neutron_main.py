@@ -27,9 +27,12 @@ def get_objects(filename):
     program.run()
     return (program.objects, neutron_interpreter.global_objects)
 
+
 def main(filename, if_return=True, verbose=False):
     text = read_file(filename)
-    defult_functions = get_objects(path.join(path.dirname(path.abspath(__file__)), "defult.ntn"))
+    defult_functions = get_objects(
+        path.join(path.dirname(path.abspath(__file__)), "defult.ntn")
+    )
     pp = pprint.PrettyPrinter(indent=2)
     lexer = neutron_lexer.NeutronLexer()
     parser = neutron_parser.NeutronParser()

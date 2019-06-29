@@ -3,8 +3,51 @@ from sly import Lexer
 
 class NeutronLexer(Lexer):
 
-    tokens = {ID, FLOAT, INT, FUNC, CLASS, STRING, EQ_GREATER, EQ_LESS, EQEQ, PYTHON_CODE, COLON_COLON, IF, ELSE, TRUE, FALSE, NOT_EQEQ, WHILE, BREAK, FOR, IN}
-    literals = { "+", "-", "*", "/", "%", "|", "&", "!", ">", "<", "=", "(", ")", "{", "}", ";", ",", ":", "[", "]", "'"}
+    tokens = {
+        ID,
+        FLOAT,
+        INT,
+        FUNC,
+        CLASS,
+        STRING,
+        EQ_GREATER,
+        EQ_LESS,
+        EQEQ,
+        PYTHON_CODE,
+        COLON_COLON,
+        IF,
+        ELSE,
+        TRUE,
+        FALSE,
+        NOT_EQEQ,
+        WHILE,
+        BREAK,
+        FOR,
+        IN,
+    }
+    literals = {
+        "+",
+        "-",
+        "*",
+        "/",
+        "%",
+        "|",
+        "&",
+        "!",
+        ">",
+        "<",
+        "=",
+        "(",
+        ")",
+        "{",
+        "}",
+        ";",
+        ",",
+        ":",
+        "[",
+        "]",
+        "'",
+    }
 
     ignore = " \t"
     ignore_comment_slash = r"//.*"
@@ -31,7 +74,6 @@ class NeutronLexer(Lexer):
     NOT_EQEQ = r"!="
     EQ_GREATER = r"=>"
     EQ_LESS = r"=<"
-
 
     @_(r"\n+")
     def ignore_newline(self, t):

@@ -6,32 +6,33 @@ from sly import Parser
 import pprint
 import logging
 
+
 class NeutronParser(Parser):
     tokens = NeutronLexer.tokens
-    debugfile = 'parser.out'
+    debugfile = "parser.out"
     log = logging.getLogger()
     log.setLevel(logging.ERROR)
 
     precedence = (
-       ('left', ','),
-       ('left', '|'),
-       ('left', '&'),
-       ('left', EQEQ, NOT_EQEQ),
-       ('left', EQ_LESS, EQ_GREATER, '<', '>'),
-       ('left', '+', '-'),
-       ('left', '*', '/', '%'),
-       ('right', UMINUS, UPLUS),
-       ('right', '!'),
-       ('left', COLON_COLON)
+        ("left", ","),
+        ("left", "|"),
+        ("left", "&"),
+        ("left", EQEQ, NOT_EQEQ),
+        ("left", EQ_LESS, EQ_GREATER, "<", ">"),
+        ("left", "+", "-"),
+        ("left", "*", "/", "%"),
+        ("right", UMINUS, UPLUS),
+        ("right", "!"),
+        ("left", COLON_COLON),
     )
 
     @_("program statement")
     def program(self, p):
-        return p.program + (p.statement, )
+        return p.program + (p.statement,)
 
     @_("statement")
     def program(self, p):
-        return (p.statement, )
+        return (p.statement,)
 
     @_("empty")
     def program(self, p):
@@ -91,11 +92,14 @@ class NeutronParser(Parser):
 
     @_("BREAK ';'")
     def break_stmt(self, p):
-        return ("BREAK", )
+        return ("BREAK",)
 
     @_("expression '(' function_arguments ')'")
     def function_call(self, p):
-        return ("FUNCTION_CALL", {"FUNCTION_ARGUMENTS": p.function_arguments, "ID": p.expression})
+        return (
+            "FUNCTION_CALL",
+            {"FUNCTION_ARGUMENTS": p.function_arguments, "ID": p.expression},
+        )
 
     @_("expression '(' empty ')'")
     def function_call(self, p):
@@ -103,11 +107,21 @@ class NeutronParser(Parser):
 
     @_("FUNC ID '(' function_arguments ')' '{' program '}'")
     def function_declaration(self, p):
-        return ("FUNCTION_DECLARATION", {"FUNCTION_ARGUMENTS": p.function_arguments, "ID": p.ID, "PROGRAM": p.program})
+        return (
+            "FUNCTION_DECLARATION",
+            {
+                "FUNCTION_ARGUMENTS": p.function_arguments,
+                "ID": p.ID,
+                "PROGRAM": p.program,
+            },
+        )
 
     @_("FUNC ID '(' empty ')' '{' program '}'")
     def function_declaration(self, p):
-        return ("FUNCTION_DECLARATION", {"FUNCTION_ARGUMENTS": {}, "ID": p.ID, "PROGRAM": p.program})
+        return (
+            "FUNCTION_DECLARATION",
+            {"FUNCTION_ARGUMENTS": {}, "ID": p.ID, "PROGRAM": p.program},
+        )
 
     """@_("KWORD ID '(' function_arguments ')' '{' program '}'")
     def kword_declaration(self, p):
@@ -135,7 +149,14 @@ class NeutronParser(Parser):
 
     @_("FOR expression IN expression '{' program '}'")
     def for_loop(self, p):
-        return ("FOR", {"PROGRAM": p.program, "VARIABLE": p.expression0, "ITERABLE": p.expression1})
+        return (
+            "FOR",
+            {
+                "PROGRAM": p.program,
+                "VARIABLE": p.expression0,
+                "ITERABLE": p.expression1,
+            },
+        )
 
     @_("WHILE '(' expression ')' '{' program '}'")
     def while_loop(self, p):
@@ -143,19 +164,19 @@ class NeutronParser(Parser):
 
     @_("positional_args ',' expression")
     def positional_args(self, p):
-        return p.positional_args + (p.expression, )
+        return p.positional_args + (p.expression,)
 
     @_("expression")
     def positional_args(self, p):
-        return (p.expression, )
+        return (p.expression,)
 
     @_("kwargs ',' id '=' expression")
     def kwargs(self, p):
-        return p.kwargs + ({"ID": p.id, "EXPRESSION": p.expression}, )
+        return p.kwargs + ({"ID": p.id, "EXPRESSION": p.expression},)
 
     @_("ID '=' expression")
     def kwargs(self, p):
-        return ({"ID": p.ID, "EXPRESSION": p.expression}, )
+        return ({"ID": p.ID, "EXPRESSION": p.expression},)
 
     @_("ID '=' expression ';'")
     def variable_assignment(self, p):
@@ -167,23 +188,38 @@ class NeutronParser(Parser):
 
     @_("class_attribute '=' expression ';'")
     def class_attribute_assignment(self, p):
-        return ("CLASS_ATTRIBUTE_ASSIGNMENT", {"CLASS_ATTRIBUTE": p.class_attribute, "EXPRESSION": p.expression})
+        return (
+            "CLASS_ATTRIBUTE_ASSIGNMENT",
+            {"CLASS_ATTRIBUTE": p.class_attribute, "EXPRESSION": p.expression},
+        )
 
     @_("if_statement")
     def conditional(self, p):
-        return ("CONDITIONAL", {"IF": p.if_statement, "ELSE_IF": (None, None), "ELSE": (None, None)})
+        return (
+            "CONDITIONAL",
+            {"IF": p.if_statement, "ELSE_IF": (None, None), "ELSE": (None, None)},
+        )
 
     @_("if_statement else_if_loop")
     def conditional(self, p):
-        return ("CONDITIONAL", {"IF": p.if_statement, "ELSE_IF": p.else_if_loop, "ELSE": (None, None)})
+        return (
+            "CONDITIONAL",
+            {"IF": p.if_statement, "ELSE_IF": p.else_if_loop, "ELSE": (None, None)},
+        )
 
     @_("if_statement else_if_loop else_statement")
     def conditional(self, p):
-        return ("CONDITIONAL", {"IF": p.if_statement, "ELSE_IF": p.else_if_loop, "ELSE": p.else_statement})
+        return (
+            "CONDITIONAL",
+            {"IF": p.if_statement, "ELSE_IF": p.else_if_loop, "ELSE": p.else_statement},
+        )
 
     @_("if_statement else_statement")
     def conditional(self, p):
-        return ("CONDITIONAL", {"IF": p.if_statement, "ELSE_IF": (None, None), "ELSE": p.else_statement})
+        return (
+            "CONDITIONAL",
+            {"IF": p.if_statement, "ELSE_IF": (None, None), "ELSE": p.else_statement},
+        )
 
     @_("IF '(' expression ')' '{' program '}'")
     def if_statement(self, p):
@@ -191,11 +227,11 @@ class NeutronParser(Parser):
 
     @_("else_if_loop else_if_statement")
     def else_if_loop(self, p):
-        return p.else_if_loop + (p.else_if_statement, )
+        return p.else_if_loop + (p.else_if_statement,)
 
     @_("else_if_statement")
     def else_if_loop(self, p):
-        return ("ELSE_IF", p.else_if_statement, )
+        return ("ELSE_IF", p.else_if_statement)
 
     @_("ELSE IF '(' expression ')' '{' program '}'")
     def else_if_statement(self, p):
@@ -207,7 +243,7 @@ class NeutronParser(Parser):
 
     @_("'-' expression %prec UMINUS")
     def expression(self, p):
-       return ("NEG", p.expression)
+        return ("NEG", p.expression)
 
     @_("'+' expression %prec UPLUS")
     def expression(self, p):

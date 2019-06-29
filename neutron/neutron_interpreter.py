@@ -13,6 +13,7 @@ global_break = False
 global_objects = {}
 paths_to_look_in = [path.abspath(__file__)]
 
+
 class Process:
     def __init__(self, tree, filename="?"):
         self.tree = tree
@@ -29,22 +30,22 @@ class Process:
             "CONDITIONAL": self.conditional,
             "WHILE": self.while_loop,
             "FOR": self.for_loop,
-            "BREAK": self.break_statement
+            "BREAK": self.break_statement,
         }
 
     def in_program(self):
         return True if self.type == "PROGRAM" else False
 
     def run(self, tree=None):
-        if tree == None:
+        if tree is None:
             for line in self.tree:
-                if global_break == False:
+                if not global_break:
                     self.stmt[line[0]](line[1:])
                 else:
                     break
-        elif tree != None:
+        elif tree is not None:
             for line in tree:
-                if global_break == False:
+                if not global_break:
                     self.stmt[line[0]](line[1:])
                 else:
                     break
@@ -60,7 +61,7 @@ class Process:
         iterable = dictionary["ITERABLE"]
         variable_name = dictionary["VARIABLE"][1]["VALUE"]
         for i in self.eval_expression(iterable):
-            if global_break == True:
+            if global_break:
                 global_break = False
                 break
             self.objects[variable_name] = i
@@ -82,7 +83,9 @@ class Process:
         elif name in self.objects:
             value = self.objects[name]
         else:
-            errors.variable_referenced_before_assignment_error().raise_error(f"variable \"{name}\" referenced before assignment")
+            errors.variable_referenced_before_assignment_error().raise_error(
+                f'variable "{name}" referenced before assignment'
+            )
 
         return value
 
@@ -104,7 +107,9 @@ class Process:
                 try:
                     value = self.objects["this"].objects[body["ATTRIBUTE"]]
                 except KeyError:
-                    errors.variable_referenced_before_assignment_error().raise_error(f"variable \"{name}\" referenced before assignment")
+                    errors.variable_referenced_before_assignment_error().raise_error(
+                        f'variable "{name}" referenced before assignment'
+                    )
 
         else:
             classes = {**self.objects, **global_objects}
@@ -132,7 +137,10 @@ class Process:
             else:
                 is_true = False
                 for stmt in _elsif:
-                    if self.eval_expression(stmt[0]["CONDITION"]) == True and not is_true:
+                    if (
+                        self.eval_expression(stmt[0]["CONDITION"]) == True
+                        and not is_true
+                    ):
                         is_true = True
                         self.run(stmt[0]["CODE"])
         elif _if != None and _elsif[0] != None and _else != None:
@@ -146,33 +154,76 @@ class Process:
             self.run(tree=_else["CODE"])
 
     def eval_sub(self, tree):
-        return bt.IntType(self.eval_expression(tree[0]) - self.eval_expression(tree[1]), enter_value=True)
+        return bt.IntType(
+            self.eval_expression(tree[0]) - self.eval_expression(tree[1]),
+            enter_value=True,
+        )
+
     def eval_add(self, tree):
-        return bt.IntType(self.eval_expression(tree[0]) + self.eval_expression(tree[1]), enter_value=True)
+        return bt.IntType(
+            self.eval_expression(tree[0]) + self.eval_expression(tree[1]),
+            enter_value=True,
+        )
+
     def eval_mul(self, tree):
-        return bt.IntType(self.eval_expression(tree[0]) * self.eval_expression(tree[1]), enter_value=True)
+        return bt.IntType(
+            self.eval_expression(tree[0]) * self.eval_expression(tree[1]),
+            enter_value=True,
+        )
+
     def eval_div(self, tree):
-        return bt.IntType(self.eval_expression(tree[0]) / self.eval_expression(tree[1]), enter_value=True)
+        return bt.IntType(
+            self.eval_expression(tree[0]) / self.eval_expression(tree[1]),
+            enter_value=True,
+        )
+
     def eval_mod(self, tree):
-        return bt.IntType(self.eval_expression(tree[0]) % self.eval_expression(tree[1]), enter_value=True)
+        return bt.IntType(
+            self.eval_expression(tree[0]) % self.eval_expression(tree[1]),
+            enter_value=True,
+        )
 
     def eval_neg(self, tree):
         return -self.eval_expression(tree)
+
     def eval_pos(self, tree):
         return +self.eval_expression(tree)
 
     def eval_eqeq(self, tree):
-        return bt.BoolType(self.eval_expression(tree[0]) == self.eval_expression(tree[1]), enter_value=True)
+        return bt.BoolType(
+            self.eval_expression(tree[0]) == self.eval_expression(tree[1]),
+            enter_value=True,
+        )
+
     def eval_not_eqeq(self, tree):
-        return bt.BoolType(self.eval_expression(tree[0]) != self.eval_expression(tree[1]), enter_value=True)
+        return bt.BoolType(
+            self.eval_expression(tree[0]) != self.eval_expression(tree[1]),
+            enter_value=True,
+        )
+
     def eval_eq_greater(self, tree):
-        return bt.BoolType(self.eval_expression(tree[0]) >= self.eval_expression(tree[1]), enter_value=True)
+        return bt.BoolType(
+            self.eval_expression(tree[0]) >= self.eval_expression(tree[1]),
+            enter_value=True,
+        )
+
     def eval_eq_less(self, tree):
-        return bt.BoolType(self.eval_expression(tree[0]) <= self.eval_expression(tree[1]), enter_value=True)
+        return bt.BoolType(
+            self.eval_expression(tree[0]) <= self.eval_expression(tree[1]),
+            enter_value=True,
+        )
+
     def eval_less(self, tree):
-        return bt.BoolType(self.eval_expression(tree[0]) < self.eval_expression(tree[1]), enter_value=True)
+        return bt.BoolType(
+            self.eval_expression(tree[0]) < self.eval_expression(tree[1]),
+            enter_value=True,
+        )
+
     def eval_greater(self, tree):
-        return bt.BoolType(self.eval_expression(tree[0]) > self.eval_expression(tree[1]), enter_value=True)
+        return bt.BoolType(
+            self.eval_expression(tree[0]) > self.eval_expression(tree[1]),
+            enter_value=True,
+        )
 
     def eval_and(self, tree):
         if self.eval_expression(tree[0]).value == True:
@@ -182,6 +233,7 @@ class Process:
                 return bt.BoolType(False, enter_value=True)
         else:
             return bt.BoolType(False, enter_value=True)
+
     def eval_or(self, tree):
         if self.eval_expression(tree[0]).value == True:
             return bt.BoolType(True, enter_value=True)
@@ -189,30 +241,41 @@ class Process:
             return bt.BoolType(True, enter_value=True)
         else:
             return bt.BoolType(False, enter_value=True)
+
     def eval_not(self, tree):
-        return bt.BoolType(False, enter_value=True) if self.eval_expression(tree[0]).value == True else bt.BoolType(True, enter_value=True)
+        return (
+            bt.BoolType(False, enter_value=True)
+            if self.eval_expression(tree[0]).value == True
+            else bt.BoolType(True, enter_value=True)
+        )
 
     # Defult Types
     @staticmethod
     def eval_int(tree):
         value = bt.IntType(tree)
         return value
+
     @staticmethod
     def eval_float(tree):
         value = bt.FloatType(tree)
         return value
+
     @staticmethod
     def eval_string(tree):
         value = bt.StringType(tree)
         return value
+
     @staticmethod
     def eval_bool(tree):
         value = bt.BoolType(tree)
         return value
+
     def eval_numpy(self, tree):
         return bt.NumpyArray(tree, scope=self)
+
     def eval_list(self, tree):
         return bt.ListType(tree, scope=self)
+
     def eval_tuple(self, tree):
         return bt.TupleType(tree, scope=self)
 
@@ -236,7 +299,6 @@ class Process:
             "NUMPY": self.eval_numpy,
             "LIST": self.eval_list,
             "TUPLE": self.eval_tuple,
-
             # Bin Ops
             "SUB": self.eval_sub,
             "ADD": self.eval_add,
@@ -245,7 +307,6 @@ class Process:
             "MOD": self.eval_mod,
             "NEG": self.eval_neg,
             "POS": self.eval_pos,
-
             # Bool Ops
             "EQEQ": self.eval_eqeq,
             "NOT_EQEQ": self.eval_not_eqeq,
@@ -256,11 +317,10 @@ class Process:
             "AND": self.eval_and,
             "GREATER": self.eval_greater,
             "LESS": self.eval_less,
-
             # Functionality
             "FUNCTION_CALL": self.object_call,
             "CLASS_ATTRIBUTE": self.class_attribute,
-            "GET_INDEX": self.get_index
+            "GET_INDEX": self.get_index,
         }
         if _type in type_to_function:
             value = type_to_function[_type](body)
@@ -287,8 +347,19 @@ class Process:
         elif isinstance(dictionary["ID"], tuple):
             name = dictionary["ID"][1]["EXPRESSION"][1]["VALUE"]
             variable = self.objects[name]
-            if isinstance(variable, (bt.ListType, ClassInstance, bt.StringType, bt.NumpyArray, bt.TupleType)):
-                self.objects[name][self.eval_expression(dictionary["ID"][1]["INDEX"])] = self.eval_expression(dictionary["EXPRESSION"])
+            if isinstance(
+                variable,
+                (
+                    bt.ListType,
+                    ClassInstance,
+                    bt.StringType,
+                    bt.NumpyArray,
+                    bt.TupleType,
+                ),
+            ):
+                self.objects[name][
+                    self.eval_expression(dictionary["ID"][1]["INDEX"])
+                ] = self.eval_expression(dictionary["EXPRESSION"])
 
     def get_variable(self, name):
         if name in global_objects:
@@ -296,8 +367,9 @@ class Process:
         elif name in self.objects:
             return self.objects[name]
         else:
-            errors.variable_referenced_before_assignment_error().raise_error(f"variable \"{name}\" referenced before assignment")
-
+            errors.variable_referenced_before_assignment_error().raise_error(
+                f'variable "{name}" referenced before assignment'
+            )
 
     def object_call(self, tree):
         dictionary_func = tree[0]
@@ -306,46 +378,67 @@ class Process:
         objects = {**self.objects, **global_objects}
 
         if "POSITIONAL_ARGS" in dictionary:
-            if not None in dictionary["POSITIONAL_ARGS"]:
+            if None not in dictionary["POSITIONAL_ARGS"]:
                 for expr in dictionary["POSITIONAL_ARGS"]:
                     new_pos_arguments.append(self.eval_expression(expr))
 
         elif "POSITIONAL_ARGS" not in dictionary:
-            dictionary["POSITIONAL_ARGS"] = (None, )
+            dictionary["POSITIONAL_ARGS"] = (None,)
         if "KWARGS" not in dictionary:
-            dictionary["KWARGS"] = (None, )
+            dictionary["KWARGS"] = (None,)
 
         if dictionary_func["ID"][0] == "ID":
             name = dictionary_func["ID"][1]["VALUE"]
             if name in objects and isinstance(objects[name], ClassTemplate):
-                return_value = ClassInstance(objects[name], None, new_pos_arguments, dictionary["KWARGS"])
+                return_value = ClassInstance(
+                    objects[name], None, new_pos_arguments, dictionary["KWARGS"]
+                )
             elif name not in objects:
-                errors.variable_referenced_before_assignment_error().raise_error(f"object \"{name}\" referenced before assignment")
+                errors.variable_referenced_before_assignment_error().raise_error(
+                    f'object "{name}" referenced before assignment'
+                )
             elif isinstance(objects[name], Function):
-                return_value = objects[name].run_function(new_pos_arguments, dictionary["KWARGS"])
+                return_value = objects[name].run_function(
+                    new_pos_arguments, dictionary["KWARGS"]
+                )
             else:
                 try:
-                    return_value = objects[name].run_function(new_pos_arguments, dictionary["KWARGS"])
+                    return_value = objects[name].run_function(
+                        new_pos_arguments, dictionary["KWARGS"]
+                    )
                 except AttributeError:
-                    errors.id_not_callable().raise_error(f"object \"{name}\" not callable")
+                    errors.id_not_callable().raise_error(
+                        f'object "{name}" not callable'
+                    )
 
         elif dictionary_func["ID"][0] == "CLASS_ATTRIBUTE":
             if self.type == "PROGRAM":
                 attribute = dictionary_func["ID"][1]["ATTRIBUTE"]
                 class_name = dictionary_func["ID"][1]["CLASS"][1]["VALUE"]
-                return_value = objects[class_name].run_method(attribute, dictionary_func["FUNCTION_ARGUMENTS"]["POSITIONAL_ARGS"], dictionary_func["FUNCTION_ARGUMENTS"]["KWARGS"])
+                return_value = objects[class_name].run_method(
+                    attribute,
+                    dictionary_func["FUNCTION_ARGUMENTS"]["POSITIONAL_ARGS"],
+                    dictionary_func["FUNCTION_ARGUMENTS"]["KWARGS"],
+                )
             elif self.type == "FUNCTION":
                 if isinstance(self.positional_arguments[0], ClassTemplate):
                     attribute = dictionary_func["ID"][1]["ATTRIBUTE"]
                     class_name = dictionary_func["ID"][1]["CLASS"]
-                    return_value = objects[class_name].run_method(attribute, dictionary_func["FUNCTION_ARGUMENTS"]["POSITIONAL_ARGS"], dictionary_func["FUNCTION_ARGUMENTS"]["KWARGS"])
+                    return_value = objects[class_name].run_method(
+                        attribute,
+                        dictionary_func["FUNCTION_ARGUMENTS"]["POSITIONAL_ARGS"],
+                        dictionary_func["FUNCTION_ARGUMENTS"]["KWARGS"],
+                    )
 
         elif dictionary_func["ID"][0] != "ID":
-            object_not_callable = errors.ErrorClass(f"{dictionary_func['ID'][0].lower()}_not_callable_error")
-            object_not_callable.raise_error(f"{dictionary_func['ID'][0].lower()} type is not callable")
+            object_not_callable = errors.ErrorClass(
+                f"{dictionary_func['ID'][0].lower()}_not_callable_error"
+            )
+            object_not_callable.raise_error(
+                f"{dictionary_func['ID'][0].lower()} type is not callable"
+            )
 
         return return_value
-
 
     def function_declaration(self, tree):
         dictionary = tree[0]
@@ -359,7 +452,9 @@ class Process:
 
     def attribute_assignment(self, tree):
         tree = tree[0] if isinstance(tree, tuple) else tree
-        self.objects[tree["CLASS_ATTRIBUTE"][1]["CLASS"][1]["VALUE"]].objects[tree["CLASS_ATTRIBUTE"][1]["ATTRIBUTE"]] = self.eval_expression(tree["EXPRESSION"])
+        self.objects[tree["CLASS_ATTRIBUTE"][1]["CLASS"][1]["VALUE"]].objects[
+            tree["CLASS_ATTRIBUTE"][1]["ATTRIBUTE"]
+        ] = self.eval_expression(tree["EXPRESSION"])
 
 
 class Function(Process):
@@ -369,7 +464,10 @@ class Function(Process):
         self.type = "FUNCTION"
         self.arguments = arguments
         self.tree = tree
-        self.stmt = {**self.stmt, "CLASS_ATTRIBUTE_ASSIGNMENT": self.attribute_assignment}
+        self.stmt = {
+            **self.stmt,
+            "CLASS_ATTRIBUTE_ASSIGNMENT": self.attribute_assignment,
+        }
         self.positional_arguments = []
         self.kw_arguments = {}
         self.evaluate_arguments()
@@ -381,7 +479,9 @@ class Function(Process):
                     self.positional_arguments.append(item[1]["VALUE"])
             if key == "KWARGS":
                 for item in self.arguments[key]:
-                    self.kw_arguments[item["ID"]] = self.eval_expression(item["EXPRESSION"])
+                    self.kw_arguments[item["ID"]] = self.eval_expression(
+                        item["EXPRESSION"]
+                    )
 
     def run_function(self, pos_arguments, kw_args):
         kw_arguments = {}
@@ -389,13 +489,20 @@ class Function(Process):
         pos_arguments = [x for x in pos_arguments if x is not None]
 
         if len(pos_arguments) != len(self.positional_arguments):
-            errors.positional_argument_error.raise_error(self, f"{len(self.positional_arguments)} arguments expected {len(pos_arguments)} were found")
+            errors.positional_argument_error.raise_error(
+                self,
+                f"{len(self.positional_arguments)} arguments expected {len(pos_arguments)} were found",
+            )
 
         for i, name in enumerate(self.positional_arguments):
             single_argument = pos_arguments[i]
-            self.objects[name] = self.eval_expression(single_argument) if isinstance(single_argument, tuple) else single_argument
+            self.objects[name] = (
+                self.eval_expression(single_argument)
+                if isinstance(single_argument, tuple)
+                else single_argument
+            )
 
-        #try:
+        # try:
         for item in kw_args:
             if item is None:
                 continue
@@ -407,7 +514,7 @@ class Function(Process):
             elif variable in kw_arguments:
                 self.objects[variable] = kw_arguments[variable]
 
-        #xcept TypeError:
+        # except TypeError:
         #    pass
 
         self.run()
@@ -422,20 +529,28 @@ class Function(Process):
         if "this" in self.objects and isinstance(self.objects["this"], ClassTemplate):
             if dictionary["CLASS_ATTRIBUTE"][1]["CLASS"][1]["VALUE"] == "this":
                 attribute = dictionary["CLASS_ATTRIBUTE"][1]["ATTRIBUTE"]
-                self.objects["this"].objects[attribute] = self.eval_expression(dictionary["EXPRESSION"])
+                self.objects["this"].objects[attribute] = self.eval_expression(
+                    dictionary["EXPRESSION"]
+                )
         else:
             try:
-                self.objects[dictionary["CLASS_ATTRIBUTE"][1]["CLASS"][1]["VALUE"]].objects[dictionary["CLASS_ATTRIBUTE"][1]["ATTRIBUTE"]] = self.eval_expression(dictionary["EXPRESSION"])
+                self.objects[
+                    dictionary["CLASS_ATTRIBUTE"][1]["CLASS"][1]["VALUE"]
+                ].objects[
+                    dictionary["CLASS_ATTRIBUTE"][1]["ATTRIBUTE"]
+                ] = self.eval_expression(
+                    dictionary["EXPRESSION"]
+                )
             except KeyError:
-                errors.variable_referenced_before_assignment_error().raise_error(f'object "{dictionary["CLASS_ATTRIBUTE"][1]["ATTRIBUTE"]}" referenced before assignment')
+                errors.variable_referenced_before_assignment_error().raise_error(
+                    f'object "{dictionary["CLASS_ATTRIBUTE"][1]["ATTRIBUTE"]}" referenced before assignment'
+                )
 
 
 class ClassTemplate(Function):
     def __init__(self, tree, name):
         Process.__init__(self, tree)
-        self.stmt = {
-            "FUNCTION_DECLARATION": self.function_declaration,
-        }
+        self.stmt = {"FUNCTION_DECLARATION": self.function_declaration}
         self.name = name
         self.type = "CLASS_TEMPLATE"
         self.run()
@@ -448,7 +563,7 @@ class ClassTemplate(Function):
 
     def run_method(self, name_func, pos_arguments, kw_arguments):
         objects = {**self.objects, **global_objects}
-        positional_arguments = list((self, ) + tuple(pos_arguments))
+        positional_arguments = list((self,) + tuple(pos_arguments))
         return objects[name_func].run_function(positional_arguments, kw_arguments)
 
 
