@@ -30,4 +30,5 @@ Lists and Tuples?       **YES!**
 Classes and Functions?  **YES!**
 Importing?              **YES!**
 While Loops?            **YES!**
+For Loops?              **YES!**
 ======================  =========

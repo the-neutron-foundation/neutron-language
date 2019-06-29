@@ -426,11 +426,11 @@ This package is responsible for the conversion of types.
 ``types/to_int`` converts any given type to ``IntType``. (``FloatType``, ``StringType``, etc.)
 
 ``types/to_string``
-""""""""""""""""
+"""""""""""""""""""
 ``types/to_string`` converts any given type to ``StringType``. (``FloatType``, ``BoolType``, etc.)
 
 ``types/to_float``
-""""""""""""""""
+""""""""""""""""""
 ``types/to_float`` converts any given type to ``FloatType``. (``IntType``, ``StringType``, etc.)
 
 ``utils``
@@ -438,5 +438,5 @@ This package is responsible for the conversion of types.
 This package is responsible for all the functions that have to do with list, tuples, and Numpy arrays.
 
 ``utils/len``
-""""""""""""""""
+"""""""""""""
 ``utils/len`` gets the length (total number of items) of a list, tuple, or Numpy array and returns it as a ``IntType``.
