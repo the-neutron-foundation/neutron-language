@@ -1,4 +1,4 @@
 func print(text){
   `text = var.text
-print(text)`;
+print(str(text))`;
 }

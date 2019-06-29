@@ -17,24 +17,32 @@ Example of pure inline python code:
 
 Example of python code being used as an expression:
 
-.. code-block:: java
+.. code-block:: python
 
-  a_neutron_function(`python_function(10), `20`, 30); // Use python code as positional arguments
-  x = `len("Hello World!")`; // len is 12
+  a_neutron_function(`bt.IntType(python_function(10), enter_value=True)`, `bt.IntType(20, enter_value=True)`, 30); // Use python code as positional arguments
+  x = `bt.IntType(len("Hello World!"), enter_value=True)`; // len is 12
 
-In order to get variables, or make them, your must do it in a special way. To make a variable, use the namespace ``var`` for local variables and ``gvar`` for global variables. Example:
+In order to get variables, or make them, you must do it in a special way. To make a variable, use the namespace ``var`` for local variables and ``gvar`` for global variables. Example:
 
 .. code-block:: python
 
   ``var.local_variable = "foo"
   gvar.global_variable = "This is a global variable"``;
 
-To reference to a variable, just use the namespace ``var`` for local variables and ``gvar`` for global variables, and don't assign them to anything. Example:
+To reference to a variable, just use the namespace ``var`` for local variables and ``gvar`` for global variables, and don't assign them to anything. Note that getting the variable from the namespace only returns a class, not the value python equivalent value. In order to get the value, you must use the ``.value`` attribute. Example:
 
 .. code-block:: python
 
   ``var.local_variable # get value of variable
   gvar.global_variable``;
+
+To get the python equivalent value, use the ``.value`` attribute. For example:
+
+.. code-block:: python
+
+  local_variable = true;
+  ``print(var.local_variable) # prints "true"
+  print(var.local_variable.value) # prints "True"``;
 
 Making Types
 ^^^^^^^^^^^^
@@ -48,6 +56,8 @@ To make a variable, you cannot just simply assign a variable. You must make the 
 
 Note that in this case, ``bt`` is short for builtin types.
 
+``Builtin Types`` List
+^^^^^^^^^^^^^^^^^^^^^^
 The builtin type available are:
 
 ``bt.IntType`` - for integers

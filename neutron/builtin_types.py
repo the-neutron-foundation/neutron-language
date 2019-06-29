@@ -16,7 +16,7 @@ def mod(item1, item2):
     return item1 % item2
 
 class DataType:
-    def __init__(self, tree, scope=None, enter_value=False):
+    def __init__(self, tree, scope=None, enter_value=True):
         self.tree = tree
         self.scope = scope
         self.value = self.eval_tree() if not enter_value else tree
@@ -73,6 +73,19 @@ class DataType:
     def __ge__(self, other):
         return self.value >= other if isinstance(other, self.type) else self.value >= other.value
 
+    def __int__(self):
+        return int(self.value)
+    def __long__(self):
+        return long(self.value)
+    def __float__(self):
+        return float(self.value)
+    def __complex__(self):
+        return complex(self.value)
+    def __oct__(self):
+        return oct(self.value)
+    def __hex__(self):
+        return hex(self.value)
+
     def __getitem__(self, index):
         return self.value[index.value]
     def __setitem__(self, key, value):
@@ -84,13 +97,14 @@ class DataType:
     def __len__(self):
         return len(self.value)
 
+
 class IntType(DataType):
     def eval_tree(self):
         return int(self.tree[0]["VALUE"])
 
 
 class FloatType(DataType):
-    def __init__(self, tree, scope=None, enter_value=False):
+    def __init__(self, tree, scope=None, enter_value=True):
         DataType.__init__(self, tree, scope=scope, enter_value=enter_value)
         self.type = float
     def eval_tree(self):
@@ -98,7 +112,7 @@ class FloatType(DataType):
 
 
 class StringType(DataType):
-    def __init__(self, tree, scope=None, enter_value=False):
+    def __init__(self, tree, scope=None, enter_value=True):
         DataType.__init__(self, tree, scope=scope, enter_value=enter_value)
         self.type = str
     def eval_tree(self):
@@ -106,7 +120,7 @@ class StringType(DataType):
 
 
 class BoolType(DataType):
-    def __init__(self, tree, scope=None, enter_value=False):
+    def __init__(self, tree, scope=None, enter_value=True):
         DataType.__init__(self, tree, scope=scope, enter_value=enter_value)
         self.type = bool
     def eval_tree(self):
@@ -117,7 +131,7 @@ class BoolType(DataType):
 
 
 class NumpyArray(DataType):
-    def __init__(self, tree, scope=None, enter_value=False):
+    def __init__(self, tree, scope=None, enter_value=True):
         DataType.__init__(self, tree, scope=scope, enter_value=enter_value)
         self.type = array
     def eval_tree(self):
@@ -130,7 +144,7 @@ class NumpyArray(DataType):
         return f"({self.value.__str__()[1:-1]})"
 
 class ListType(DataType):
-    def __init__(self, tree, scope=None, enter_value=False):
+    def __init__(self, tree, scope=None, enter_value=True):
         DataType.__init__(self, tree, scope=scope, enter_value=enter_value)
         self.type = list
     def eval_tree(self):
@@ -144,7 +158,7 @@ class ListType(DataType):
 
 
 class TupleType(DataType):
-    def __init__(self, tree, scope=None, enter_value=False):
+    def __init__(self, tree, scope=None, enter_value=True):
         DataType.__init__(self, tree, scope=scope, enter_value=enter_value)
         self.type = tuple
     def eval_tree(self):
@@ -154,7 +168,7 @@ class TupleType(DataType):
             value = value + (self.scope.eval_expression(item), )
         return value
     def __str__(self):
-        return self.value.__str__()
+        return f"{{{self.value.__str__()[1:-1]}}}"
 
 class Namespace:
     def __init__(self, adict):

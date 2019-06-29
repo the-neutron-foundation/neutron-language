@@ -1,0 +1,10 @@
+get!("io/print");get!("io/stdin");get!("types/to_int");
+is_not_win = true; number = 10; x = 10; answer = 1; num = 1;
+while (is_not_win) {guess = to_int(stdin(prompt="Enter A Number:"));
+if (guess == number) {print("You Win!"); is_not_win = false;}
+else if (guess < number) {print("Too Low");}else if (guess > number)
+{print("Too High");}} print("The number was" + number); while (x > 1)
+{answer = answer * x; x = x - 1;} print("Factorial of " + x + "is " + answer);
+while (num < 21) {if (num % 3 == 0 & num % 5 == 0) {print("FizzBuzz");}
+else if(num % 3 == 0) {print("Fizz");} else if (num % 5 == 0) {print("Buzz");}
+else {print(num);}}

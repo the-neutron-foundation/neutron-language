@@ -433,10 +433,26 @@ This package is responsible for the conversion of types.
 """"""""""""""""""
 ``types/to_float`` converts any given type to ``FloatType``. (``IntType``, ``StringType``, etc.)
 
+``types/to_numpy``
+""""""""""""""""""
+``types/to_numpy`` converts any given type to ``NumpyArray``. (``ListType``, ``TupleType``, etc.)
+
+``types/to_list``
+""""""""""""""""""
+``types/to_list`` converts any given type to ``ListType``. (``NumpyArray``, ``TupleType``, etc.)
+
+``types/to_tuple``
+""""""""""""""""""
+``types/to_tuple`` converts any given type to ``TupleType``. (``ListType``, ``NumpyArray``, etc.)
+
 ``utils``
 *********
 This package is responsible for all the functions that have to do with list, tuples, and Numpy arrays.
 
 ``utils/len``
 """""""""""""
-``utils/len`` gets the length (total number of items) of a list, tuple, or Numpy array and returns it as a ``IntType``.
+``utils/len`` gets the length (total number of items) of a list, tuple, or Numpy array and returns it as a ``IntType``, given an argument.
+
+``utils/range``
+"""""""""""""""
+``utils/range`` returns a ``ListType`` ranging from two arguments similar to that of python (the ``range()`` function in python but it takes 2 arguments)
