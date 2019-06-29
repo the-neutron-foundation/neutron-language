@@ -122,7 +122,7 @@ Other types
 
 ``NumpyArray``
 **************
-This type is the same as the Numpy ``array()`` class. This is built in and every object in the array is separated by commas. All of that is around a pair of brackets.
+This type is the same as the Numpy ``ndarray()`` class. This is built in and every object in the array is separated by commas. All of that is around a pair of brackets.
 
 .. code-block:: java
 
@@ -130,19 +130,19 @@ This type is the same as the Numpy ``array()`` class. This is built in and every
 
 ``ListType``
 ************
-This type is the same as the Python list class. This is built in and every object in the array is separated by commas. All of that is around a pair of square brackets.
+This type is the same as the Python list class. This is built in and every object in the list is separated by commas. All of that is around a pair of square brackets.
 
 .. code-block:: java
 
-  [1, 2, 3, 4, 5];  // Evaluates to python list Array
+  [1, 2, 3, 4, 5];  // Evaluates to python list
 
 ``TupleType``
 *************
-This type is the same as the Python tuple class. This is built in and every object in the array is separated by commas. All of that is around a pair of curly brackets.
+This type is the same as the Python tuple class. This is built in and every object in the tuple is separated by commas. All of that is around a pair of curly brackets.
 
 .. code-block:: java
 
-  {1, 2, 3, 4, 5};  // Evaluates to python tuple Array
+  {1, 2, 3, 4, 5};  // Evaluates to python tuple
 
 Variables
 ^^^^^^^^^

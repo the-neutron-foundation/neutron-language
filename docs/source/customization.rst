@@ -51,9 +51,15 @@ Note that in this case, ``bt`` is short for builtin types.
 The builtin type available are:
 
 ``bt.IntType`` - for integers
+
 ``bt.FloatType`` - for floats
+
 ``bt.StringType`` - for strings
+
 ``bt.BoolType`` - for booleans
+
 ``bt.NumpyArray`` - for Numpy arrays
+
 ``bt.ListType`` - for python-like lists
+
 ``bt.TupleType`` - for python-like tuples

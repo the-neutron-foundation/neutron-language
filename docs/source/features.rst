@@ -17,10 +17,10 @@ Numpy Arrays Built-In?            No       **YES!**
 Switch Statement?                 No       **PLANNED!**
 Structs?                          No       **PLANNED!**
 Break Statements in Functions?    No       **YES**
-syntax Change During Runtime?     No       **PLANNED**
+Syntax Change During Runtime?     No       **PLANNED**
 ==============================  =========  =============
 
-Basic Features:
+Other features that are implemented:
 
 ======================  =========
 Feature                 Neutron?
