@@ -10,9 +10,9 @@
 
 Neutron is a programming language that is inspired by C, Python, and Java.
 
-| ![Keystroke Comparison](./images/demo.gif) |
+ <!---| ![Keystroke Comparison](./images/demo.gif) |
 |:--:|
-| Showing one of the features of Neutron: Built-In Numpy arrays |
+| Showing one of the features of Neutron: Built-In Numpy arrays | --->
 
 # Example
 Here is how to do the guess the number game in neutron:
