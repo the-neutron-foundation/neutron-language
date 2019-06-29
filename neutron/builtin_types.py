@@ -22,7 +22,7 @@ def mod(item1, item2):
 
 
 class DataType:
-    def __init__(self, tree, scope=None, enter_value=True):
+    def __init__(self, tree, scope=None, enter_value=False):
         self.tree = tree
         self.scope = scope
         self.value = self.eval_tree() if not enter_value else tree
@@ -217,7 +217,7 @@ class IntType(DataType):
 
 
 class FloatType(DataType):
-    def __init__(self, tree, scope=None, enter_value=True):
+    def __init__(self, tree, scope=None, enter_value=False):
         DataType.__init__(self, tree, scope=scope, enter_value=enter_value)
         self.type = float
 
@@ -226,7 +226,7 @@ class FloatType(DataType):
 
 
 class StringType(DataType):
-    def __init__(self, tree, scope=None, enter_value=True):
+    def __init__(self, tree, scope=None, enter_value=False):
         DataType.__init__(self, tree, scope=scope, enter_value=enter_value)
         self.type = str
 
@@ -235,7 +235,7 @@ class StringType(DataType):
 
 
 class BoolType(DataType):
-    def __init__(self, tree, scope=None, enter_value=True):
+    def __init__(self, tree, scope=None, enter_value=False):
         DataType.__init__(self, tree, scope=scope, enter_value=enter_value)
         self.type = bool
 
@@ -248,7 +248,7 @@ class BoolType(DataType):
 
 
 class NumpyArray(DataType):
-    def __init__(self, tree, scope=None, enter_value=True):
+    def __init__(self, tree, scope=None, enter_value=False):
         DataType.__init__(self, tree, scope=scope, enter_value=enter_value)
         self.type = array
 
@@ -264,7 +264,7 @@ class NumpyArray(DataType):
 
 
 class ListType(DataType):
-    def __init__(self, tree, scope=None, enter_value=True):
+    def __init__(self, tree, scope=None, enter_value=False):
         DataType.__init__(self, tree, scope=scope, enter_value=enter_value)
         self.type = list
 
@@ -280,7 +280,7 @@ class ListType(DataType):
 
 
 class TupleType(DataType):
-    def __init__(self, tree, scope=None, enter_value=True):
+    def __init__(self, tree, scope=None, enter_value=False):
         DataType.__init__(self, tree, scope=scope, enter_value=enter_value)
         self.type = tuple
 
