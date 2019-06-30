@@ -9,7 +9,7 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/python/black)
 [![Gitter](https://img.shields.io/gitter/room/The-Neutron_Foundation/Neutron.svg)](https://gitter.im/The-Neutron-Foundation)
 
-Neutron is a programming language that is inspired by C, Python, and Java.
+Neutron is a general-purpose programming language that is inspired by C, Python, and Java.
 
 | ![python](./images/python_np_array.png) | ![neutron](./images/neutron_np_array.png)
 |:--:|:--:|
