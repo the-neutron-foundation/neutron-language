@@ -2,10 +2,13 @@ class ErrorClass:
     def __init__(self, type):
         self.type = type
 
-    def raise_error(self, msg, ln="?", col="?"):
-        print(f"neutron::{self.type}: {msg}. line: {ln} column: {col}")
+    def raise_error(self, msg, ln="?", col="?", file="?"):
+        print(f"in file: {file} line: {ln} column: {col}\nneutron::{self.type}: {msg}.")
         quit()
 
+class syntax_error(ErrorClass):
+    def __init__(self):
+        self.type = "syntax_error"
 
 class positional_argument_error(ErrorClass):
     def __init__(self):

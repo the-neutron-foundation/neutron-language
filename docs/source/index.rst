@@ -24,9 +24,13 @@ Design Principles
   It's just another language to learn, and it provides the same features as a lot of other programming languages.
   That's where your wrong. Neutron is going to have **C-like structs, switch statements, and more**. Oh, and also it has **built-in Numpy support** and **built-in functions**.
 
+Syntax Highlighting
+^^^^^^^^^^^^^^^^^^^
+There is currently a syntax highlighting pack for atom `here <https://atom.io/packages/language-neutron>`_.
+
 .. toctree::
    :maxdepth: 2
-   :caption: Documentation Contents:
+   :caption: General:
 
    features
    examples
@@ -35,9 +39,14 @@ Design Principles
    license
    faq
 
-Syntax Highlighting
-^^^^^^^^^^^^^^^^^^^
-There is currently a syntax highlighting pack for atom `here <https://atom.io/packages/language-neutron>`_.
+.. toctree::
+  :maxdepth: 1
+  :caption: Packages:
+
+  packages/io
+  packages/types
+  packages/utils
+  packages/random
 
 Indices and tables
 ^^^^^^^^^^^^^^^^^^

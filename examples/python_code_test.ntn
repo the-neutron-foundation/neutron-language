@@ -1,0 +1,3 @@
+x = true;
+`print(var.x) # prints "true"
+print(var.x.value) # prints "True"`;

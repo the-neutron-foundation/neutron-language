@@ -19,18 +19,19 @@ Neutron is a programming language that is inspired by C, Python, and Java.
 Here is how to do the guess the number game in neutron:
 
 ```java
-// Imports
 get!("io/print");
 get!("io/stdin");
 get!("types/to_int");
+get!("types/to_string");
+get!("random/randrange");
 
 
 is_not_win = true;
-number = 10;
+number = randrange(0, 100);
+num_guesses = 0;
 
-// While loop
 while (is_not_win) {
-  guess = to_int(stdin(prompt="Enter A Number:"));  // Get input from user
+  guess = to_int(stdin(prompt="Enter A Number Between 0 and 100: "));
   if (guess == number) {
     print("You Win!");
     is_not_win = false;

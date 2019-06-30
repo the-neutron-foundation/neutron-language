@@ -1,17 +1,19 @@
 try:
     from neutron.neutron_lexer import NeutronLexer
+    from neutron.errors import syntax_error
 except ModuleNotFoundError:
     from neutron_lexer import NeutronLexer
+    from errors import syntax_error
 from sly import Parser
 import pprint
 import logging
-
 
 class NeutronParser(Parser):
     tokens = NeutronLexer.tokens
     debugfile = "parser.out"
     log = logging.getLogger()
     log.setLevel(logging.ERROR)
+    syntax_error_obj = syntax_error()
 
     precedence = (
         ("left", ","),
@@ -26,6 +28,7 @@ class NeutronParser(Parser):
         ("left", COLON_COLON),
     )
 
+    # Program START
     @_("program statement")
     def program(self, p):
         return p.program + (p.statement,)
@@ -37,6 +40,10 @@ class NeutronParser(Parser):
     @_("empty")
     def program(self, p):
         return ()
+
+    # Program END
+    ###########################################################################
+    # Statements START
 
     @_("function_declaration")
     def statement(self, p):
@@ -78,9 +85,9 @@ class NeutronParser(Parser):
     def statement(self, p):
         return p.for_loop
 
-    """@_("kword_declaration")
-    def statement(self, p):
-        return p.kword_declaration"""
+    # Statements END
+    ###########################################################################
+    # Statment syntax START
 
     @_("function_call ';'")
     def function_call_stmt(self, p):
@@ -122,14 +129,6 @@ class NeutronParser(Parser):
             "FUNCTION_DECLARATION",
             {"FUNCTION_ARGUMENTS": {}, "ID": p.ID, "PROGRAM": p.program},
         )
-
-    """@_("KWORD ID '(' function_arguments ')' '{' program '}'")
-    def kword_declaration(self, p):
-        return ("KWORD_DECLARATION", {"ARGUMENTS": p.function_arguments, "ID": p.ID, "PROGRAM": p.program})
-
-    @_("KWORD ID '(' empty ')' '{' program '}'")
-    def kword_declaration(self, p):
-        return ("KWORD_DECLARATION", {"ARGUMENTS": {}, "ID": p.ID, "PROGRAM": p.program})"""
 
     @_("positional_args")
     def function_arguments(self, p):
@@ -241,6 +240,14 @@ class NeutronParser(Parser):
     def else_statement(self, p):
         return ("ELSE", {"CODE": p.program})
 
+    @_("DEL ID")
+    def delete_statement(self, p):
+        return ("DEL", {"ID": p.ID})
+
+    # Statment syntax END
+    ###########################################################################
+    # Expression START
+
     @_("'-' expression %prec UMINUS")
     def expression(self, p):
         return ("NEG", p.expression)
@@ -321,10 +328,6 @@ class NeutronParser(Parser):
     def expression(self, p):
         return p.get_index
 
-    @_("expression '[' expression ']'")
-    def get_index(self, p):
-        return ("GET_INDEX", {"EXPRESSION": p.expression0, "INDEX": p.expression1})
-
     @_("int")
     def expression(self, p):
         return p.int
@@ -360,6 +363,14 @@ class NeutronParser(Parser):
     @_("_numpy")
     def expression(self, p):
         return p._numpy
+
+    # Expression END
+    ###########################################################################
+    # Intermediate expression START
+
+    @_("expression '[' expression ']'")
+    def get_index(self, p):
+        return ("GET_INDEX", {"EXPRESSION": p.expression0, "INDEX": p.expression1})
 
     @_("'{' positional_args '}'")
     def _tuple(self, p):
@@ -408,3 +419,7 @@ class NeutronParser(Parser):
     @_("")
     def empty(self, p):
         pass
+
+    # Intermediate expression END
+    ###########################################################################
+    # Syntax error START

@@ -489,9 +489,10 @@ class Function(Process):
         pos_arguments = [x for x in pos_arguments if x is not None]
 
         if len(pos_arguments) != len(self.positional_arguments):
-            errors.positional_argument_error.raise_error(
-                self,
+            error = errors.positional_argument_error()
+            error.raise_error(
                 f"{len(self.positional_arguments)} arguments expected {len(pos_arguments)} were found",
+                file=global_objects["--file--"]
             )
 
         for i, name in enumerate(self.positional_arguments):
