@@ -69,11 +69,11 @@ class Process:
             self.run(tree=program)
 
     def delete_statement(self, tree):
-        id = tree[0]["ID"]
-        if id in global_objects:
-            del global_objects[id]
-        elif id in self.objects:
-            del self.objects[id]
+        _id = tree[0]["ID"]
+        if _id in global_objects:
+            del global_objects[_id]
+        elif _id in self.objects:
+            del self.objects[_id]
 
     def while_loop(self, tree):
         global global_break

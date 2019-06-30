@@ -362,6 +362,16 @@ A break statement can also be used in a function, and if called in a loop, will 
     break_func(); // Breaks out of loop
   }
 
+Deleting Things
+^^^^^^^^^^^^^^^
+To delete variables, use the ``del`` keyword. Example:
+
+.. code-block:: java
+
+  x = 10;
+  del x;
+  print(x); // returns error (variable_referenced_before_assignment_error)
+
 Operators
 ^^^^^^^^^
 There are many operators on different types in neutron. You can use parentheses for grouping.
