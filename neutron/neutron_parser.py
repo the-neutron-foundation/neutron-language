@@ -8,6 +8,7 @@ from sly import Parser
 import pprint
 import logging
 
+
 class NeutronParser(Parser):
     tokens = NeutronLexer.tokens
     debugfile = "parser.out"
@@ -84,6 +85,10 @@ class NeutronParser(Parser):
     @_("for_loop")
     def statement(self, p):
         return p.for_loop
+
+    @_("delete_statement")
+    def statement(self, p):
+        return p.delete_statement
 
     # Statements END
     ###########################################################################
@@ -240,7 +245,7 @@ class NeutronParser(Parser):
     def else_statement(self, p):
         return ("ELSE", {"CODE": p.program})
 
-    @_("DEL ID")
+    @_("DEL ID ';'")
     def delete_statement(self, p):
         return ("DEL", {"ID": p.ID})
 

@@ -24,7 +24,7 @@ class NeutronLexer(Lexer):
         BREAK,
         FOR,
         IN,
-        DEL
+        DEL,
     }
     literals = {
         "+",

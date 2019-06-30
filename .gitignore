@@ -70,3 +70,7 @@ parser.out
 *.build/
 neutron.bin
 neutron.exe
+
+*.rs
+.vscode/
+bytecode/

@@ -31,6 +31,7 @@ class Process:
             "WHILE": self.while_loop,
             "FOR": self.for_loop,
             "BREAK": self.break_statement,
+            "DEL": self.delete_statement,
         }
 
     def in_program(self):
@@ -67,6 +68,13 @@ class Process:
             self.objects[variable_name] = i
             self.run(tree=program)
 
+    def delete_statement(self, tree):
+        id = tree[0]["ID"]
+        if id in global_objects:
+            del global_objects[id]
+        elif id in self.objects:
+            del self.objects[id]
+
     def while_loop(self, tree):
         global global_break
         dictionary = tree[0]
@@ -84,7 +92,8 @@ class Process:
             value = self.objects[name]
         else:
             errors.variable_referenced_before_assignment_error().raise_error(
-                f'variable "{name}" referenced before assignment'
+                f'variable "{name}" referenced before assignment',
+                file=global_objects["--file--"],
             )
 
         return value
@@ -108,7 +117,8 @@ class Process:
                     value = self.objects["this"].objects[body["ATTRIBUTE"]]
                 except KeyError:
                     errors.variable_referenced_before_assignment_error().raise_error(
-                        f'variable "{name}" referenced before assignment'
+                        f'variable "{name}" referenced before assignment',
+                        file=global_objects["--file--"],
                     )
 
         else:
@@ -368,7 +378,8 @@ class Process:
             return self.objects[name]
         else:
             errors.variable_referenced_before_assignment_error().raise_error(
-                f'variable "{name}" referenced before assignment'
+                f'variable "{name}" referenced before assignment',
+                file=global_objects["--file--"],
             )
 
     def object_call(self, tree):
@@ -395,7 +406,8 @@ class Process:
                 )
             elif name not in objects:
                 errors.variable_referenced_before_assignment_error().raise_error(
-                    f'object "{name}" referenced before assignment'
+                    f'object "{name}" referenced before assignment',
+                    file=global_objects["--file--"],
                 )
             elif isinstance(objects[name], Function):
                 return_value = objects[name].run_function(
@@ -408,7 +420,8 @@ class Process:
                     )
                 except AttributeError:
                     errors.id_not_callable().raise_error(
-                        f'object "{name}" not callable'
+                        f'object "{name}" not callable',
+                        file=global_objects["--file--"],
                     )
 
         elif dictionary_func["ID"][0] == "CLASS_ATTRIBUTE":
@@ -435,7 +448,8 @@ class Process:
                 f"{dictionary_func['ID'][0].lower()}_not_callable_error"
             )
             object_not_callable.raise_error(
-                f"{dictionary_func['ID'][0].lower()} type is not callable"
+                f"{dictionary_func['ID'][0].lower()} type is not callable",
+                file=global_objects["--file--"],
             )
 
         return return_value
@@ -492,7 +506,7 @@ class Function(Process):
             error = errors.positional_argument_error()
             error.raise_error(
                 f"{len(self.positional_arguments)} arguments expected {len(pos_arguments)} were found",
-                file=global_objects["--file--"]
+                file=global_objects["--file--"],
             )
 
         for i, name in enumerate(self.positional_arguments):
@@ -544,7 +558,8 @@ class Function(Process):
                 )
             except KeyError:
                 errors.variable_referenced_before_assignment_error().raise_error(
-                    f'object "{dictionary["CLASS_ATTRIBUTE"][1]["ATTRIBUTE"]}" referenced before assignment'
+                    f'object "{dictionary["CLASS_ATTRIBUTE"][1]["ATTRIBUTE"]}" referenced before assignment',
+                    file=global_objects["--file--"],
                 )
 
 
