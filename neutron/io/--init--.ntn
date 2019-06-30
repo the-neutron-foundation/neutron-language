@@ -1,2 +1,3 @@
 get!("print");
-get!("input");
+get!("stdin");
+get!("print_type");

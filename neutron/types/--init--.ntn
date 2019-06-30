@@ -1,3 +1,6 @@
 get!("to_float");
 get!("to_int");
 get!("to_string");
+get!("to_list");
+get!("to_numpy");
+get!("to_tuple");

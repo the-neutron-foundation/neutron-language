@@ -17,7 +17,7 @@ elif path.isdir(path_dir_file):
     global_objects.update(program[1])
 else:
     try:
-      path_dir_file = path.abspath(path.join(global_objects["--init--"], self.objects["path_of_file"].value))
+      path_dir_file = path.abspath(path.join(path.dirname(global_objects["--file--"]), self.objects["path_of_file"].value))
       path_file = path.abspath(path_dir_file + ".ntn")
       if path.isfile(path_file):
           program = main(path_file)
