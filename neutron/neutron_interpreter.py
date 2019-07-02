@@ -20,24 +20,28 @@ class Process:
         self.objects = {}
         self.type = "PROGRAM"
         self.file_path = filename
+
+        # Dictionary for all types of statements
         self.stmt = {
-            "FUNCTION_DECLARATION": self.function_declaration,
-            "VARIABLE_ASSIGNMENT": self.assign_variable,
-            "FUNCTION_CALL": self.object_call,
-            "PYTHON_CODE": self.python_code,
-            "CLASS_DECLARATION": self.class_declaration,
-            "CLASS_ATTRIBUTE_ASSIGNMENT": self.attribute_assignment,
-            "CONDITIONAL": self.conditional,
-            "WHILE": self.while_loop,
-            "FOR": self.for_loop,
-            "BREAK": self.break_statement,
-            "DEL": self.delete_statement,
+            "FUNCTION_DECLARATION": self.function_declaration,  # Function declarations
+            "VARIABLE_ASSIGNMENT": self.assign_variable,  # Variable assignment
+            "FUNCTION_CALL": self.object_call,  # Function calls
+            "PYTHON_CODE": self.python_code,  # Inline python code
+            "CLASS_DECLARATION": self.class_declaration,  # Class declarations
+            "CLASS_ATTRIBUTE_ASSIGNMENT": self.attribute_assignment,  # Class attribute assignment
+            "CONDITIONAL": self.conditional,  # Conditionals (if, else, else if)
+            "WHILE": self.while_loop,  # While loops
+            "FOR": self.for_loop,  # For loops
+            "BREAK": self.break_statement,  # Break statement
+            "DEL": self.delete_statement,  # Delete statement
         }
 
-    def in_program(self):
+    def in_program(self) -> bool:
+        """Check if in main program."""
         return True if self.type == "PROGRAM" else False
 
     def run(self, tree=None):
+        """Run the code."""
         if tree is None:
             for line in self.tree:
                 if not global_break:
@@ -52,10 +56,12 @@ class Process:
                     break
 
     def break_statement(self, tree):
+        """Break out of loop."""
         global global_break
         global_break = True
 
     def for_loop(self, tree):
+        """Execute a for loop."""
         global global_break
         dictionary = tree[0]
         program = dictionary["PROGRAM"]
@@ -69,6 +75,7 @@ class Process:
             self.run(tree=program)
 
     def delete_statement(self, tree):
+        """Execute a delete statement."""
         _id = tree[0]["ID"]
         if _id in global_objects:
             del global_objects[_id]
@@ -76,6 +83,7 @@ class Process:
             del self.objects[_id]
 
     def while_loop(self, tree):
+        """Execute a while loop."""
         global global_break
         dictionary = tree[0]
         condition = dictionary["CONDITION"]
@@ -85,6 +93,7 @@ class Process:
         global_break = False
 
     def eval_id(self, tree):
+        """Evaluate a variable name."""
         name = tree[0]["VALUE"]
         if name in global_objects:
             value = global_objects[name]
@@ -99,6 +108,7 @@ class Process:
         return value
 
     def class_declaration(self, tree):
+        """Declare a class teplate."""
         dictionary = tree[0]
         name = dictionary["ID"]
         program = dictionary["PROGRAM"]
@@ -108,6 +118,7 @@ class Process:
             self.objects[name] = ClassTemplate(program, name)
 
     def class_attribute(self, body):
+        """Get an attribute of a certian instance of a class."""
         body = body[0]
         if self.type == "FUNCTION" and body["CLASS"] == "this":
             if isinstance(self.objects["this"], ClassTemplate):
@@ -129,6 +140,7 @@ class Process:
 
     ### Don't Mind The Spaghetti Code Subject to Change ###
     def conditional(self, tree):
+        """Execute a conditional statement."""
         dictionary = tree[0]
         _if = dictionary["IF"][1]
         _elsif = dictionary["ELSE_IF"][1:]
@@ -164,78 +176,92 @@ class Process:
             self.run(tree=_else["CODE"])
 
     def eval_sub(self, tree):
+        """Evaluate a subtaction expresison."""
         return bt.IntType(
             self.eval_expression(tree[0]) - self.eval_expression(tree[1]),
             enter_value=True,
         )
 
     def eval_add(self, tree):
+        """Evaluate a addition expresison."""
         return bt.IntType(
             self.eval_expression(tree[0]) + self.eval_expression(tree[1]),
             enter_value=True,
         )
 
     def eval_mul(self, tree):
+        """Evaluate a multiplication expresison."""
         return bt.IntType(
             self.eval_expression(tree[0]) * self.eval_expression(tree[1]),
             enter_value=True,
         )
 
     def eval_div(self, tree):
+        """Evaluate a division expresison."""
         return bt.IntType(
             self.eval_expression(tree[0]) / self.eval_expression(tree[1]),
             enter_value=True,
         )
 
     def eval_mod(self, tree):
+        """Evaluate a modulo expresison."""
         return bt.IntType(
             self.eval_expression(tree[0]) % self.eval_expression(tree[1]),
             enter_value=True,
         )
 
     def eval_neg(self, tree):
+        """Evaluate a negative sign."""
         return -self.eval_expression(tree)
 
     def eval_pos(self, tree):
+        """Evaluate a positive sign."""
         return +self.eval_expression(tree)
 
     def eval_eqeq(self, tree):
+        """Evaluate a logical equals sign."""
         return bt.BoolType(
             self.eval_expression(tree[0]) == self.eval_expression(tree[1]),
             enter_value=True,
         )
 
     def eval_not_eqeq(self, tree):
+        """Evaluate a logical not equals sign."""
         return bt.BoolType(
             self.eval_expression(tree[0]) != self.eval_expression(tree[1]),
             enter_value=True,
         )
 
     def eval_eq_greater(self, tree):
+        """Evaluate a logical greater than or equal to sign."""
         return bt.BoolType(
             self.eval_expression(tree[0]) >= self.eval_expression(tree[1]),
             enter_value=True,
         )
 
     def eval_eq_less(self, tree):
+        """Evaluate a logical less than or equal to sign."""
         return bt.BoolType(
             self.eval_expression(tree[0]) <= self.eval_expression(tree[1]),
             enter_value=True,
         )
 
     def eval_less(self, tree):
+        """Evaluate a logical less than sign."""
         return bt.BoolType(
             self.eval_expression(tree[0]) < self.eval_expression(tree[1]),
             enter_value=True,
         )
 
     def eval_greater(self, tree):
+        """Evaluate a logical greater than sign."""
         return bt.BoolType(
             self.eval_expression(tree[0]) > self.eval_expression(tree[1]),
             enter_value=True,
         )
 
     def eval_and(self, tree):
+        """Evaluate a logical AND operator."""
         if self.eval_expression(tree[0]).value == True:
             if self.eval_expression(tree[1]).value == True:
                 return bt.BoolType(True, enter_value=True)
@@ -245,6 +271,7 @@ class Process:
             return bt.BoolType(False, enter_value=True)
 
     def eval_or(self, tree):
+        """Evaluate a logical OR operator."""
         if self.eval_expression(tree[0]).value == True:
             return bt.BoolType(True, enter_value=True)
         elif self.eval_expression(tree[1]).value == True:
@@ -253,6 +280,7 @@ class Process:
             return bt.BoolType(False, enter_value=True)
 
     def eval_not(self, tree):
+        """Evaluate a logical NOT operator."""
         return (
             bt.BoolType(False, enter_value=True)
             if self.eval_expression(tree[0]).value == True
@@ -262,40 +290,49 @@ class Process:
     # Defult Types
     @staticmethod
     def eval_int(tree):
+        """Evaluate an integer type."""
         value = bt.IntType(tree)
         return value
 
     @staticmethod
     def eval_float(tree):
+        """Evaluate a float type."""
         value = bt.FloatType(tree)
         return value
 
     @staticmethod
     def eval_string(tree):
+        """Evaluate a string type."""
         value = bt.StringType(tree)
         return value
 
     @staticmethod
     def eval_bool(tree):
+        """Evaluate a bool type."""
         value = bt.BoolType(tree)
         return value
 
     def eval_numpy(self, tree):
+        """Evaluate a numpy array type."""
         return bt.NumpyArray(tree, scope=self)
 
     def eval_list(self, tree):
+        """Evaluate a list type."""
         return bt.ListType(tree, scope=self)
 
     def eval_tuple(self, tree):
+        """Evaluate a tuple type."""
         return bt.TupleType(tree, scope=self)
 
     def get_index(self, tree):
+        """Evaluate a get index of collectables statement."""
         tree = tree[0]
         _object = self.eval_expression(tree["EXPRESSION"])
         _index = self.eval_expression(tree["INDEX"])
         return _object[_index]
 
     def eval_expression(self, tree):
+        """Return evaluated object that can be used."""
         _type = tree[0]
         body = tree[1:]
         value = "something went wrong tell developers"
@@ -341,6 +378,7 @@ class Process:
     ### End of Spaghetti Code *relief* ###
 
     def python_code(self, tree, eval_or_not=False):
+        """Return output from inline python code, or run it."""
         code = tree[0]["CODE"]
         var = bt.Namespace(self.objects)
         gvar = bt.Namespace(global_objects)
@@ -350,6 +388,7 @@ class Process:
             exec(code)
 
     def assign_variable(self, tree):
+        """Execute an assign variable statement."""
         dictionary = tree[0]
         value = self.eval_expression(dictionary["EXPRESSION"])
         if isinstance(dictionary["ID"], str):
@@ -371,18 +410,8 @@ class Process:
                     self.eval_expression(dictionary["ID"][1]["INDEX"])
                 ] = self.eval_expression(dictionary["EXPRESSION"])
 
-    def get_variable(self, name):
-        if name in global_objects:
-            return global_objects[name]
-        elif name in self.objects:
-            return self.objects[name]
-        else:
-            errors.variable_referenced_before_assignment_error().raise_error(
-                f'variable "{name}" referenced before assignment',
-                file=global_objects["--file--"],
-            )
-
     def object_call(self, tree):
+        """Execute a function call."""
         dictionary_func = tree[0]
         dictionary = dictionary_func["FUNCTION_ARGUMENTS"]
         new_pos_arguments = []
@@ -420,8 +449,7 @@ class Process:
                     )
                 except AttributeError:
                     errors.id_not_callable().raise_error(
-                        f'object "{name}" not callable',
-                        file=global_objects["--file--"],
+                        f'object "{name}" not callable', file=global_objects["--file--"]
                     )
 
         elif dictionary_func["ID"][0] == "CLASS_ATTRIBUTE":
@@ -455,6 +483,7 @@ class Process:
         return return_value
 
     def function_declaration(self, tree):
+        """Declare a function."""
         dictionary = tree[0]
         name = dictionary["ID"]
         arguments = dictionary["FUNCTION_ARGUMENTS"]
@@ -465,6 +494,7 @@ class Process:
             self.objects[name] = Function(program, name, arguments)
 
     def attribute_assignment(self, tree):
+        """Assign an attribute to an instance of a class."""
         tree = tree[0] if isinstance(tree, tuple) else tree
         self.objects[tree["CLASS_ATTRIBUTE"][1]["CLASS"][1]["VALUE"]].objects[
             tree["CLASS_ATTRIBUTE"][1]["ATTRIBUTE"]
