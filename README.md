@@ -3,11 +3,8 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/484ce81d17ca468b8a93f0aa52720072)](https://app.codacy.com/app/MonliH/neutron?utm_source=github.com&utm_medium=referral&utm_content=the-neutron-foundation/neutron&utm_campaign=Badge_Grade_Dashboard)
 [![Documentation Status](https://readthedocs.org/projects/neutron-lang/badge/?version=latest)](https://neutron-lang.readthedocs.io/en/latest/?badge=latest)
 [![License](https://img.shields.io/badge/license-GPL%203.0-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
-[![Version](https://img.shields.io/badge/version-v0.0.1--alpha.1-orange.svg)](https://github.com/the-neutron-foundation/neutron/releases)
-![Maintenance](https://img.shields.io/maintenance/yes/2019.svg)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/MonLiH)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/python/black)
-[![Gitter](https://img.shields.io/gitter/room/The-Neutron_Foundation/Neutron.svg)](https://gitter.im/The-Neutron-Foundation)
 
 Neutron is a general-purpose programming language that is inspired by C, Python, and Java.
 
