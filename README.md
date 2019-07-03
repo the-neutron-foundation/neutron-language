@@ -73,7 +73,7 @@ Atom | [Atom Package Repository (language-neutron)](https://atom.io/packages/lan
 - New features are constantly being added
 
 # Features
-There are constantly new features being developed in neutron. To see the features that are coming and the one that are being worked on, go [here](https://github.com/the-neutron-foundation/neutron/projects/1).
+There are constantly new features being developed in neutron. To see the features that are coming and the one that are being worked on, go [**here**](https://github.com/orgs/the-neutron-foundation/projects).
 - [x] **Numpy  arrays Builtin!!**
 - [x] Classes
 - [x] Functions
