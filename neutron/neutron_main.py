@@ -12,7 +12,7 @@ import logging
 
 
 def read_file(filename):
-    file_ = open(filename, "r")
+    file_ = open(path.abspath(filename), "r")
     file_contents = file_.read()
     file_.close()
     return file_contents

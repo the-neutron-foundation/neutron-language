@@ -1,3 +1,4 @@
+get!("io/print");
 
 x = 200000;  // get factorial of 10
 answer = 1;

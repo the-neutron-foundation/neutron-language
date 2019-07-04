@@ -110,16 +110,16 @@ class DataType:
 
     def __lt__(self, other):
         return (
-            other < self.value
+            other > self.value
             if isinstance(other, self.type)
-            else other.value < self.value
+            else other.value > self.value
         )
 
     def __gt__(self, other):
         return (
-            other > self.value
+            other < self.value
             if isinstance(other, self.type)
-            else other.value > self.value
+            else other.value < self.value
         )
 
     def __eq__(self, other):

@@ -74,3 +74,4 @@ neutron.exe
 *.rs
 .vscode/
 bytecode/
+test.py
