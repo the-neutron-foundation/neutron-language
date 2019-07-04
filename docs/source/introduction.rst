@@ -182,7 +182,7 @@ Example:
   }
 
 To make a function return something, set the special variable ``--return--``, or use the return keyword. This tells the Neutron interpreter that when this function is called, it should return the value assigned to ``--return--``, or whatever is after the return statement.
-Note that the ``return`` statement quits out of the function and assigning the ``--return--`` doesn't.
+Note that the ``return`` statement quits out of the function and assigning the ``--return--`` doesn't. If no return value is assigned, the ``NullType`` value will be returned.
 Example:
 
 .. code-block:: java

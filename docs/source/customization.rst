@@ -73,3 +73,5 @@ The builtin type available are:
 ``bt.ListType`` - for python-like lists
 
 ``bt.TupleType`` - for python-like tuples
+
+``bt.NullType()`` - for a null type similar to the python None type (no arguments)

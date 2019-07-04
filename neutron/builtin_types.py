@@ -290,6 +290,9 @@ class NullType:
     def __repr__(self):
         return self.value
 
+    def __eq__(self, other):
+        return True if isinstance(other, NullType) else False
+
     __add__ = arithmetic_magic_method
     __sub__ = arithmetic_magic_method
     __truediv__ = arithmetic_magic_method
@@ -297,7 +300,6 @@ class NullType:
     __mul__ = arithmetic_magic_method
 
     __ne__ = logic_magic_method
-    __eq__ = logic_magic_method
     __gt__ = logic_magic_method
     __lt__ = logic_magic_method
     __ge__ = logic_magic_method

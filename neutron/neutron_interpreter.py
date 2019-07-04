@@ -331,7 +331,8 @@ class Process:
         _index = self.eval_expression(tree["INDEX"])
         return _object[_index]
 
-    def eval_null(self, tree):
+    @staticmethod
+    def eval_null(tree):
         return bt.NullType()
 
     def eval_expression(self, tree):
