@@ -1,10 +1,10 @@
 # Neutron Programming Language
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/484ce81d17ca468b8a93f0aa52720072)](https://app.codacy.com/app/MonliH/neutron?utm_source=github.com&utm_medium=referral&utm_content=the-neutron-foundation/neutron&utm_campaign=Badge_Grade_Dashboard)
-[![Documentation Status](https://readthedocs.org/projects/neutron-lang/badge/?version=latest)](https://neutron-lang.readthedocs.io/en/latest/?badge=latest)
-[![License](https://img.shields.io/badge/license-GPL%203.0-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/MonLiH)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/python/black)
+[![Codacy grade](https://img.shields.io/codacy/grade/9bb7d4a628ca4ef1b95dc88a57cb1119.svg?style=for-the-badge)](https://app.codacy.com/project/MonliH/neutron/dashboard)
+[![Documentation Status](https://img.shields.io/readthedocs/neutron-lang.svg?style=for-the-badge)](https://neutron-lang.readthedocs.io/en/latest)
+[![License](https://img.shields.io/badge/license-GPL%203.0-blue.svg?style=for-the-badge)](https://www.gnu.org/licenses/gpl-3.0.en.html)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg?style=for-the-badge)](https://paypal.me/MonLiH)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg?style=for-the-badge)](https://github.com/python/black)
 
 Neutron is a general-purpose programming language that is inspired by C, Python, and Java.
 
@@ -73,7 +73,7 @@ Atom | [Atom Package Repository (language-neutron)](https://atom.io/packages/lan
 - New features are constantly being added
 
 # Features
-There are constantly new features being developed in neutron. To see the features that are coming and the one that are being worked on, go [here](https://github.com/the-neutron-foundation/neutron/projects/1).
+There are constantly new features being developed in neutron. To see the features that are coming and the one that are being worked on, go [**here**](https://github.com/orgs/the-neutron-foundation/projects).
 - [x] **Numpy  arrays Builtin!!**
 - [x] Classes
 - [x] Functions
