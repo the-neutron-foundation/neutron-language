@@ -7,10 +7,12 @@ func _break() {
 }
 
 while (true) {
+  print("hello2");
   if (x =< 5) {
     _break();
   } else {
     print(x);
     x = x - 1;
   }
+  print("hello");
 }

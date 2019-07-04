@@ -8,8 +8,8 @@ except ModuleNotFoundError:
 from os import path
 import numpy as np
 
-global global_objects, paths_to_look_in, global_break
-global_break = False
+global global_objects, paths_to_look_in, global_break, global_return
+global_break, global_return = False, False
 global_objects = {}
 paths_to_look_in = [path.abspath(__file__)]
 
@@ -44,13 +44,13 @@ class Process:
         """Run the code."""
         if tree is None:
             for line in self.tree:
-                if not global_break:
+                if not global_break and not global_return:
                     self.stmt[line[0]](line[1:])
                 else:
                     break
         elif tree is not None:
             for line in tree:
-                if not global_break:
+                if not global_break and not global_return:
                     self.stmt[line[0]](line[1:])
                 else:
                     break
@@ -168,6 +168,7 @@ class Process:
         elif _if != None and _elsif[0] != None and _else != None:
             if self.eval_expression(_if["CONDITION"]) == True:
                 self.run(tree=_if["CODE"])
+                return
             else:
                 for stmt in _elsif:
                     if self.eval_expression(stmt[0]["CONDITION"]) == True:
@@ -516,6 +517,7 @@ class Function(Process):
         self.stmt = {
             **self.stmt,
             "CLASS_ATTRIBUTE_ASSIGNMENT": self.attribute_assignment,
+            "RETURN": self.return_statement,  # Return statement
         }
         self.positional_arguments = []
         self.kw_arguments = {}
@@ -568,6 +570,7 @@ class Function(Process):
         #    pass
 
         self.run()
+        global_return = False
         if "--return--" in self.objects:
             return self.objects["--return--"]
         elif "--return--" not in self.objects:
@@ -596,6 +599,12 @@ class Function(Process):
                     f'object "{dictionary["CLASS_ATTRIBUTE"][1]["ATTRIBUTE"]}" referenced before assignment',
                     file=global_objects["--file--"],
                 )
+
+    def return_statement(self, tree):
+        dictionary = tree[0]
+        value = self.eval_expression(dictionary["EXPRESSION"])
+        global_return = True
+        self.objects["--return--"] = value
 
 
 class ClassTemplate(Function):

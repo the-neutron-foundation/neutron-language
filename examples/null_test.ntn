@@ -1,0 +1,4 @@
+get!("io/print");
+
+x = print("hi");
+print(x==null);

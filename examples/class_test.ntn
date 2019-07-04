@@ -7,9 +7,10 @@ class io {
     }
     func _print(this){
        print(this::val);
+       return this::val;
     }
 }
 
 hi = io("hi");
 hi::val = 10;
-hi::_print();
+print(hi::_print());

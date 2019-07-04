@@ -13,7 +13,7 @@ class NeutronParser(Parser):
     tokens = NeutronLexer.tokens
     debugfile = "parser.out"
     log = logging.getLogger()
-    log.setLevel(logging.DEBUG)
+    log.setLevel(logging.ERROR)
     syntax_error_obj = syntax_error()
 
     precedence = (
@@ -88,9 +88,13 @@ class NeutronParser(Parser):
     def statement(self, p):
         return p.for_loop
 
-    @_("delete_statement")
+    @_("delete_stmt")
     def statement(self, p):
-        return p.delete_statement
+        return p.delete_stmt
+
+    @_("return_stmt")
+    def statement(self, p):
+        return p.return_stmt
 
     # Statements END
     ###########################################################################
@@ -107,6 +111,10 @@ class NeutronParser(Parser):
     @_("BREAK ';'")
     def break_stmt(self, p):
         return ("BREAK",)
+
+    @_("RETURN expression ';'")
+    def return_stmt(self, p):
+        return ("RETURN", {"EXPRESSION": p.expression})
 
     @_("expression '(' function_arguments ')'")
     def function_call(self, p):
@@ -248,7 +256,7 @@ class NeutronParser(Parser):
         return ("ELSE", {"CODE": p.program})
 
     @_("DEL ID ';'")
-    def delete_statement(self, p):
+    def delete_stmt(self, p):
         return ("DEL", {"ID": p.ID})
 
     # Statment syntax END

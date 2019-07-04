@@ -1,0 +1,13 @@
+get!("io/print");
+
+func test(arg) {
+  if (arg == "no") {
+    return "yes";
+  } else if (arg == "yes") {
+    return "no";
+  } else {
+    return "really?";
+  }
+}
+
+print(test("ralley?"));
