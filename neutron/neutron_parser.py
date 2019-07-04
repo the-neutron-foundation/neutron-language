@@ -96,6 +96,10 @@ class NeutronParser(Parser):
     def statement(self, p):
         return p.return_stmt
 
+    @_("variable_operation")
+    def statement(self, p):
+        return p.variable_operation
+
     # Statements END
     ###########################################################################
     # Statment syntax START
@@ -199,6 +203,47 @@ class NeutronParser(Parser):
     @_("get_index '=' expression ';'")
     def variable_assignment(self, p):
         return ("VARIABLE_ASSIGNMENT", {"ID": p.get_index, "EXPRESSION": p.expression})
+
+    @_("ID EQ_ADD expression ';'")
+    def variable_operation(self, p):
+        return ("VARIABLE_OPERATION", {"ID": p.ID, "EXPRESSION": p.expression, "OPERATION": "ADD"})
+
+    @_("get_index EQ_ADD expression ';'")
+    def variable_operation(self, p):
+        return ("VARIABLE_OPERATION", {"ID": p.get_index, "EXPRESSION": p.expression, "OPERATION": "ADD"})
+
+    @_("ID EQ_SUB expression ';'")
+    def variable_operation(self, p):
+        return ("VARIABLE_OPERATION", {"ID": p.ID, "EXPRESSION": p.expression, "OPERATION": "SUB"})
+
+    @_("get_index EQ_SUB expression ';'")
+    def variable_operation(self, p):
+        return ("VARIABLE_OPERATION", {"ID": p.get_index, "EXPRESSION": p.expression, "OPERATION": "SUB"})
+
+    @_("ID EQ_MUL expression ';'")
+    def variable_operation(self, p):
+        return ("VARIABLE_OPERATION", {"ID": p.ID, "EXPRESSION": p.expression, "OPERATION": "MUL"})
+
+    @_("get_index EQ_MUL expression ';'")
+    def variable_operation(self, p):
+        return ("VARIABLE_OPERATION", {"ID": p.get_index, "EXPRESSION": p.expression, "OPERATION": "MUL"})
+
+
+    @_("ID EQ_MOD expression ';'")
+    def variable_operation(self, p):
+        return ("VARIABLE_OPERATION", {"ID": p.ID, "EXPRESSION": p.expression, "OPERATION": "MOD"})
+
+    @_("get_index EQ_MOD expression ';'")
+    def variable_operation(self, p):
+        return ("VARIABLE_OPERATION", {"ID": p.get_index, "EXPRESSION": p.expression, "OPERATION": "MOD"})
+
+    @_("ID EQ_DIV expression ';'")
+    def variable_operation(self, p):
+        return ("VARIABLE_OPERATION", {"ID": p.ID, "EXPRESSION": p.expression, "OPERATION": "DIV"})
+
+    @_("get_index EQ_DIV expression ';'")
+    def variable_operation(self, p):
+        return ("VARIABLE_OPERATION", {"ID": p.get_index, "EXPRESSION": p.expression, "OPERATION": "DIV"})
 
     @_("class_attribute '=' expression ';'")
     def class_attribute_assignment(self, p):

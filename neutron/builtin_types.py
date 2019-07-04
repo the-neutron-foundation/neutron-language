@@ -89,7 +89,7 @@ class DataType:
 
     def __rtruediv__(self, other):
         return self.type(
-            div(other / self.value)
+            div(other, self.value)
             if isinstance(other, self.type)
             else div(other.value, self.value)
         )

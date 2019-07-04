@@ -75,3 +75,4 @@ neutron.exe
 .vscode/
 bytecode/
 test.py
+.ds_store

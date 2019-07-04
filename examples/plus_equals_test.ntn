@@ -1,0 +1,10 @@
+get!("io/print");
+
+x = 1;
+x += 1;  // 2
+x *= 2;  // 4
+x *= 2;  // 8
+x -= 3;  // 5
+x /= 2;  // 2 (integer division)
+
+print(x);

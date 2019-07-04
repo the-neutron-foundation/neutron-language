@@ -27,6 +27,10 @@ class NeutronLexer(Lexer):
         DEL,
         RETURN,
         NULL,
+        EQ_ADD,
+        EQ_SUB,
+        EQ_MUL,
+        EQ_DIV,
     }
     literals = {
         "+",
@@ -80,6 +84,11 @@ class NeutronLexer(Lexer):
     NOT_EQEQ = r"!="
     EQ_GREATER = r"=>"
     EQ_LESS = r"=<"
+    EQ_ADD = r"\+="
+    EQ_SUB = r"-="
+    EQ_MUL = r"\*="
+    EQ_DIV = r"/="
+    EQ_MOD = r"%="
 
     @_(r"\n+")
     def ignore_newline(self, t):

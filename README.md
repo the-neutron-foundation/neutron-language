@@ -1,4 +1,4 @@
-# Neutron Programming Language
+# Neutron
 
 [![Codacy grade](https://img.shields.io/codacy/grade/9bb7d4a628ca4ef1b95dc88a57cb1119.svg?style=for-the-badge)](https://app.codacy.com/project/MonliH/neutron/dashboard)
 [![Documentation Status](https://img.shields.io/readthedocs/neutron-lang.svg?style=for-the-badge)](https://neutron-lang.readthedocs.io/en/latest)
@@ -6,11 +6,11 @@
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg?style=for-the-badge)](https://paypal.me/MonLiH)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg?style=for-the-badge)](https://github.com/python/black)
 
-Neutron is a general-purpose programming language that is inspired by C, Python, and Java.
+**Neutron is a high level general-purpose programming language that is inspired by C, Python, and Java.**
 
-| ![python](./images/python_np_array.png) | ![neutron](./images/neutron_np_array.png)
+<!---| ![python](./images/python_np_array.png) | ![neutron](./images/neutron_np_array.png)
 |:--:|:--:|
-| Numpy array in Python | Numpy array in **Neutron**
+| Numpy array in Python | Numpy array in **Neutron**-->
 
 # Example
 Here is how to do the guess the number game in neutron:

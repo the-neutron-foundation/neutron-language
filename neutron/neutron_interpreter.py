@@ -34,6 +34,7 @@ class Process:
             "FOR": self.for_loop,  # For loops
             "BREAK": self.break_statement,  # Break statement
             "DEL": self.delete_statement,  # Delete statement
+            "VARIABLE_OPERATION": self.variable_operation
         }
 
     def in_program(self) -> bool:
@@ -81,6 +82,64 @@ class Process:
             del global_objects[_id]
         elif _id in self.objects:
             del self.objects[_id]
+
+    def variable_operation(self, tree):
+        """Execute a variable operation."""
+        dictionary = tree[0]
+        value = self.eval_expression(dictionary["EXPRESSION"])
+        operation = dictionary["OPERATION"]
+        name = dictionary["ID"]
+        if isinstance(dictionary["ID"], str):
+            if dictionary["ID"] not in self.objects:
+                errors.variable_referenced_before_assignment_error().raise_error(
+                    f'variable "{name}" referenced before assignment',
+                    file=global_objects["--file--"],
+                )
+
+            elif operation == "ADD":
+                self.objects[name] += value
+            elif operation == "SUB":
+                self.objects[name] -= value
+            elif operation == "MUL":
+                self.objects[name] *= value
+            elif operation == "DIV":
+                self.objects[name] /= value
+            elif operation == "MOD":
+                self.objects[name] %= value
+
+        elif isinstance(dictionary["ID"], tuple):
+            name = name[1]["EXPRESSION"][1]["VALUE"]
+            variable = self.objects[name]
+            if isinstance(
+                variable,
+                (
+                    bt.ListType,
+                    ClassInstance,
+                    bt.StringType,
+                    bt.NumpyArray,
+                    bt.TupleType,
+                ),
+            ):
+                if operation == "ADD":
+                    self.objects[name][
+                        self.eval_expression(name[1]["INDEX"])
+                    ] += value
+                elif operation == "SUB":
+                    self.objects[name][
+                        self.eval_expression(name[1]["INDEX"])
+                    ] -= value
+                elif operation == "MUL":
+                    self.objects[name][
+                        self.eval_expression(name[1]["INDEX"])
+                    ] *= value
+                elif operation == "DIV":
+                    self.objects[name][
+                        self.eval_expression(name[1]["INDEX"])
+                    ] /= value
+                elif operation == "MOD":
+                    self.objects[name][
+                        self.eval_expression(name[1]["INDEX"])
+                    ] %= value
 
     def while_loop(self, tree):
         """Execute a while loop."""
