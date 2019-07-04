@@ -8,6 +8,8 @@
 
 **Neutron is a high level general-purpose programming language that is inspired by C, Python, and Java.**
 
+<img src="./docs/source/_static/ntn_logo.png" width="300">
+
 <!---| ![python](./images/python_np_array.png) | ![neutron](./images/neutron_np_array.png)
 |:--:|:--:|
 | Numpy array in Python | Numpy array in **Neutron**-->
