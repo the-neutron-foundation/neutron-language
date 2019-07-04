@@ -181,12 +181,19 @@ Example:
     // Do code here
   }
 
-To make a function return something, set the special variable ``--return--``. This tells the Neutron interpreter that when this function is called, and returns this value. Example:
+To make a function return something, set the special variable ``--return--``, or use the return keyword. This tells the Neutron interpreter that when this function is called, it should return the value assigned to ``--return--``, or whatever is after the return statement.
+Note that the ``return`` statement quits out of the function and assigning the ``--return--`` doesn't.
+Example:
 
 .. code-block:: java
 
   func get_sum(arg1, arg2) {
     --return-- = arg1 + arg2;  // Return sum of two arguments
+    // Code here runs
+  }
+  func get_diff(arg1, arg2) {
+    return arg1 - arg2;  // Return sum of two arguments
+    // Code here doesn't run
   }
 
   x = get_sum(1, 2)  // variable "x" now has the value "3"

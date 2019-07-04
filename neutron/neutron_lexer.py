@@ -25,6 +25,8 @@ class NeutronLexer(Lexer):
         FOR,
         IN,
         DEL,
+        RETURN,
+        NULL,
     }
     literals = {
         "+",
@@ -70,6 +72,8 @@ class NeutronLexer(Lexer):
     ID["if"] = IF
     ID["else"] = ELSE
     ID["del"] = DEL
+    ID["null"] = NULL
+    ID["return"] = RETURN
 
     COLON_COLON = r"::"
     EQEQ = r"=="

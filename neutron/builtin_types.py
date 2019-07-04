@@ -1,5 +1,10 @@
 from numpy import array
 
+try:
+    import neutron.errors as errors
+except ModuleNotFoundError:
+    import errors as errors
+
 
 def add(item1, item2):
     return item1 + item2
@@ -96,13 +101,6 @@ class DataType:
             else mod(other.value, self.value)
         )
 
-    def __req__(self, other):
-        return (
-            other == self.value
-            if isinstance(other, self.type)
-            else other.value == self.value
-        )
-
     def __ne__(self, other):
         return (
             other != self.value
@@ -124,46 +122,11 @@ class DataType:
             else other.value > self.value
         )
 
-    def __le__(self, other):
-        return (
-            other <= self.value
-            if isinstance(other, self.type)
-            else other.value <= self.value
-        )
-
-    def __ge__(self, other):
-        return (
-            other >= self.value
-            if isinstance(other, self.type)
-            else other.value >= self.value
-        )
-
     def __eq__(self, other):
         return (
             self.value == other
             if isinstance(other, self.type)
             else self.value == other.value
-        )
-
-    def __ne__(self, other):
-        return (
-            self.value != other
-            if isinstance(other, self.type)
-            else self.value != other.value
-        )
-
-    def __lt__(self, other):
-        return (
-            self.value < other
-            if isinstance(other, self.type)
-            else self.value < other.value
-        )
-
-    def __gt__(self, other):
-        return (
-            self.value > other
-            if isinstance(other, self.type)
-            else self.value > other.value
         )
 
     def __le__(self, other):
@@ -293,6 +256,64 @@ class TupleType(DataType):
 
     def __str__(self):
         return f"{{{self.value.__str__()[1:-1]}}}"
+
+
+class NullType:
+    def __init__(self, scope=None, enter_value=False):
+        self.type = "null"
+        self.value = self.type
+
+    @staticmethod
+    def arithmetic_magic_method(other):
+        arithmetic = errors.arithmetic_error()
+        arithmetic.raise_error("Arithmetic not supported with the NullType type")
+
+    @staticmethod
+    def logic_magic_method(other):
+        arithmetic = errors.logic_operand_error()
+        arithmetic.raise_error(
+            "Logical operations not supported with the NullType type"
+        )
+
+    @staticmethod
+    def conversion_magic_method(other):
+        arithmetic = errors.type_error()
+        arithmetic.raise_error(
+            "Conversion of types not supported with the NullType type"
+        )
+
+    @staticmethod
+    def miscellaneous_magic_method(other):
+        arithmetic = errors.miscellaneous_error()
+        arithmetic.raise_error("Operation not supported with the NullType type")
+
+    def __repr__(self):
+        return self.value
+
+    __add__ = arithmetic_magic_method
+    __sub__ = arithmetic_magic_method
+    __truediv__ = arithmetic_magic_method
+    __mod__ = arithmetic_magic_method
+    __mul__ = arithmetic_magic_method
+
+    __ne__ = logic_magic_method
+    __eq__ = logic_magic_method
+    __gt__ = logic_magic_method
+    __lt__ = logic_magic_method
+    __ge__ = logic_magic_method
+    __le__ = logic_magic_method
+
+    __int__ = conversion_magic_method
+    __long__ = conversion_magic_method
+    __float__ = conversion_magic_method
+    __oct__ = conversion_magic_method
+    __complex__ = conversion_magic_method
+    __hex__ = conversion_magic_method
+
+    __len__ = miscellaneous_magic_method
+    __iter__ = miscellaneous_magic_method
+    __setitem__ = miscellaneous_magic_method
+    __getitem__ = miscellaneous_magic_method
 
 
 class Namespace:

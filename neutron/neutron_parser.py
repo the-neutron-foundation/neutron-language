@@ -13,11 +13,13 @@ class NeutronParser(Parser):
     tokens = NeutronLexer.tokens
     debugfile = "parser.out"
     log = logging.getLogger()
-    log.setLevel(logging.ERROR)
+    log.setLevel(logging.DEBUG)
     syntax_error_obj = syntax_error()
 
     precedence = (
+        ("left", EMPTY),
         ("left", ","),
+        ("right", "="),
         ("left", "|"),
         ("left", "&"),
         ("left", EQEQ, NOT_EQEQ),
@@ -333,6 +335,10 @@ class NeutronParser(Parser):
     def expression(self, p):
         return p.get_index
 
+    @_("null")
+    def expression(self, p):
+        return p.null
+
     @_("int")
     def expression(self, p):
         return p.int
@@ -372,6 +378,10 @@ class NeutronParser(Parser):
     # Expression END
     ###########################################################################
     # Intermediate expression START
+
+    @_("NULL")
+    def null(self, p):
+        return ("NULL", "NULL")
 
     @_("expression '[' expression ']'")
     def get_index(self, p):
@@ -421,7 +431,7 @@ class NeutronParser(Parser):
     def python_code(self, p):
         return ("PYTHON_CODE", {"CODE": p.PYTHON_CODE[1:-1]})
 
-    @_("")
+    @_("%prec EMPTY")
     def empty(self, p):
         pass
 

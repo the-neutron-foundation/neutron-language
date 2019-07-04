@@ -331,6 +331,9 @@ class Process:
         _index = self.eval_expression(tree["INDEX"])
         return _object[_index]
 
+    def eval_null(self, tree):
+        return bt.NullType()
+
     def eval_expression(self, tree):
         """Return evaluated object that can be used."""
         _type = tree[0]
@@ -346,6 +349,7 @@ class Process:
             "NUMPY": self.eval_numpy,
             "LIST": self.eval_list,
             "TUPLE": self.eval_tuple,
+            "NULL": self.eval_null,
             # Bin Ops
             "SUB": self.eval_sub,
             "ADD": self.eval_add,
@@ -566,7 +570,7 @@ class Function(Process):
         if "--return--" in self.objects:
             return self.objects["--return--"]
         elif "--return--" not in self.objects:
-            return None
+            return bt.NullType()
 
     def attribute_assignment(self, tree):
         dictionary = tree[0]

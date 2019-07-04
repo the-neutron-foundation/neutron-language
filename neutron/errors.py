@@ -40,3 +40,18 @@ class get_error(ErrorClass):
 class statement_not_expected_error(ErrorClass):
     def __init__(self):
         self.type = "statement_not_expected_error"
+
+
+class arithmetic_error(ErrorClass):
+    def __init__(self):
+        self.type = "arithmetic_error"
+
+
+class logic_operand_error(ErrorClass):
+    def __init__(self):
+        self.type = "logic_operand_error"
+
+
+class miscellaneous_error(ErrorClass):
+    def __init__(self):
+        self.type = "miscellaneous_error"
