@@ -1,4 +1,4 @@
-# Neutron
+# The Neutron Programming Language
 
 [![Codacy grade](https://img.shields.io/codacy/grade/9bb7d4a628ca4ef1b95dc88a57cb1119.svg?style=for-the-badge)](https://app.codacy.com/project/MonliH/neutron/dashboard)
 [![Documentation Status](https://img.shields.io/readthedocs/neutron-lang.svg?style=for-the-badge)](https://neutron-lang.readthedocs.io/en/latest)
