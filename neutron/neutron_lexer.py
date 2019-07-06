@@ -31,6 +31,7 @@ class NeutronLexer(Lexer):
         EQ_SUB,
         EQ_MUL,
         EQ_DIV,
+        EQ_MOD,
     }
     literals = {
         "+",

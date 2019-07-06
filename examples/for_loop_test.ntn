@@ -1,7 +1,7 @@
 get!("io/print");
 get!("utils/range");
 
-list_thing = range(0, 10);
-for i in list_thing {
+list = range(0, 10);
+for i in list {
   print(i);
 }
