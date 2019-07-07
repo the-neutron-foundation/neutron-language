@@ -6,31 +6,35 @@ try:
 except ModuleNotFoundError:
     from neutron_main import main
     import errors as errors
+
+def global_clean(items):
+    for k in list(items):
+      if k.startswith("--"):
+        del items[k]
+    return items
+
 path_dir_file = path.abspath(path.join(path.dirname(paths_to_look_in[0]), self.objects["path_of_file"].value))
 path_file = path.abspath(path_dir_file + ".ntn")
 global_without_special = global_objects
-for k in list(global_without_special):
-  if k.startswith("--"):
-  print("hi")
-    del global_without_special[k]
+
 if path.isfile(path_file):
-    program = main(path_file)
-    global_without_special.update(program[1])
+    program = global_clean(main(path_file)[1])
+    global_objects.update(program)
 elif path.isdir(path_dir_file):
     file_name = path.join(path_dir_file, "--init--.ntn")
-    program = main(file_name)
-    global_without_special.update(program[1])
+    program = global_clean(main(path_file)[1])
+    global_objects.update(program)
 else:
     try:
       path_dir_file = path.abspath(path.join(path.dirname(global_objects["--file--"]), self.objects["path_of_file"].value))
       path_file = path.abspath(path_dir_file + ".ntn")
       if path.isfile(path_file):
-          program = main(path_file)
-          global_without_special.update(program[1])
+          program = global_clean(main(path_file)[1])
+          global_objects.update(program)
       elif path.isdir(path_dir_file):
           file_name = path.join(path_dir_file, "--init--.ntn")
-          program = main(file_name)
-          global_without_special.update(program[1])
+          program = global_clean(main(path_file)[1])
+          global_objects.update(program)
       else:
           get_error_obj = errors.get_error()
           get_error_obj.raise_error(f"An error occured while getting package {path_dir_file}")

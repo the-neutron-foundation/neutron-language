@@ -47,6 +47,7 @@ There is currently a syntax highlighting pack for atom `here <https://atom.io/pa
   packages/types
   packages/utils
   packages/random
+  packages/file
 
 Indices and tables
 ^^^^^^^^^^^^^^^^^^
