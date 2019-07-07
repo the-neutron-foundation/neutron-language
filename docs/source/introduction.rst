@@ -16,6 +16,10 @@ After that, go to the source folder (the master folder) there should be a ``neut
 
 .. code-block:: bash
 
+ $ pip3 install numpy  # install numpy
+
+ $ pip3 install sly  # install sly
+
  $ pip3 install nuitka  # install nuitka
 
  $ git clone https://github.com/the-neutron-foundation/neutron  # get repo

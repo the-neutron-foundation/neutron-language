@@ -1,3 +1,4 @@
 get!("random/random");
+get!("io/print");
 
 print(random());

@@ -76,3 +76,6 @@ neutron.exe
 bytecode/
 test.py
 .ds_store
+
+# ignore for now
+file/
