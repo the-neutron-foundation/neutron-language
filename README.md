@@ -84,12 +84,10 @@ There are constantly new features being developed in neutron. To see the feature
 - [x] Python Lists, Tuples and Numpy Arrays Builtin
 - [x] While loops
 - [x] For Loops
-- [x] Import statements*
+- [x] Import statements
 - [ ] C-like Structs
 - [ ] Switch Statements
 - [ ] Syntax Changeable at Runtime
-
-* Partially complete
 
 # Tools used
 - [Sly lex yacc](https://github.com/dabeaz/sly) used for parsing
