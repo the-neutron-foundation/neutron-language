@@ -1,0 +1,4 @@
+func print(text){
+  `text = var.text
+print(str(text))`;
+}

@@ -1,0 +1,4 @@
+func random() {
+  `import random
+self.objects["--return--"] = bt.FloatType(float(random.uniform(0, 1)), enter_value=True)`;
+}

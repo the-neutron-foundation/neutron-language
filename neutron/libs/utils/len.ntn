@@ -1,0 +1,3 @@
+func len(obj) {
+  --return-- = `bt.IntType(len(var.obj), enter_value=True)`;
+}

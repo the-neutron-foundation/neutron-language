@@ -1,0 +1,4 @@
+func randrange(start, end) {
+  `from random import randrange
+self.objects["--return--"] = bt.IntType(int(randrange(var.start, var.end)), enter_value=True)`;
+}
