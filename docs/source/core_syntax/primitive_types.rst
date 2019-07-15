@@ -1,5 +1,5 @@
 Primitive Types
-================
+===============
 Note that with the examples below, the code won't actually work, because neutron doesn't understand single expression by themselves.
 
 ``IntType``
