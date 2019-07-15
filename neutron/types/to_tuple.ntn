@@ -1,3 +1,0 @@
-func to_tuple(value) {
-  `self.objects["--return--"] = bt.TupleType(tuple(var.value.value), enter_value=True)`;
-}

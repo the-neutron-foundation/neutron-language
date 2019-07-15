@@ -1,5 +1,5 @@
-get!("io/print");
+import "io";
 
 x = 10;
 del x;
-print(x);
+io::print(x);

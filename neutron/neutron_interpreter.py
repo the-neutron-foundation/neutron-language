@@ -1,24 +1,28 @@
 try:
     import neutron.errors as errors
     import neutron.builtin_types as bt
+    import neutron.neutron_main
 except ModuleNotFoundError:
     import errors as errors
     import builtin_types as bt
+    import neutron_main
 
 from os import path
 import numpy as np
+from copy import deepcopy
 
-global global_objects, paths_to_look_in, global_break, global_return
+global global_objects, paths_to_look_in, global_break, global_return, global_objects_imports
 global_break, global_return = False, False
 global_objects = {}
-paths_to_look_in = [path.abspath(__file__)]
+paths_to_look_in = [path.join(path.abspath(path.dirname(__file__)), "libs")]
 
 
 class Process:
-    def __init__(self, tree, filename="?"):
+    def __init__(self, tree, filename="?", imported=False):
         self.tree = tree
         self.objects = {}
         self.type = "PROGRAM"
+        self.imported = imported
         self.file_path = filename
 
         # Dictionary for all types of statements
@@ -34,7 +38,8 @@ class Process:
             "FOR": self.for_loop,  # For loops
             "BREAK": self.break_statement,  # Break statement
             "DEL": self.delete_statement,  # Delete statement
-            "VARIABLE_OPERATION": self.variable_operation
+            "VARIABLE_OPERATION": self.variable_operation,
+            "IMPORT": self.import_statement,
         }
 
     def in_program(self) -> bool:
@@ -93,7 +98,7 @@ class Process:
             if dictionary["ID"] not in self.objects:
                 errors.variable_referenced_before_assignment_error().raise_error(
                     f'variable "{name}" referenced before assignment',
-                    file=global_objects["--file--"],
+                    file=self.file_path,
                 )
 
             elif operation == "ADD":
@@ -121,25 +126,15 @@ class Process:
                 ),
             ):
                 if operation == "ADD":
-                    self.objects[name][
-                        self.eval_expression(name[1]["INDEX"])
-                    ] += value
+                    self.objects[name][self.eval_expression(name[1]["INDEX"])] += value
                 elif operation == "SUB":
-                    self.objects[name][
-                        self.eval_expression(name[1]["INDEX"])
-                    ] -= value
+                    self.objects[name][self.eval_expression(name[1]["INDEX"])] -= value
                 elif operation == "MUL":
-                    self.objects[name][
-                        self.eval_expression(name[1]["INDEX"])
-                    ] *= value
+                    self.objects[name][self.eval_expression(name[1]["INDEX"])] *= value
                 elif operation == "DIV":
-                    self.objects[name][
-                        self.eval_expression(name[1]["INDEX"])
-                    ] /= value
+                    self.objects[name][self.eval_expression(name[1]["INDEX"])] /= value
                 elif operation == "MOD":
-                    self.objects[name][
-                        self.eval_expression(name[1]["INDEX"])
-                    ] %= value
+                    self.objects[name][self.eval_expression(name[1]["INDEX"])] %= value
 
     def while_loop(self, tree):
         """Execute a while loop."""
@@ -151,6 +146,44 @@ class Process:
             self.run(tree=program)
         global_break = False
 
+    @staticmethod
+    def clean_globals(objects):
+        for k in list(objects):
+            if k.startswith("--"):
+                del objects[k]
+
+    def import_statement(self, tree):
+        dictionary = tree[0]
+        path_items = self.eval_expression(dictionary["EXPRESSION"]).value.split("::")
+        path_search = path.dirname(self.file_path) if path.isdir(path.join(path.dirname(self.file_path), path_items[0])) or path.isfile(path.join(path.dirname(self.file_path), f"{path_items[0]}.ntn")) else paths_to_look_in[0]
+
+        for i, path_bit in enumerate(path_items):
+            if path.isdir(path.join(path_search, path_bit)):
+                path_search = path.join(path_search, path.join(path_bit, "--init--.ntn"))
+            elif path.isfile(path.join(path_search, f"{path_bit}.ntn")):
+                path_search = path.join(path_search, f"{path_bit}.ntn")
+            del path_items[i]
+
+        global_objects_old = set(global_objects.keys())
+        objects = neutron_main.get_objects(path_search)
+        global_objects_new = set(global_objects.keys())
+        imported_functions = list(global_objects_new - global_objects_old)
+
+        for i in imported_functions:
+            if not isinstance(global_objects[i], NamespaceObject):
+                del global_objects[i]
+
+        if len(path_items) == 0:
+            namespace_name = path.basename(path.dirname(path_search))
+            global_objects[namespace_name] = NamespaceObject(objects[1], namespace_name)
+        elif len(path_items) >= 1:
+            namespace_name = path.basename(path.dirname(path_search))
+            namespace_object = NamespaceObject(objects[1], namespace_name)
+            for object_part_namespaced in path_items:
+                namespace_object = namespace_object.items[object_part_namespaced]
+            namespace_name = path_items[-1]
+            global_objects[namespace_name] = namespace_object
+
     def eval_id(self, tree):
         """Evaluate a variable name."""
         name = tree[0]["VALUE"]
@@ -160,8 +193,7 @@ class Process:
             value = self.objects[name]
         else:
             errors.variable_referenced_before_assignment_error().raise_error(
-                f'variable "{name}" referenced before assignment',
-                file=global_objects["--file--"],
+                f'variable "{name}" referenced before assignment', file=self.file_path
             )
 
         return value
@@ -188,7 +220,7 @@ class Process:
                 except KeyError:
                     errors.variable_referenced_before_assignment_error().raise_error(
                         f'variable "{name}" referenced before assignment',
-                        file=global_objects["--file--"],
+                        file=self.file_path,
                     )
 
         else:
@@ -500,8 +532,7 @@ class Process:
                 )
             elif name not in objects:
                 errors.variable_referenced_before_assignment_error().raise_error(
-                    f'object "{name}" referenced before assignment',
-                    file=global_objects["--file--"],
+                    f'object "{name}" referenced before assignment', file=self.file_path
                 )
             elif isinstance(objects[name], Function):
                 return_value = objects[name].run_function(
@@ -514,10 +545,11 @@ class Process:
                     )
                 except AttributeError:
                     errors.id_not_callable().raise_error(
-                        f'object "{name}" not callable', file=global_objects["--file--"]
+                        f'object "{name}" not callable', file=self.file_path
                     )
 
         elif dictionary_func["ID"][0] == "CLASS_ATTRIBUTE":
+            print(dictionary_func)
             if self.type == "PROGRAM":
                 attribute = dictionary_func["ID"][1]["ATTRIBUTE"]
                 class_name = dictionary_func["ID"][1]["CLASS"][1]["VALUE"]
@@ -526,10 +558,19 @@ class Process:
                     dictionary_func["FUNCTION_ARGUMENTS"]["POSITIONAL_ARGS"],
                     dictionary_func["FUNCTION_ARGUMENTS"]["KWARGS"],
                 )
+
             elif self.type == "FUNCTION":
                 if isinstance(self.positional_arguments[0], ClassTemplate):
                     attribute = dictionary_func["ID"][1]["ATTRIBUTE"]
                     class_name = dictionary_func["ID"][1]["CLASS"]
+                    return_value = objects[class_name].run_method(
+                        attribute,
+                        dictionary_func["FUNCTION_ARGUMENTS"]["POSITIONAL_ARGS"],
+                        dictionary_func["FUNCTION_ARGUMENTS"]["KWARGS"],
+                    )
+                else:
+                    attribute = dictionary_func["ID"][1]["ATTRIBUTE"]
+                    class_name = dictionary_func["ID"][1]["CLASS"][1]["VALUE"]
                     return_value = objects[class_name].run_method(
                         attribute,
                         dictionary_func["FUNCTION_ARGUMENTS"]["POSITIONAL_ARGS"],
@@ -542,7 +583,7 @@ class Process:
             )
             object_not_callable.raise_error(
                 f"{dictionary_func['ID'][0].lower()} type is not callable",
-                file=global_objects["--file--"],
+                file=self.file_path,
             )
 
         return return_value
@@ -554,9 +595,13 @@ class Process:
         arguments = dictionary["FUNCTION_ARGUMENTS"]
         program = dictionary["PROGRAM"]
         if self.in_program():
-            global_objects[name] = Function(program, name, arguments)
+            global_objects[name] = Function(
+                program, name, arguments, filename=self.file_path
+            )
         elif not self.in_program():
-            self.objects[name] = Function(program, name, arguments)
+            self.objects[name] = Function(
+                program, name, arguments, filename=self.file_path
+            )
 
     def attribute_assignment(self, tree):
         """Assign an attribute to an instance of a class."""
@@ -567,8 +612,8 @@ class Process:
 
 
 class Function(Process):
-    def __init__(self, tree, name, arguments):
-        Process.__init__(self, tree)
+    def __init__(self, tree, name, arguments, filename="?"):
+        Process.__init__(self, tree, filename=filename)
         self.name = name
         self.type = "FUNCTION"
         self.arguments = arguments
@@ -602,7 +647,7 @@ class Function(Process):
             error = errors.positional_argument_error()
             error.raise_error(
                 f"{len(self.positional_arguments)} arguments expected {len(pos_arguments)} were found",
-                file=global_objects["--file--"],
+                file=self.file_path,
             )
 
         for i, name in enumerate(self.positional_arguments):
@@ -656,7 +701,7 @@ class Function(Process):
             except KeyError:
                 errors.variable_referenced_before_assignment_error().raise_error(
                     f'object "{dictionary["CLASS_ATTRIBUTE"][1]["ATTRIBUTE"]}" referenced before assignment',
-                    file=global_objects["--file--"],
+                    file=self.file_path,
                 )
 
     def return_statement(self, tree):
@@ -669,7 +714,11 @@ class Function(Process):
 class ClassTemplate(Function):
     def __init__(self, tree, name):
         Process.__init__(self, tree)
-        self.stmt = {"FUNCTION_DECLARATION": self.function_declaration}
+        self.stmt = {
+            "FUNCTION_DECLARATION": self.function_declaration,
+            "CLASS_DECLARATION": self.class_declaration,
+            "PYTHON_CODE": self.python_code,
+        }
         self.name = name
         self.type = "CLASS_TEMPLATE"
         self.run()
@@ -692,3 +741,22 @@ class ClassInstance(ClassTemplate):
         self.name = name
         self.type = "CLASS_INSTANCE"
         self.run_method("--init--", pos_arguments, kw_arguments)
+
+
+class NamespaceObject(Process):
+    def __init__(self, items, name):
+        self.items = items
+        self.name = name
+
+    def run_method(self, name_func, pos_arguments, kw_arguments):
+        objects = {**self.items, **global_objects}
+        for var in list(objects):
+            if isinstance(objects[var], NamespaceObject):
+                del objects[var]
+        positional_arguments = list((self,) + tuple(pos_arguments))
+        if isinstance(objects[name_func], ClassTemplate):
+            return ClassInstance(
+                objects[name_func], name_func, pos_arguments, kw_arguments
+            )
+        elif isinstance(objects[name_func], Function):
+            return objects[name_func].run_function(positional_arguments[1:], kw_arguments)

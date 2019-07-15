@@ -1,3 +1,0 @@
-func to_numpy(value) {
-  `self.objects["--return--"] = bt.NumpyArray(np.array(var.value.value), enter_value=True)`;
-}

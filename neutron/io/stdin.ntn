@@ -1,3 +1,0 @@
-func stdin(prompt="") {
-  `self.objects["--return--"] = bt.StringType(input(self.objects["prompt"].value), enter_value=True)`;
-}

@@ -1,16 +1,3 @@
-get!("io/print");
-get!("io/stdin");
-
-class io {
-    func --init--(this, _val) {
-      this::val = _val;
-    }
-    func _print(this){
-       print(this::val);
-       return this::val;
-    }
+func print(x) {
+  `print(var.x)`;
 }
-
-hi = io("hi");
-hi::val = 10;
-print(hi::_print());

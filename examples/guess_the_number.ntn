@@ -1,22 +1,19 @@
-get!("io/print");
-get!("io/stdin");
-get!("types/to_int");
-get!("types/to_string");
-get!("random/randrange");
-
+import "types";
+import "io";
+import "random::randrange";
 
 is_not_win = true;
 number = randrange(0, 100);
 num_guesses = 0;
 
 while (is_not_win) {
-  guess = to_int(stdin(prompt="Enter A Number Between 0 and 100: "));
+  guess = types::to_int(io::stdin(prompt="Enter A Number Between 0 and 100: "));
   if (guess == number) {
-    print("You Win!");
+    io::print("You Win!");
     is_not_win = false;
   } else if (guess < number) {
-    print("Too Low");
+    io::print("Too Low");
   } else if (guess > number) {
-    print("Too High");
+    io::print("Too High");
   }
 }

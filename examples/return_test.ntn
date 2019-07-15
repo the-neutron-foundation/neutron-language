@@ -1,4 +1,4 @@
-get!("io/print");
+import "io::print";
 
 func test(arg) {
   if (arg == "no") {

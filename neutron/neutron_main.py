@@ -9,6 +9,7 @@ except ModuleNotFoundError:
 import pprint
 from os import path
 import logging
+from copy import deepcopy
 
 
 def read_file(filename):
@@ -23,12 +24,12 @@ def get_objects(filename):
     lexer = neutron_lexer.NeutronLexer()
     parser = neutron_parser.NeutronParser()
     tree = parser.parse(lexer.tokenize(text))
-    program = neutron_interpreter.Process(tree, filename=path.abspath(filename))
+    program = neutron_interpreter.Process(tree, filename=path.abspath(filename), imported=True)
     program.run()
-    return (program.objects, neutron_interpreter.global_objects)
+    return (deepcopy(program.objects), deepcopy(neutron_interpreter.global_objects))
 
 
-def main(filename, if_return=True, verbose=False):
+def main(filename, verbose=False):
     text = read_file(filename)
     defult_functions = get_objects(
         path.join(path.dirname(path.abspath(__file__)), "defult.ntn")
@@ -43,9 +44,6 @@ def main(filename, if_return=True, verbose=False):
     if verbose:
         pp.pprint(tree)
     program = neutron_interpreter.Process(tree, filename=path.abspath(filename))
-    program.objects["--file--"] = path.abspath(filename)
-    neutron_interpreter.global_objects["--file--"] = path.abspath(filename)
     program.objects.update(defult_functions[0])
     neutron_interpreter.global_objects.update(defult_functions[1])
     program.run()
-    return (program, neutron_interpreter.global_objects) if if_return else None

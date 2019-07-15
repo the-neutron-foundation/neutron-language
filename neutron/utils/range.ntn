@@ -1,3 +1,0 @@
-func range(start, end) {
-  --return-- = `bt.ListType(list(range(var.start.value, var.end.value)), enter_value=True)`;
-}

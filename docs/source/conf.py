@@ -60,7 +60,8 @@ html_theme_options = {
     "logo": "ntn_logo.png",
     "description": "A simple, extensible and efficient programming language",
     "fixed_sidebar": "true",
-    "show_powered_by": "false"
+    "show_powered_by": "false",
+    "show_relbars": "true"
 }
 
 # html_context = {

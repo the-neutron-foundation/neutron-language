@@ -1,3 +1,0 @@
-func to_string(value) {
-  `self.objects["--return--"] = bt.StringType(str(var.value.value), enter_value=True)`;
-}

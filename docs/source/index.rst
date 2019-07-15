@@ -29,15 +29,31 @@ Syntax Highlighting
 There is currently a syntax highlighting pack for atom `here <https://atom.io/packages/language-neutron>`_.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: General:
 
    features
    examples
    introduction
-   customization
    license
    faq
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Syntax:
+
+   core_syntax/comments
+   core_syntax/primitive_types
+   core_syntax/collection_types
+   core_syntax/operators
+   core_syntax/variables
+   core_syntax/conditionals
+   core_syntax/functions
+   core_syntax/classes
+   core_syntax/loops
+   core_syntax/delete
+   core_syntax/builtin_functions
+   core_syntax/customization
 
 .. toctree::
   :maxdepth: 1

@@ -56,9 +56,9 @@ class NeutronParser(Parser):
     def statement(self, p):
         return p.class_declaration
 
-    @_("function_call_stmt")
+    @_("function_call_statement")
     def statement(self, p):
-        return p.function_call_stmt
+        return p.function_call_statement
 
     @_("class_attribute_assignment")
     def statement(self, p):
@@ -72,52 +72,56 @@ class NeutronParser(Parser):
     def statement(self, p):
         return p.while_loop
 
-    @_("python_code_stmt")
+    @_("python_code_statement")
     def statement(self, p):
-        return p.python_code_stmt
+        return p.python_code_statement
 
     @_("variable_assignment")
     def statement(self, p):
         return p.variable_assignment
 
-    @_("break_stmt")
+    @_("break_statement")
     def statement(self, p):
-        return p.break_stmt
+        return p.break_statement
 
     @_("for_loop")
     def statement(self, p):
         return p.for_loop
 
-    @_("delete_stmt")
+    @_("delete_statement")
     def statement(self, p):
-        return p.delete_stmt
+        return p.delete_statement
 
-    @_("return_stmt")
+    @_("return_statement")
     def statement(self, p):
-        return p.return_stmt
+        return p.return_statement
 
     @_("variable_operation")
     def statement(self, p):
         return p.variable_operation
+
+    @_("import_statement")
+    def statement(self, p):
+        return p.import_statement
 
     # Statements END
     ###########################################################################
     # Statment syntax START
 
     @_("function_call ';'")
-    def function_call_stmt(self, p):
+    def function_call_statement(self, p):
         return p.function_call
 
     @_("python_code ';'")
-    def python_code_stmt(self, p):
+    def python_code_statement(self, p):
         return p.python_code
 
     @_("BREAK ';'")
-    def break_stmt(self, p):
+    def break_statement(self, p):
         return ("BREAK",)
 
     @_("RETURN expression ';'")
-    def return_stmt(self, p):
+    def return_statement(self, p):
         return ("RETURN", {"EXPRESSION": p.expression})
 
     @_("expression '(' function_arguments ')'")
@@ -206,44 +210,73 @@ class NeutronParser(Parser):
 
     @_("ID EQ_ADD expression ';'")
     def variable_operation(self, p):
-        return ("VARIABLE_OPERATION", {"ID": p.ID, "EXPRESSION": p.expression, "OPERATION": "ADD"})
+        return (
+            "VARIABLE_OPERATION",
+            {"ID": p.ID, "EXPRESSION": p.expression, "OPERATION": "ADD"},
+        )
 
     @_("get_index EQ_ADD expression ';'")
     def variable_operation(self, p):
-        return ("VARIABLE_OPERATION", {"ID": p.get_index, "EXPRESSION": p.expression, "OPERATION": "ADD"})
+        return (
+            "VARIABLE_OPERATION",
+            {"ID": p.get_index, "EXPRESSION": p.expression, "OPERATION": "ADD"},
+        )
 
     @_("ID EQ_SUB expression ';'")
     def variable_operation(self, p):
-        return ("VARIABLE_OPERATION", {"ID": p.ID, "EXPRESSION": p.expression, "OPERATION": "SUB"})
+        return (
+            "VARIABLE_OPERATION",
+            {"ID": p.ID, "EXPRESSION": p.expression, "OPERATION": "SUB"},
+        )
 
     @_("get_index EQ_SUB expression ';'")
     def variable_operation(self, p):
-        return ("VARIABLE_OPERATION", {"ID": p.get_index, "EXPRESSION": p.expression, "OPERATION": "SUB"})
+        return (
+            "VARIABLE_OPERATION",
+            {"ID": p.get_index, "EXPRESSION": p.expression, "OPERATION": "SUB"},
+        )
 
     @_("ID EQ_MUL expression ';'")
     def variable_operation(self, p):
-        return ("VARIABLE_OPERATION", {"ID": p.ID, "EXPRESSION": p.expression, "OPERATION": "MUL"})
+        return (
+            "VARIABLE_OPERATION",
+            {"ID": p.ID, "EXPRESSION": p.expression, "OPERATION": "MUL"},
+        )
 
     @_("get_index EQ_MUL expression ';'")
     def variable_operation(self, p):
-        return ("VARIABLE_OPERATION", {"ID": p.get_index, "EXPRESSION": p.expression, "OPERATION": "MUL"})
-
+        return (
+            "VARIABLE_OPERATION",
+            {"ID": p.get_index, "EXPRESSION": p.expression, "OPERATION": "MUL"},
+        )
 
     @_("ID EQ_MOD expression ';'")
     def variable_operation(self, p):
-        return ("VARIABLE_OPERATION", {"ID": p.ID, "EXPRESSION": p.expression, "OPERATION": "MOD"})
+        return (
+            "VARIABLE_OPERATION",
+            {"ID": p.ID, "EXPRESSION": p.expression, "OPERATION": "MOD"},
+        )
 
     @_("get_index EQ_MOD expression ';'")
     def variable_operation(self, p):
-        return ("VARIABLE_OPERATION", {"ID": p.get_index, "EXPRESSION": p.expression, "OPERATION": "MOD"})
+        return (
+            "VARIABLE_OPERATION",
+            {"ID": p.get_index, "EXPRESSION": p.expression, "OPERATION": "MOD"},
+        )
 
     @_("ID EQ_DIV expression ';'")
     def variable_operation(self, p):
-        return ("VARIABLE_OPERATION", {"ID": p.ID, "EXPRESSION": p.expression, "OPERATION": "DIV"})
+        return (
+            "VARIABLE_OPERATION",
+            {"ID": p.ID, "EXPRESSION": p.expression, "OPERATION": "DIV"},
+        )
 
     @_("get_index EQ_DIV expression ';'")
     def variable_operation(self, p):
-        return ("VARIABLE_OPERATION", {"ID": p.get_index, "EXPRESSION": p.expression, "OPERATION": "DIV"})
+        return (
+            "VARIABLE_OPERATION",
+            {"ID": p.get_index, "EXPRESSION": p.expression, "OPERATION": "DIV"},
+        )
 
     @_("class_attribute '=' expression ';'")
     def class_attribute_assignment(self, p):
@@ -301,8 +334,12 @@ class NeutronParser(Parser):
         return ("ELSE", {"CODE": p.program})
 
     @_("DEL ID ';'")
-    def delete_stmt(self, p):
+    def delete_statement(self, p):
         return ("DEL", {"ID": p.ID})
+
+    @_("IMPORT expression ';'")
+    def import_statement(self, p):
+        return ("IMPORT", {"EXPRESSION": p.expression})
 
     # Statment syntax END
     ###########################################################################

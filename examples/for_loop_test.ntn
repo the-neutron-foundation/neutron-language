@@ -1,7 +1,7 @@
-get!("io/print");
-get!("utils/range");
+import "io";
+import "utils::range";
 
 list = range(0, 10);
 for i in list {
-  print(i);
+  io::print(i);
 }

@@ -1,3 +1,0 @@
-get!("print");
-get!("stdin");
-get!("print_type");

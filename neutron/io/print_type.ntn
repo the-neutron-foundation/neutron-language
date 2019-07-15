@@ -1,3 +1,0 @@
-func print_type(text){
-  `print(f"neutron::{var.text.__class__.__name__} <value: {var.text]}>")`;
-}

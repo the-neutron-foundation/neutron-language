@@ -1,3 +1,0 @@
-func to_list(value) {
-  `self.objects["--return--"] = bt.ListType(list(var.value.value), enter_value=True)`;
-}

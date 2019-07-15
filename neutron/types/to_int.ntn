@@ -1,3 +1,0 @@
-func to_int(value) {
-  `self.objects["--return--"] = bt.IntType(int(var.value.value), enter_value=True)`;
-}

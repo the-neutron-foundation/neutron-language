@@ -1,4 +1,4 @@
-get!("io/print");
+import "io::print"
 
-x = print("hi");
+x = print('hi');
 print(x==null);

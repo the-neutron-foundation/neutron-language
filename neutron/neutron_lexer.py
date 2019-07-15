@@ -32,6 +32,7 @@ class NeutronLexer(Lexer):
         EQ_MUL,
         EQ_DIV,
         EQ_MOD,
+        IMPORT,
     }
     literals = {
         "+",
@@ -54,7 +55,6 @@ class NeutronLexer(Lexer):
         ":",
         "[",
         "]",
-        "'",
     }
 
     ignore = " \t"
@@ -64,7 +64,7 @@ class NeutronLexer(Lexer):
     INT = r"\d+"
 
     PYTHON_CODE = r"`[.\W\w]*?`"
-    STRING = r"\".*?(?<!\\)(\\\\)*\""
+    STRING = r"(\".*?(?<!\\)(\\\\)*\"|'.*?(?<!\\)(\\\\)*')"
     ID = r"(--[a-zA-Z_]([a-zA-Z0-9_]|!)*--|[a-zA-Z_]([a-zA-Z0-9_]|!)*)"
     ID["func"] = FUNC
     ID["class"] = CLASS
@@ -79,6 +79,7 @@ class NeutronLexer(Lexer):
     ID["del"] = DEL
     ID["null"] = NULL
     ID["return"] = RETURN
+    ID["import"] = IMPORT
 
     COLON_COLON = r"::"
     EQEQ = r"=="

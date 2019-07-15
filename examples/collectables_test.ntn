@@ -1,9 +1,7 @@
-get!("types/to_list");
-get!("types/to_numpy");
-get!("types/to_tuple");
-get!("io/print");
+import "types";
+import "io";
 
 x = [1, 2, 3, 4, 5];
-print(to_numpy(x));
-print(to_list(x));
-print(to_tuple(x));
+io::print(types::to_numpy(x));
+io::print(types::to_list(x));
+io::print(types::to_tuple(x));
