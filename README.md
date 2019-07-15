@@ -1,7 +1,8 @@
 # The Neutron Programming Language
 
 [![Codacy grade](https://img.shields.io/codacy/grade/9bb7d4a628ca4ef1b95dc88a57cb1119.svg?style=for-the-badge)](https://app.codacy.com/project/MonliH/neutron/dashboard)
-[![Documentation Status](https://img.shields.io/readthedocs/neutron-lang.svg?style=for-the-badge)](https://neutron-lang.readthedocs.io/en/latest)
+[![Website](https://img.shields.io/badge/website-here-blue.svg?style=for-the-badge
+)](https://the-neutron-foundation.github.io/)
 [![License](https://img.shields.io/badge/license-GPL%203.0-blue.svg?style=for-the-badge)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg?style=for-the-badge)](https://paypal.me/MonLiH)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg?style=for-the-badge)](https://github.com/python/black)
@@ -43,7 +44,7 @@ while (is_not_win) {
 ```
 
 # Documentation
-**[There is a Readthedocs here](https://neutron-lang.readthedocs.io/en/latest/)** for full documentation and installation instructions. There is also a [Gitter Chat here](https://gitter.im/The-Neutron-Foundation).
+**[There is a documentation here](https://the-neutron-foundation.github.io/#/README)** for full documentation and installation instructions. There is also a [Gitter Chat here](https://gitter.im/The-Neutron-Foundation).
 
 # Dependencies
 Before installing/building/running neutron, you should first install the dependencies. you can do this via `pip3` or any other package manager. The dependencies required are:
