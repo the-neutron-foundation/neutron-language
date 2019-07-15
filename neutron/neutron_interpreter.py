@@ -518,7 +518,6 @@ class Process:
             if None not in dictionary["POSITIONAL_ARGS"]:
                 for expr in dictionary["POSITIONAL_ARGS"]:
                     new_pos_arguments.append(self.eval_expression(expr))
-
         elif "POSITIONAL_ARGS" not in dictionary:
             dictionary["POSITIONAL_ARGS"] = (None,)
         if "KWARGS" not in dictionary:
@@ -549,13 +548,12 @@ class Process:
                     )
 
         elif dictionary_func["ID"][0] == "CLASS_ATTRIBUTE":
-            print(dictionary_func)
             if self.type == "PROGRAM":
                 attribute = dictionary_func["ID"][1]["ATTRIBUTE"]
                 class_name = dictionary_func["ID"][1]["CLASS"][1]["VALUE"]
                 return_value = objects[class_name].run_method(
                     attribute,
-                    dictionary_func["FUNCTION_ARGUMENTS"]["POSITIONAL_ARGS"],
+                    new_pos_arguments,
                     dictionary_func["FUNCTION_ARGUMENTS"]["KWARGS"],
                 )
 
@@ -565,7 +563,7 @@ class Process:
                     class_name = dictionary_func["ID"][1]["CLASS"]
                     return_value = objects[class_name].run_method(
                         attribute,
-                        dictionary_func["FUNCTION_ARGUMENTS"]["POSITIONAL_ARGS"],
+                        new_pos_arguments,
                         dictionary_func["FUNCTION_ARGUMENTS"]["KWARGS"],
                     )
                 else:
@@ -573,7 +571,7 @@ class Process:
                     class_name = dictionary_func["ID"][1]["CLASS"][1]["VALUE"]
                     return_value = objects[class_name].run_method(
                         attribute,
-                        dictionary_func["FUNCTION_ARGUMENTS"]["POSITIONAL_ARGS"],
+                        new_pos_arguments,
                         dictionary_func["FUNCTION_ARGUMENTS"]["KWARGS"],
                     )
 
@@ -658,20 +656,16 @@ class Function(Process):
                 else single_argument
             )
 
-        # try:
-        for item in kw_args:
+        """for item in kw_args:
             if item is None:
                 continue
-            kw_arguments[item["ID"]] = self.eval_expression(item["EXPRESSION"])
+            kw_arguments[item["ID"]] = self.eval_expression(item["EXPRESSION"])"""
 
         for variable in self.kw_arguments:
             if variable not in kw_arguments:
                 self.objects[variable] = self.kw_arguments[variable]
             elif variable in kw_arguments:
                 self.objects[variable] = kw_arguments[variable]
-
-        # except TypeError:
-        #    pass
 
         self.run()
         global_return = False
@@ -750,9 +744,6 @@ class NamespaceObject(Process):
 
     def run_method(self, name_func, pos_arguments, kw_arguments):
         objects = {**self.items, **global_objects}
-        for var in list(objects):
-            if isinstance(objects[var], NamespaceObject):
-                del objects[var]
         positional_arguments = list((self,) + tuple(pos_arguments))
         if isinstance(objects[name_func], ClassTemplate):
             return ClassInstance(
@@ -760,3 +751,5 @@ class NamespaceObject(Process):
             )
         elif isinstance(objects[name_func], Function):
             return objects[name_func].run_function(positional_arguments[1:], kw_arguments)
+        else:
+            print("oh noes")

@@ -2,12 +2,17 @@ import "types";
 import "io";
 import "random::randrange";
 
+func hi(dab) {
+  `print(var.dab)`;
+}
+
 is_not_win = true;
 number = randrange(0, 100);
 num_guesses = 0;
 
 while (is_not_win) {
-  guess = types::to_int(io::stdin(prompt="Enter A Number Between 0 and 100: "));
+  prompt = "hi: ";
+  guess = types::to_int(io::stdin(prompt=prompt, awdj="wdj"));
   if (guess == number) {
     io::print("You Win!");
     is_not_win = false;
