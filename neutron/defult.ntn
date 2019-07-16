@@ -1,5 +1,5 @@
 func get!(path_of_file) {
-    `print("The get! function is deprecated. Use the import statement instead.")`;
+  `print("The get! function is deprecated. Use the import statement instead.")`;
 }
 
 func quit() {

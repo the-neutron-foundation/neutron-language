@@ -743,4 +743,4 @@ class NamespaceObject(Process):
         elif isinstance(objects[name_func], Function):
             return objects[name_func].run_function(positional_arguments[1:], kw_arguments)
         else:
-            print("oh noes")
+            print("oh noes something went wrong")
