@@ -7,9 +7,9 @@
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg?style=for-the-badge)](https://paypal.me/MonLiH)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg?style=for-the-badge)](https://github.com/python/black)
 
-**Neutron is a high level general-purpose programming language that is inspired by C, Python, and Java.**
+**Neutron is a high level general-purpose programming language that is inspired by C and Python.**
 
-<img src="https://the-neutron-foundation.github.io/_media/logo_transparent.png" width="300">
+<img src="https://the-neutron-foundation.github.io/_media/logo_transparent.png" width="200">
 
 <!---| ![python](./images/python_np_array.png) | ![neutron](./images/neutron_np_array.png)
 |:--:|:--:|
