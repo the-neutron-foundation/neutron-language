@@ -28,7 +28,7 @@ number = randrange(0, 100);
 num_guesses = 0;
 
 while (is_not_win) {
-  guess = types::to_int(prompt="Enter A Number Between 0 and 100: "));
+  guess = types::to_int(io::stdin(prompt="Enter A Number Between 0 and 100: "));
   if (guess == number) {
     io::print("You Win!");
     is_not_win = false;

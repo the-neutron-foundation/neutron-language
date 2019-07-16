@@ -9,7 +9,6 @@ except ModuleNotFoundError:
 
 from os import path
 import numpy as np
-from copy import deepcopy
 
 global global_objects, paths_to_look_in, global_break, global_return, global_objects_imports
 global_break, global_return = False, False
@@ -548,7 +547,7 @@ class Process:
                     )
 
         elif dictionary_func["ID"][0] == "CLASS_ATTRIBUTE":
-            if self.type == "PROGRAM":
+            if self.type == "PROGRAM" or (self.type == "FUNCTION" and not isinstance(self.positional_arguments[0], ClassTemplate)):
                 attribute = dictionary_func["ID"][1]["ATTRIBUTE"]
                 class_name = dictionary_func["ID"][1]["CLASS"][1]["VALUE"]
                 return_value = objects[class_name].run_method(
@@ -561,14 +560,6 @@ class Process:
                 if isinstance(self.positional_arguments[0], ClassTemplate):
                     attribute = dictionary_func["ID"][1]["ATTRIBUTE"]
                     class_name = dictionary_func["ID"][1]["CLASS"]
-                    return_value = objects[class_name].run_method(
-                        attribute,
-                        new_pos_arguments,
-                        dictionary_func["FUNCTION_ARGUMENTS"]["KWARGS"],
-                    )
-                else:
-                    attribute = dictionary_func["ID"][1]["ATTRIBUTE"]
-                    class_name = dictionary_func["ID"][1]["CLASS"][1]["VALUE"]
                     return_value = objects[class_name].run_method(
                         attribute,
                         new_pos_arguments,
@@ -656,10 +647,10 @@ class Function(Process):
                 else single_argument
             )
 
-        """for item in kw_args:
+        for item in kw_args:
             if item is None:
                 continue
-            kw_arguments[item["ID"]] = self.eval_expression(item["EXPRESSION"])"""
+            kw_arguments[item["ID"]] = self.eval_expression(item["EXPRESSION"])
 
         for variable in self.kw_arguments:
             if variable not in kw_arguments:
