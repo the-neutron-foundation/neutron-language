@@ -1,0 +1,3 @@
+func hi(arg) {
+  `print(var.arg)`;
+}

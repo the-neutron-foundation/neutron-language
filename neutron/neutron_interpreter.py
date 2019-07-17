@@ -223,8 +223,7 @@ class Process:
                     )
 
         else:
-            classes = {**self.objects, **global_objects}
-            value = classes[body["CLASS"][1]["VALUE"]].objects[body["ATTRIBUTE"]]
+            value = self.eval_expression(body["CLASS"]).objects[body["ATTRIBUTE"]]
 
         return value
 
@@ -524,21 +523,18 @@ class Process:
 
         if dictionary_func["ID"][0] == "ID":
             name = dictionary_func["ID"][1]["VALUE"]
-            if name in objects and isinstance(objects[name], ClassTemplate):
+            function_obj = self.eval_expression(dictionary_func["ID"])
+            if isinstance(function_obj, ClassTemplate):
                 return_value = ClassInstance(
-                    objects[name], None, new_pos_arguments, dictionary["KWARGS"]
+                    function_obj, None, new_pos_arguments, dictionary["KWARGS"]
                 )
-            elif name not in objects:
-                errors.variable_referenced_before_assignment_error().raise_error(
-                    f'object "{name}" referenced before assignment', file=self.file_path
-                )
-            elif isinstance(objects[name], Function):
-                return_value = objects[name].run_function(
+            elif isinstance(function_obj, Function):
+                return_value = function_obj.run_function(
                     new_pos_arguments, dictionary["KWARGS"]
                 )
             else:
                 try:
-                    return_value = objects[name].run_function(
+                    return_value = function_obj.run_function(
                         new_pos_arguments, dictionary["KWARGS"]
                     )
                 except AttributeError:
@@ -547,20 +543,20 @@ class Process:
                     )
 
         elif dictionary_func["ID"][0] == "CLASS_ATTRIBUTE":
-            if self.type == "PROGRAM" or (self.type == "FUNCTION" and not isinstance(self.positional_arguments[0], ClassTemplate)):
+            if self.type == "PROGRAM" or (self.type == "FUNCTION" and not isinstance(self.positional_arguments[0], ClassTemplate) if len(self.positional_arguments) != 0 else False):
                 attribute = dictionary_func["ID"][1]["ATTRIBUTE"]
-                class_name = dictionary_func["ID"][1]["CLASS"][1]["VALUE"]
-                return_value = objects[class_name].run_method(
+                class_obj = self.eval_expression(dictionary_func["ID"][1]["CLASS"])
+                return_value = class_obj.run_method(
                     attribute,
                     new_pos_arguments,
                     dictionary_func["FUNCTION_ARGUMENTS"]["KWARGS"],
                 )
 
             elif self.type == "FUNCTION":
-                if isinstance(self.positional_arguments[0], ClassTemplate):
+                if isinstance(self.positional_arguments[0], ClassTemplate) if len(self.positional_arguments) != 0 else False:
                     attribute = dictionary_func["ID"][1]["ATTRIBUTE"]
-                    class_name = dictionary_func["ID"][1]["CLASS"]
-                    return_value = objects[class_name].run_method(
+                    class_obj = self.eval_expression(dictionary_func["ID"][1]["CLASS"])
+                    return_value = class_obj.run_method(
                         attribute,
                         new_pos_arguments,
                         dictionary_func["FUNCTION_ARGUMENTS"]["KWARGS"],
@@ -732,6 +728,7 @@ class NamespaceObject(Process):
     def __init__(self, items, name):
         self.items = items
         self.name = name
+        self.objects = self.items
 
     def run_method(self, name_func, pos_arguments, kw_arguments):
         objects = {**self.items, **global_objects}
