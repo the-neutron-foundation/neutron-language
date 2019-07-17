@@ -510,7 +510,6 @@ class Process:
         dictionary_func = tree[0]
         dictionary = dictionary_func["FUNCTION_ARGUMENTS"]
         new_pos_arguments = []
-        objects = {**self.objects, **global_objects}
 
         if "POSITIONAL_ARGS" in dictionary:
             if None not in dictionary["POSITIONAL_ARGS"]:
@@ -543,24 +542,13 @@ class Process:
                     )
 
         elif dictionary_func["ID"][0] == "CLASS_ATTRIBUTE":
-            if self.type == "PROGRAM" or (self.type == "FUNCTION" and not isinstance(self.positional_arguments[0], ClassTemplate) if len(self.positional_arguments) != 0 else False):
-                attribute = dictionary_func["ID"][1]["ATTRIBUTE"]
-                class_obj = self.eval_expression(dictionary_func["ID"][1]["CLASS"])
-                return_value = class_obj.run_method(
-                    attribute,
-                    new_pos_arguments,
-                    dictionary_func["FUNCTION_ARGUMENTS"]["KWARGS"],
-                )
-
-            elif self.type == "FUNCTION":
-                if isinstance(self.positional_arguments[0], ClassTemplate) if len(self.positional_arguments) != 0 else False:
-                    attribute = dictionary_func["ID"][1]["ATTRIBUTE"]
-                    class_obj = self.eval_expression(dictionary_func["ID"][1]["CLASS"])
-                    return_value = class_obj.run_method(
-                        attribute,
-                        new_pos_arguments,
-                        dictionary_func["FUNCTION_ARGUMENTS"]["KWARGS"],
-                    )
+            attribute = dictionary_func["ID"][1]["ATTRIBUTE"]
+            class_obj = self.eval_expression(dictionary_func["ID"][1]["CLASS"])
+            return_value = class_obj.run_method(
+                attribute,
+                new_pos_arguments,
+                dictionary_func["FUNCTION_ARGUMENTS"]["KWARGS"],
+            )
 
         elif dictionary_func["ID"][0] != "ID":
             object_not_callable = errors.ErrorClass(
