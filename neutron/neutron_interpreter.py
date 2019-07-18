@@ -478,7 +478,17 @@ class Process:
         var = bt.Namespace(self.objects)
         gvar = bt.Namespace(global_objects)
         if eval_or_not:
-            return eval(code)
+            val = eval(code)
+            type_val = type(val)
+            dictionary = {int: bt.IntType,
+                        float: bt.FloatType,
+                        bool: bt.BoolType,
+                        str: bt.StringType,
+                        np.ndarray: bt.NumpyArray,
+                        list: bt.ListType,
+                        tuple: bt.TupleType}
+            if type_val in dictionary:
+                return dictionary[type_val](val, enter_value=True)
         elif not eval_or_not:
             exec(code)
 
