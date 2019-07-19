@@ -10,11 +10,6 @@ except ModuleNotFoundError:
 from os import path
 import numpy as np
 
-global global_objects, paths_to_look_in, global_break, global_return, global_objects_imports
-global_break, global_return = False, False
-global_objects = {}
-paths_to_look_in = [path.join(path.abspath(path.dirname(__file__)), "libs")]
-
 
 class Process:
     def __init__(self, tree, filename="?", imported=False):
@@ -23,6 +18,7 @@ class Process:
         self.type = "PROGRAM"
         self.imported = imported
         self.file_path = filename
+        self.global_items = {"OBJECTS": {}, "PATHS":[path.join(path.abspath(path.dirname(__file__)), "libs")], "BREAK": False, "RETURN": False}
 
         # Dictionary for all types of statements
         self.stmt = {
@@ -49,32 +45,31 @@ class Process:
         """Run the code."""
         if tree is None:
             for line in self.tree:
-                if not global_break and not global_return:
+                if not self.global_items["BREAK"] and not self.global_items["RETURN"]:
                     self.stmt[line[0]](line[1:])
                 else:
                     break
         elif tree is not None:
             for line in tree:
-                if not global_break and not global_return:
+                if not self.global_items["BREAK"] and not self.global_items["RETURN"]:
                     self.stmt[line[0]](line[1:])
                 else:
                     break
 
     def break_statement(self, tree):
         """Break out of loop."""
-        global global_break
-        global_break = True
+        self.global_items["BREAK"] = True
 
     def for_loop(self, tree):
         """Execute a for loop."""
-        global global_break
         dictionary = tree[0]
         program = dictionary["PROGRAM"]
         iterable = dictionary["ITERABLE"]
         variable_name = dictionary["VARIABLE"][1]["VALUE"]
+        print(self.objects)
         for i in self.eval_expression(iterable):
-            if global_break:
-                global_break = False
+            if self.global_items["BREAK"]:
+                self.global_items["BREAK"] = False
                 break
             self.objects[variable_name] = i
             self.run(tree=program)
@@ -82,8 +77,8 @@ class Process:
     def delete_statement(self, tree):
         """Execute a delete statement."""
         _id = tree[0]["ID"]
-        if _id in global_objects:
-            del global_objects[_id]
+        if _id in self.global_items["OBJECTS"]:
+            del self.global_items["OBJECTS"][_id]
         elif _id in self.objects:
             del self.objects[_id]
 
@@ -137,24 +132,17 @@ class Process:
 
     def while_loop(self, tree):
         """Execute a while loop."""
-        global global_break
         dictionary = tree[0]
         condition = dictionary["CONDITION"]
         program = dictionary["PROGRAM"]
-        while self.eval_expression(condition) == True and global_break == False:
+        while self.eval_expression(condition) == True and self.global_items["BREAK"] == False:
             self.run(tree=program)
-        global_break = False
-
-    @staticmethod
-    def clean_globals(objects):
-        for k in list(objects):
-            if k.startswith("--"):
-                del objects[k]
+        self.global_items["BREAK"] = False
 
     def import_statement(self, tree, limport=False):
         dictionary = tree[0]
         path_items = self.eval_expression(dictionary["EXPRESSION"]).value.split("::")
-        path_search = path.dirname(self.file_path) if path.isdir(path.join(path.dirname(self.file_path), path_items[0])) or path.isfile(path.join(path.dirname(self.file_path), f"{path_items[0]}.ntn")) else paths_to_look_in[0]
+        path_search = path.dirname(self.file_path) if path.isdir(path.join(path.dirname(self.file_path), path_items[0])) or path.isfile(path.join(path.dirname(self.file_path), f"{path_items[0]}.ntn")) else self.global_items["PATHS"][0]
 
         for i, path_bit in enumerate(path_items):
             if path.isdir(path.join(path_search, path_bit)):
@@ -163,31 +151,24 @@ class Process:
                 path_search = path.join(path_search, f"{path_bit}.ntn")
             del path_items[i]
 
-        global_objects_old = set(global_objects.keys())
         objects = neutron_main.get_objects(path_search)
-        global_objects_new = set(global_objects.keys())
-        imported_functions = list(global_objects_new - global_objects_old)
-
-        for i in imported_functions:
-            if not isinstance(global_objects[i], NamespaceObject):
-                del global_objects[i]
 
         if len(path_items) == 0:
             namespace_name = path.basename(path.dirname(path_search))
-            global_objects[namespace_name] = NamespaceObject(objects[1], namespace_name)
+            self.global_items["OBJECTS"][namespace_name] = NamespaceObject(objects[1], namespace_name)
         elif len(path_items) >= 1:
             namespace_name = path.basename(path.dirname(path_search))
             namespace_object = NamespaceObject(objects[1], namespace_name)
             for object_part_namespaced in path_items:
                 namespace_object = namespace_object.items[object_part_namespaced]
             namespace_name = path_items[-1]
-            global_objects[namespace_name] = namespace_object
+            self.global_items["OBJECTS"][namespace_name] = namespace_object
 
     def eval_id(self, tree):
         """Evaluate a variable name."""
         name = tree[0]["VALUE"]
-        if name in global_objects:
-            value = global_objects[name]
+        if name in self.global_items["OBJECTS"]:
+            value = self.global_items["OBJECTS"][name]
         elif name in self.objects:
             value = self.objects[name]
         else:
@@ -203,9 +184,9 @@ class Process:
         name = dictionary["ID"]
         program = dictionary["PROGRAM"]
         if self.in_program():
-            global_objects[name] = ClassTemplate(program, name)
+            self.global_items["OBJECTS"][name] = ClassTemplate(program, name, self.global_items)
         elif not self.in_program():
-            self.objects[name] = ClassTemplate(program, name)
+            self.objects[name] = ClassTemplate(program, name, self.global_items)
 
     def class_attribute(self, body):
         """Get an attribute of a certian instance of a class."""
@@ -481,7 +462,7 @@ class Process:
         """Return output from inline python code, or run it."""
         code = tree[0]["CODE"]
         var = bt.Namespace(self.objects)
-        gvar = bt.Namespace(global_objects)
+        gvar = bt.Namespace(self.global_items["OBJECTS"])
         if eval_or_not:
             val = eval(code)
             type_val = type(val)
@@ -541,7 +522,7 @@ class Process:
             function_obj = self.eval_expression(dictionary_func["ID"])
             if isinstance(function_obj, ClassTemplate):
                 return_value = ClassInstance(
-                    function_obj, None, new_pos_arguments, dictionary["KWARGS"]
+                    function_obj, None, new_pos_arguments, dictionary["KWARGS"], self.global_items
                 )
             elif isinstance(function_obj, Function):
                 return_value = function_obj.run_function(
@@ -584,12 +565,12 @@ class Process:
         arguments = dictionary["FUNCTION_ARGUMENTS"]
         program = dictionary["PROGRAM"]
         if self.in_program():
-            global_objects[name] = Function(
-                program, name, arguments, filename=self.file_path
+            self.global_items["OBJECTS"][name] = Function(
+                program, name, arguments, self.global_items, filename=self.file_path
             )
         elif not self.in_program():
             self.objects[name] = Function(
-                program, name, arguments, filename=self.file_path
+                program, name, arguments, self.global_items, filename=self.file_path
             )
 
     def attribute_assignment(self, tree):
@@ -601,12 +582,13 @@ class Process:
 
 
 class Function(Process):
-    def __init__(self, tree, name, arguments, filename="?"):
+    def __init__(self, tree, name, arguments, global_items, filename="?", ):
         Process.__init__(self, tree, filename=filename)
         self.name = name
         self.type = "FUNCTION"
         self.arguments = arguments
         self.tree = tree
+        self.global_items = global_items
         self.stmt = {
             **self.stmt,
             "CLASS_ATTRIBUTE_ASSIGNMENT": self.attribute_assignment,
@@ -659,7 +641,7 @@ class Function(Process):
                 self.objects[variable] = kw_arguments[variable]
 
         self.run()
-        global_return = False
+        self.global_items["RETURN"] = False
         if "--return--" in self.objects:
             return self.objects["--return--"]
         elif "--return--" not in self.objects:
@@ -692,13 +674,13 @@ class Function(Process):
     def return_statement(self, tree):
         dictionary = tree[0]
         value = self.eval_expression(dictionary["EXPRESSION"])
-        global_return = True
+        self.global_items["RETURN"] = True
         self.objects["--return--"] = value
 
 
 class ClassTemplate(Function):
-    def __init__(self, tree, name):
-        Process.__init__(self, tree)
+    def __init__(self, tree, name, global_items, filename="?"):
+        Process.__init__(self, tree, filename=filename)
         self.stmt = {
             "FUNCTION_DECLARATION": self.function_declaration,
             "CLASS_DECLARATION": self.class_declaration,
@@ -706,6 +688,7 @@ class ClassTemplate(Function):
         }
         self.name = name
         self.type = "CLASS_TEMPLATE"
+        self.global_items = global_items
         self.run()
 
         if "--init--" in self.objects:
@@ -715,16 +698,17 @@ class ClassTemplate(Function):
             self.positional_arguments, self.kw_arguments = None, None
 
     def run_method(self, name_func, pos_arguments, kw_arguments):
-        objects = {**self.objects, **global_objects}
+        objects = {**self.objects, **self.global_items["OBJECTS"]}
         positional_arguments = list((self,) + tuple(pos_arguments))
         return objects[name_func].run_function(positional_arguments, kw_arguments)
 
 
 class ClassInstance(ClassTemplate):
-    def __init__(self, instance, name, pos_arguments, kw_arguments):
-        ClassTemplate.__init__(self, instance.tree, instance.name)
+    def __init__(self, instance, name, pos_arguments, kw_arguments, global_items):
+        ClassTemplate.__init__(self, instance.tree, instance.name, global_items)
         self.name = name
         self.type = "CLASS_INSTANCE"
+        self.global_items = global_items
         self.run_method("--init--", pos_arguments, kw_arguments)
 
 
@@ -735,11 +719,11 @@ class NamespaceObject(Process):
         self.objects = self.items
 
     def run_method(self, name_func, pos_arguments, kw_arguments):
-        objects = {**self.items, **global_objects}
+        objects = {**self.items}
         positional_arguments = list((self,) + tuple(pos_arguments))
         if isinstance(objects[name_func], ClassTemplate):
             return ClassInstance(
-                objects[name_func], name_func, pos_arguments, kw_arguments
+                objects[name_func], name_func, pos_arguments, kw_arguments, self.global_items
             )
         elif isinstance(objects[name_func], Function):
             return objects[name_func].run_function(positional_arguments[1:], kw_arguments)

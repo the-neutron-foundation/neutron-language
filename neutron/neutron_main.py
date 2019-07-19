@@ -26,7 +26,7 @@ def get_objects(filename):
     tree = parser.parse(lexer.tokenize(text))
     program = neutron_interpreter.Process(tree, filename=path.abspath(filename), imported=True)
     program.run()
-    return (deepcopy(program.objects), deepcopy(neutron_interpreter.global_objects))
+    return (deepcopy(program.objects), deepcopy(program.global_items["OBJECTS"]))
 
 
 def main(filename, verbose=False):
@@ -45,5 +45,5 @@ def main(filename, verbose=False):
         pp.pprint(tree)
     program = neutron_interpreter.Process(tree, filename=path.abspath(filename))
     program.objects.update(defult_functions[0])
-    neutron_interpreter.global_objects.update(defult_functions[1])
+    program.global_items["OBJECTS"].update(defult_functions[1])
     program.run()

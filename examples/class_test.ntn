@@ -1,3 +1,12 @@
-func print(x) {
-  `print(var.x)`;
+import "io";
+
+class hi {
+  func --init--(this, no) {
+    this::no = no;
+  }
+  func print(this) {
+    io::print(this::no);
+  }
 }
+x = hi("hi");
+x::print();
