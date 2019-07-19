@@ -39,6 +39,9 @@ class DataType:
     def __repr__(self):
         return f"{self.value}"
 
+    def __hash__(self):
+        return (hash(self.type) ^ hash(self.value) ^ hash((self.type, self.value)))
+
     def __add__(self, other):
         return (
             add(self.value, other)
@@ -241,6 +244,26 @@ class ListType(DataType):
     def __str__(self):
         return self.value.__str__()
 
+class AssocArray(DataType):
+    def __init__(self, tree, scope=None, enter_value=False):
+        DataType.__init__(self, tree, scope=scope, enter_value=enter_value)
+        self.type = dict
+
+    def eval_tree(self):
+        value = {}
+        items = self.tree[0]["ITEMS"]
+        for pair in items:
+            value[self.scope.eval_expression(pair[0])] = self.scope.eval_expression(pair[1])
+        return dict(value)
+
+    def __str__(self):
+        return self.value.__str__()
+
+    def __getitem__(self, index):
+        return self.value[index]
+
+    def __setitem__(self, key, value):
+        self.value[key] = value
 
 class TupleType(DataType):
     def __init__(self, tree, scope=None, enter_value=False):

@@ -55,6 +55,7 @@ class NeutronLexer(Lexer):
         ":",
         "[",
         "]",
+        "\\",
     }
 
     ignore = " \t"

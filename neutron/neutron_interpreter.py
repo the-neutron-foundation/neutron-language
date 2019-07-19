@@ -151,7 +151,7 @@ class Process:
             if k.startswith("--"):
                 del objects[k]
 
-    def import_statement(self, tree):
+    def import_statement(self, tree, limport=False):
         dictionary = tree[0]
         path_items = self.eval_expression(dictionary["EXPRESSION"]).value.split("::")
         path_search = path.dirname(self.file_path) if path.isdir(path.join(path.dirname(self.file_path), path_items[0])) or path.isfile(path.join(path.dirname(self.file_path), f"{path_items[0]}.ntn")) else paths_to_look_in[0]
@@ -425,6 +425,10 @@ class Process:
     def eval_null(tree):
         return bt.NullType()
 
+    def eval_assoc_array(self, tree):
+        """Evaluate a tuple type."""
+        return bt.AssocArray(tree, scope=self)
+
     def eval_expression(self, tree):
         """Return evaluated object that can be used."""
         _type = tree[0]
@@ -441,6 +445,7 @@ class Process:
             "LIST": self.eval_list,
             "TUPLE": self.eval_tuple,
             "NULL": self.eval_null,
+            "ASSOC_ARRAY": self.eval_assoc_array,
             # Bin Ops
             "SUB": self.eval_sub,
             "ADD": self.eval_add,

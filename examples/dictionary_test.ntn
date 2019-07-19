@@ -1,0 +1,5 @@
+import "io::print";
+
+x = \"hi": "hellow!", "sda": "sih"\;
+y = x["hi"];
+print(y);

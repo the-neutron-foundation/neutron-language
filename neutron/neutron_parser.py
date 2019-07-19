@@ -465,6 +465,10 @@ class NeutronParser(Parser):
     def expression(self, p):
         return p._numpy
 
+    @_("assoc_array")
+    def expression(self, p):
+        return p.assoc_array
+
     # Expression END
     ###########################################################################
     # Intermediate expression START
@@ -516,6 +520,18 @@ class NeutronParser(Parser):
     @_("ID")
     def id(self, p):
         return ("ID", {"VALUE": p.ID})
+
+    @_(r"'\' assoc_array_items '\'")
+    def assoc_array(self, p):
+        return ("ASSOC_ARRAY", {"ITEMS": p.assoc_array_items})
+
+    @_("assoc_array_items ',' expression ':' expression")
+    def assoc_array_items(self, p):
+        return p.assoc_array_items + ((p.expression0, p.expression1),)
+
+    @_("expression ':' expression")
+    def assoc_array_items(self, p):
+        return ((p.expression0, p.expression1),)
 
     @_("PYTHON_CODE")
     def python_code(self, p):
