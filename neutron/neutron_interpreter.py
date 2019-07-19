@@ -514,6 +514,7 @@ class Process:
                     bt.StringType,
                     bt.NumpyArray,
                     bt.TupleType,
+                    bt.AssocArray,
                 ),
             ):
                 self.objects[name][
