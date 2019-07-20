@@ -1,6 +1,7 @@
 # The Neutron Programming Language
 
 [![Codacy grade](https://img.shields.io/codacy/grade/9bb7d4a628ca4ef1b95dc88a57cb1119.svg?style=for-the-badge)](https://app.codacy.com/project/MonliH/neutron/dashboard)
+[![Codacy grade](https://img.shields.io/travis/the-neutron-foundation/neutron-language.svg?style=for-the-badge)](https://travis-ci.org/the-neutron-foundation/neutron-language)
 [![Website](https://img.shields.io/badge/website-here-blue.svg?style=for-the-badge
 )](https://the-neutron-foundation.github.io/)
 [![License](https://img.shields.io/badge/license-GPL%203.0-blue.svg?style=for-the-badge)](https://www.gnu.org/licenses/gpl-3.0.en.html)
