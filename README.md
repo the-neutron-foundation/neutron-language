@@ -4,7 +4,6 @@
 [![Website](https://img.shields.io/badge/website-here-blue.svg?style=for-the-badge
 )](https://the-neutron-foundation.github.io/)
 [![License](https://img.shields.io/badge/license-GPL%203.0-blue.svg?style=for-the-badge)](https://www.gnu.org/licenses/gpl-3.0.en.html)
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg?style=for-the-badge)](https://paypal.me/MonLiH)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg?style=for-the-badge)](https://github.com/python/black)
 
 **Neutron is a high level general-purpose programming language that is inspired by C and Python.**
