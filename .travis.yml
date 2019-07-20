@@ -9,4 +9,4 @@ install:
   - pip install -r requirements.txt
 
 script:
-  - python neutron examples for_loop_test.ntn
+  - for f in examples/*_test.ntn; do python neutron "$f"; done
