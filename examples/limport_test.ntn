@@ -1,0 +1,8 @@
+limport "io::print";
+print("hi");
+
+func hi(){
+  print("hi");
+}
+
+hi(); // returns error

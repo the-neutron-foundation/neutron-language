@@ -40,6 +40,7 @@ class Process:
             "DEL": self.delete_statement,  # Delete statement
             "VARIABLE_OPERATION": self.variable_operation,
             "IMPORT": self.import_statement,
+            "LIMPORT": self.limport_statement,
             "SANDBOX": self.sandbox_statement,
         }
 
@@ -151,6 +152,9 @@ class Process:
             self.run(tree=program)
         self.global_items["BREAK"] = False
 
+    def limport_statement(self, tree):
+        self.import_statement(tree, limport=True)
+
     def import_statement(self, tree, limport=False):
         dictionary = tree[0]
         path_items = self.eval_expression(dictionary["EXPRESSION"]).value.split("::")
@@ -176,30 +180,24 @@ class Process:
 
         if len(path_items) == 0:
             namespace_name = path.basename(path.dirname(path_search))
-            self.global_items["OBJECTS"][namespace_name] = NamespaceObject(
-                objects[1], namespace_name
-            )
+            if not limport:
+                self.global_items["OBJECTS"][namespace_name] = NamespaceObject(
+                    objects[1], namespace_name
+                )
+            else:
+                self.objects[namespace_name] = NamespaceObject(
+                    objects[1], namespace_name
+                )
         elif len(path_items) >= 1:
             namespace_name = path.basename(path.dirname(path_search))
             namespace_object = NamespaceObject(objects[1], namespace_name)
             for object_part_namespaced in path_items:
                 namespace_object = namespace_object.items[object_part_namespaced]
             namespace_name = path_items[-1]
-            self.global_items["OBJECTS"][namespace_name] = namespace_object
-
-    def eval_id(self, tree):
-        """Evaluate a variable name."""
-        name = tree[0]["VALUE"]
-        if name in self.global_items["OBJECTS"]:
-            value = self.global_items["OBJECTS"][name]
-        elif name in self.objects:
-            value = self.objects[name]
-        else:
-            errors.variable_referenced_before_assignment_error().raise_error(
-                f'variable "{name}" referenced before assignment', file=self.file_path
-            )
-
-        return value
+            if not limport:
+                self.global_items["OBJECTS"][namespace_name] = namespace_object
+            else:
+                self.objects[namespace_name] = namespace_object
 
     def class_declaration(self, tree):
         """Declare a class teplate."""
@@ -434,6 +432,20 @@ class Process:
     def eval_assoc_array(self, tree):
         """Evaluate a tuple type."""
         return bt.AssocArray(tree, scope=self)
+
+    def eval_id(self, tree):
+        """Evaluate a variable name."""
+        name = tree[0]["VALUE"]
+        if name in self.global_items["OBJECTS"]:
+            value = self.global_items["OBJECTS"][name]
+        elif name in self.objects:
+            value = self.objects[name]
+        else:
+            errors.variable_referenced_before_assignment_error().raise_error(
+                f'variable "{name}" referenced before assignment', file=self.file_path
+            )
+
+        return value
 
     def eval_expression(self, tree):
         """Return evaluated object that can be used."""

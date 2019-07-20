@@ -112,6 +112,10 @@ class NeutronParser(Parser):
     ###########################################################################
     # Statment syntax START
 
+    @_("LIMPORT expression ';'")
+    def sandbox(self, p):
+        return ("LIMPORT", {"EXPRESSION": p.expression})
+
     @_("SANDBOX '{' program '}'")
     def sandbox(self, p):
         return ("SANDBOX", {"PROGRAM": p.program})
