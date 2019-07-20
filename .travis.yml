@@ -1,19 +1,9 @@
-# Disable sudo to speed up the build
-sudo: false
-
-# Set the build language to Python
+dist: xenial
 language: python
 
-python: 3.6
+python:
+  - "3.7"
+  - "pypy3.6"
 
-# Install the codecov pip dependency
 install:
-  - pip3 install codecov
-
-# Run the unit test
-script:
-  - coverage run tests.py
-
-# Push the results back to codecov
-after_success:
-  - codecov
+  - pip install -r requirements.txt

@@ -104,9 +104,17 @@ class NeutronParser(Parser):
     def statement(self, p):
         return p.import_statement
 
+    @_("sandbox")
+    def statement(self, p):
+        return p.sandbox
+
     # Statements END
     ###########################################################################
     # Statment syntax START
+
+    @_("SANDBOX '{' program '}'")
+    def sandbox(self, p):
+        return ("SANDBOX", {"PROGRAM": p.program})
 
     @_("function_call ';'")
     def function_call_statement(self, p):

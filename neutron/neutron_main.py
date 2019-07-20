@@ -24,25 +24,28 @@ def get_objects(filename):
     lexer = neutron_lexer.NeutronLexer()
     parser = neutron_parser.NeutronParser()
     tree = parser.parse(lexer.tokenize(text))
-    program = neutron_interpreter.Process(tree, filename=path.abspath(filename), imported=True)
+    program = neutron_interpreter.Process(
+        tree, filename=path.abspath(filename), imported=True
+    )
     program.run()
     return (deepcopy(program.objects), deepcopy(program.global_items["OBJECTS"]))
 
 
-def main(filename, verbose=False):
-    text = read_file(filename)
+def main(filename, verbose=False, tree=None):
     defult_functions = get_objects(
         path.join(path.dirname(path.abspath(__file__)), "defult.ntn")
     )
-    pp = pprint.PrettyPrinter(indent=2)
-    lexer = neutron_lexer.NeutronLexer()
-    parser = neutron_parser.NeutronParser()
-    if verbose:
-        for tok in lexer.tokenize(text):
-            print(tok)
-    tree = parser.parse(lexer.tokenize(text))
-    if verbose:
-        pp.pprint(tree)
+    if tree is None:
+        text = read_file(filename)
+        pp = pprint.PrettyPrinter(indent=2)
+        lexer = neutron_lexer.NeutronLexer()
+        parser = neutron_parser.NeutronParser()
+        if verbose:
+            for tok in lexer.tokenize(text):
+                print(tok)
+        tree = parser.parse(lexer.tokenize(text))
+        if verbose:
+            pp.pprint(tree)
     program = neutron_interpreter.Process(tree, filename=path.abspath(filename))
     program.objects.update(defult_functions[0])
     program.global_items["OBJECTS"].update(defult_functions[1])

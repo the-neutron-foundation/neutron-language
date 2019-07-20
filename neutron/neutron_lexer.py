@@ -33,6 +33,8 @@ class NeutronLexer(Lexer):
         EQ_DIV,
         EQ_MOD,
         IMPORT,
+        LIMPORT,
+        SANDBOX,
     }
     literals = {
         "+",
@@ -81,6 +83,8 @@ class NeutronLexer(Lexer):
     ID["null"] = NULL
     ID["return"] = RETURN
     ID["import"] = IMPORT
+    ID["limport"] = LIMPORT
+    ID["sandbox"] = SANDBOX
 
     COLON_COLON = r"::"
     EQEQ = r"=="

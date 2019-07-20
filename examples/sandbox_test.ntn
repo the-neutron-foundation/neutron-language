@@ -1,0 +1,11 @@
+import "io";
+
+x = 10;
+
+sandbox {
+  import "io";
+  x = 20;
+  io::print(x);
+}
+
+io::print(x); // should print 10
