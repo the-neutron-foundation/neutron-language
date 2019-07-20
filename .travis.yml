@@ -7,3 +7,6 @@ python:
 
 install:
   - pip install -r requirements.txt
+
+script:
+  - python neutron examples for_loop_test.ntn
