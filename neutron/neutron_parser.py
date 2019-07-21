@@ -114,11 +114,11 @@ class NeutronParser(Parser):
 
     @_("LIMPORT expression ';'")
     def sandbox(self, p):
-        return ("LIMPORT", {"EXPRESSION": p.expression})
+        return ("LIMPORT", {"EXPRESSION": p.expression}, p.lineno)
 
     @_("SANDBOX '{' program '}'")
     def sandbox(self, p):
-        return ("SANDBOX", {"PROGRAM": p.program})
+        return ("SANDBOX", {"PROGRAM": p.program}, p.lineno)
 
     @_("function_call ';'")
     def function_call_statement(self, p):
@@ -130,22 +130,23 @@ class NeutronParser(Parser):
 
     @_("BREAK ';'")
     def break_statement(self, p):
-        return ("BREAK",)
+        return ("BREAK", p.lineno)
 
     @_("RETURN expression ';'")
     def return_statement(self, p):
-        return ("RETURN", {"EXPRESSION": p.expression})
+        return ("RETURN", {"EXPRESSION": p.expression}, p.lineno)
 
     @_("expression '(' function_arguments ')'")
     def function_call(self, p):
         return (
             "FUNCTION_CALL",
             {"FUNCTION_ARGUMENTS": p.function_arguments, "ID": p.expression},
+            p.lineno
         )
 
     @_("expression '(' empty ')'")
     def function_call(self, p):
-        return ("FUNCTION_CALL", {"FUNCTION_ARGUMENTS": {}, "ID": p.expression})
+        return ("FUNCTION_CALL", {"FUNCTION_ARGUMENTS": {}, "ID": p.expression}, p.lineno)
 
     @_("FUNC ID '(' function_arguments ')' '{' program '}'")
     def function_declaration(self, p):
@@ -156,6 +157,7 @@ class NeutronParser(Parser):
                 "ID": p.ID,
                 "PROGRAM": p.program,
             },
+            p.lineno
         )
 
     @_("FUNC ID '(' empty ')' '{' program '}'")
@@ -163,6 +165,7 @@ class NeutronParser(Parser):
         return (
             "FUNCTION_DECLARATION",
             {"FUNCTION_ARGUMENTS": {}, "ID": p.ID, "PROGRAM": p.program},
+            p.lineno
         )
 
     @_("positional_args")
@@ -179,7 +182,7 @@ class NeutronParser(Parser):
 
     @_("CLASS ID '{' program '}'")
     def class_declaration(self, p):
-        return ("CLASS_DECLARATION", {"ID": p.ID, "PROGRAM": p.program})
+        return ("CLASS_DECLARATION", {"ID": p.ID, "PROGRAM": p.program}, p.lineno)
 
     @_("FOR expression IN expression '{' program '}'")
     def for_loop(self, p):
@@ -190,11 +193,12 @@ class NeutronParser(Parser):
                 "VARIABLE": p.expression0,
                 "ITERABLE": p.expression1,
             },
+            p.lineno
         )
 
     @_("WHILE '(' expression ')' '{' program '}'")
     def while_loop(self, p):
-        return ("WHILE", {"PROGRAM": p.program, "CONDITION": p.expression})
+        return ("WHILE", {"PROGRAM": p.program, "CONDITION": p.expression}, p.lineno)
 
     @_("positional_args ',' expression")
     def positional_args(self, p):
@@ -214,17 +218,18 @@ class NeutronParser(Parser):
 
     @_("ID '=' expression ';'")
     def variable_assignment(self, p):
-        return ("VARIABLE_ASSIGNMENT", {"ID": p.ID, "EXPRESSION": p.expression})
+        return ("VARIABLE_ASSIGNMENT", {"ID": p.ID, "EXPRESSION": p.expression}, p.lineno)
 
     @_("get_index '=' expression ';'")
     def variable_assignment(self, p):
-        return ("VARIABLE_ASSIGNMENT", {"ID": p.get_index, "EXPRESSION": p.expression})
+        return ("VARIABLE_ASSIGNMENT", {"ID": p.get_index, "EXPRESSION": p.expression}, p.lineno)
 
     @_("ID EQ_ADD expression ';'")
     def variable_operation(self, p):
         return (
             "VARIABLE_OPERATION",
             {"ID": p.ID, "EXPRESSION": p.expression, "OPERATION": "ADD"},
+            p.lineno
         )
 
     @_("get_index EQ_ADD expression ';'")
@@ -232,6 +237,7 @@ class NeutronParser(Parser):
         return (
             "VARIABLE_OPERATION",
             {"ID": p.get_index, "EXPRESSION": p.expression, "OPERATION": "ADD"},
+            p.lineno
         )
 
     @_("ID EQ_SUB expression ';'")
@@ -239,6 +245,7 @@ class NeutronParser(Parser):
         return (
             "VARIABLE_OPERATION",
             {"ID": p.ID, "EXPRESSION": p.expression, "OPERATION": "SUB"},
+            p.lineno
         )
 
     @_("get_index EQ_SUB expression ';'")
@@ -246,6 +253,7 @@ class NeutronParser(Parser):
         return (
             "VARIABLE_OPERATION",
             {"ID": p.get_index, "EXPRESSION": p.expression, "OPERATION": "SUB"},
+            p.lineno
         )
 
     @_("ID EQ_MUL expression ';'")
@@ -253,6 +261,7 @@ class NeutronParser(Parser):
         return (
             "VARIABLE_OPERATION",
             {"ID": p.ID, "EXPRESSION": p.expression, "OPERATION": "MUL"},
+            p.lineno
         )
 
     @_("get_index EQ_MUL expression ';'")
@@ -260,6 +269,7 @@ class NeutronParser(Parser):
         return (
             "VARIABLE_OPERATION",
             {"ID": p.get_index, "EXPRESSION": p.expression, "OPERATION": "MUL"},
+            p.lineno
         )
 
     @_("ID EQ_MOD expression ';'")
@@ -267,6 +277,7 @@ class NeutronParser(Parser):
         return (
             "VARIABLE_OPERATION",
             {"ID": p.ID, "EXPRESSION": p.expression, "OPERATION": "MOD"},
+            p.lineno
         )
 
     @_("get_index EQ_MOD expression ';'")
@@ -274,6 +285,7 @@ class NeutronParser(Parser):
         return (
             "VARIABLE_OPERATION",
             {"ID": p.get_index, "EXPRESSION": p.expression, "OPERATION": "MOD"},
+            p.lineno
         )
 
     @_("ID EQ_DIV expression ';'")
@@ -281,6 +293,7 @@ class NeutronParser(Parser):
         return (
             "VARIABLE_OPERATION",
             {"ID": p.ID, "EXPRESSION": p.expression, "OPERATION": "DIV"},
+            p.lineno
         )
 
     @_("get_index EQ_DIV expression ';'")
@@ -288,6 +301,7 @@ class NeutronParser(Parser):
         return (
             "VARIABLE_OPERATION",
             {"ID": p.get_index, "EXPRESSION": p.expression, "OPERATION": "DIV"},
+            p.lineno
         )
 
     @_("class_attribute '=' expression ';'")
@@ -295,6 +309,7 @@ class NeutronParser(Parser):
         return (
             "CLASS_ATTRIBUTE_ASSIGNMENT",
             {"CLASS_ATTRIBUTE": p.class_attribute, "EXPRESSION": p.expression},
+            p.lineno
         )
 
     @_("if_statement")
@@ -302,6 +317,7 @@ class NeutronParser(Parser):
         return (
             "CONDITIONAL",
             {"IF": p.if_statement, "ELSE_IF": (None, None), "ELSE": (None, None)},
+            p.if_statement[2]
         )
 
     @_("if_statement else_if_loop")
@@ -309,6 +325,7 @@ class NeutronParser(Parser):
         return (
             "CONDITIONAL",
             {"IF": p.if_statement, "ELSE_IF": p.else_if_loop, "ELSE": (None, None)},
+            p.if_statement[2]
         )
 
     @_("if_statement else_if_loop else_statement")
@@ -316,6 +333,7 @@ class NeutronParser(Parser):
         return (
             "CONDITIONAL",
             {"IF": p.if_statement, "ELSE_IF": p.else_if_loop, "ELSE": p.else_statement},
+            p.if_statement[2]
         )
 
     @_("if_statement else_statement")
@@ -323,11 +341,12 @@ class NeutronParser(Parser):
         return (
             "CONDITIONAL",
             {"IF": p.if_statement, "ELSE_IF": (None, None), "ELSE": p.else_statement},
+            p.if_statement[2]
         )
 
     @_("IF '(' expression ')' '{' program '}'")
     def if_statement(self, p):
-        return ("IF", {"CODE": p.program, "CONDITION": p.expression})
+        return ("IF", {"CODE": p.program, "CONDITION": p.expression}, p.lineno)
 
     @_("else_if_loop else_if_statement")
     def else_if_loop(self, p):
@@ -339,19 +358,19 @@ class NeutronParser(Parser):
 
     @_("ELSE IF '(' expression ')' '{' program '}'")
     def else_if_statement(self, p):
-        return ({"CODE": p.program, "CONDITION": p.expression},)
+        return ({"CODE": p.program, "CONDITION": p.expression}, p.lineno)
 
     @_("ELSE '{' program '}'")
     def else_statement(self, p):
-        return ("ELSE", {"CODE": p.program})
+        return ("ELSE", {"CODE": p.program}, p.lineno)
 
     @_("DEL ID ';'")
     def delete_statement(self, p):
-        return ("DEL", {"ID": p.ID})
+        return ("DEL", {"ID": p.ID}, p.lineno)
 
     @_("IMPORT expression ';'")
     def import_statement(self, p):
-        return ("IMPORT", {"EXPRESSION": p.expression})
+        return ("IMPORT", {"EXPRESSION": p.expression}, p.lineno)
 
     # Statment syntax END
     ###########################################################################
@@ -491,63 +510,63 @@ class NeutronParser(Parser):
 
     @_("expression '[' expression ']'")
     def get_index(self, p):
-        return ("GET_INDEX", {"EXPRESSION": p.expression0, "INDEX": p.expression1})
+        return ("GET_INDEX", {"EXPRESSION": p.expression0, "INDEX": p.expression1}, p.lineno)
 
     @_("'{' positional_args '}'")
     def _tuple(self, p):
-        return ("TUPLE", {"ITEMS": p.positional_args})
+        return ("TUPLE", {"ITEMS": p.positional_args}, p.lineno)
 
     @_("'[' positional_args ']'")
     def _list(self, p):
-        return ("LIST", {"ITEMS": p.positional_args})
+        return ("LIST", {"ITEMS": p.positional_args}, p.lineno)
 
     @_("'(' positional_args ')'")
     def _numpy(self, p):
-        return ("NUMPY", {"ITEMS": p.positional_args})
+        return ("NUMPY", {"ITEMS": p.positional_args}, p.lineno)
 
     @_("INT")
     def int(self, p):
-        return ("INT", {"VALUE": p.INT})
+        return ("INT", {"VALUE": p.INT}, p.lineno)
 
     @_("STRING")
     def string(self, p):
-        return ("STRING", {"VALUE": p.STRING[1:-1]})
+        return ("STRING", {"VALUE": p.STRING[1:-1]}, p.lineno)
 
     @_("FLOAT")
     def float(self, p):
-        return ("FLOAT", {"VALUE": p.FLOAT})
+        return ("FLOAT", {"VALUE": p.FLOAT}, p.lineno)
 
     @_("TRUE")
     def bool(self, p):
-        return ("BOOL", {"VALUE": p.TRUE})
+        return ("BOOL", {"VALUE": p.TRUE}, p.lineno)
 
     @_("FALSE")
     def bool(self, p):
-        return ("BOOL", {"VALUE": p.FALSE})
+        return ("BOOL", {"VALUE": p.FALSE}, p.lineno)
 
     @_("expression COLON_COLON ID")
     def class_attribute(self, p):
-        return ("CLASS_ATTRIBUTE", {"CLASS": p[0], "ATTRIBUTE": p[2]})
+        return ("CLASS_ATTRIBUTE", {"CLASS": p[0], "ATTRIBUTE": p[2]}, p.lineno)
 
     @_("ID")
     def id(self, p):
-        return ("ID", {"VALUE": p.ID})
+        return ("ID", {"VALUE": p.ID}, p.lineno)
 
     @_(r"'\' assoc_array_items '\'")
     def assoc_array(self, p):
-        return ("ASSOC_ARRAY", {"ITEMS": p.assoc_array_items})
+        return ("ASSOC_ARRAY", {"ITEMS": p.assoc_array_items}, p.lineno)
 
     @_("assoc_array_items ',' expression ':' expression")
     def assoc_array_items(self, p):
-        return p.assoc_array_items + ((p.expression0, p.expression1),)
+        return p.assoc_array_items + ((p.expression0, p.expression1), p.lineno)
 
     @_("expression ':' expression")
     def assoc_array_items(self, p):
-        return ((p.expression0, p.expression1),)
+        return ((p.expression0, p.expression1), p.lineno)
 
     @_("PYTHON_CODE")
     def python_code(self, p):
-        return ("PYTHON_CODE", {"CODE": p.PYTHON_CODE[1:-1]})
+        return ("PYTHON_CODE", {"CODE": p.PYTHON_CODE[1:-1]}, p.lineno)
 
     @_("%prec EMPTY")
     def empty(self, p):

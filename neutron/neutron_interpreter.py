@@ -18,6 +18,7 @@ class Process:
         self.type = "PROGRAM"
         self.imported = imported
         self.file_path = filename
+        self.objects["--file--"] = self.file_path
         self.global_items = {
             "OBJECTS": {},
             "PATHS": [path.join(path.abspath(path.dirname(__file__)), "libs")],
@@ -103,6 +104,7 @@ class Process:
                 errors.variable_referenced_before_assignment_error().raise_error(
                     f'variable "{name}" referenced before assignment',
                     file=self.file_path,
+                    ln=tree[1]
                 )
 
             elif operation == "ADD":
@@ -182,15 +184,15 @@ class Process:
             namespace_name = path.basename(path.dirname(path_search))
             if not limport:
                 self.global_items["OBJECTS"][namespace_name] = NamespaceObject(
-                    objects[1], namespace_name
+                    objects[1], namespace_name, self.global_items
                 )
             else:
                 self.objects[namespace_name] = NamespaceObject(
-                    objects[1], namespace_name
+                    objects[1], namespace_name, self.global_items
                 )
         elif len(path_items) >= 1:
             namespace_name = path.basename(path.dirname(path_search))
-            namespace_object = NamespaceObject(objects[1], namespace_name)
+            namespace_object = NamespaceObject(objects[1], namespace_name, self.global_items)
             for object_part_namespaced in path_items:
                 namespace_object = namespace_object.items[object_part_namespaced]
             namespace_name = path_items[-1]
@@ -224,6 +226,7 @@ class Process:
                     errors.variable_referenced_before_assignment_error().raise_error(
                         f'variable "{name}" referenced before assignment',
                         file=self.file_path,
+                        ln=tree[1]
                     )
 
         else:
@@ -442,7 +445,7 @@ class Process:
             value = self.objects[name]
         else:
             errors.variable_referenced_before_assignment_error().raise_error(
-                f'variable "{name}" referenced before assignment', file=self.file_path
+                f'variable "{name}" referenced before assignment', file=self.file_path, ln=tree[1]
             )
 
         return value
@@ -578,7 +581,7 @@ class Process:
                     )
                 except AttributeError:
                     errors.id_not_callable().raise_error(
-                        f'object "{name}" not callable', file=self.file_path
+                        f'object "{name}" not callable', file=self.file_path, ln=tree[1]
                     )
 
         elif dictionary_func["ID"][0] == "CLASS_ATTRIBUTE":
@@ -592,11 +595,11 @@ class Process:
 
         elif dictionary_func["ID"][0] != "ID":
             object_not_callable = errors.ErrorClass(
-                f"{dictionary_func['ID'][0].lower()}_not_callable_error"
+                f"{dictionary_func['ID'][0].lower()}_not_callable_error", ln=tree[1]
             )
             object_not_callable.raise_error(
                 f"{dictionary_func['ID'][0].lower()} type is not callable",
-                file=self.file_path,
+                file=self.file_path, ln=tree[1]
             )
 
         return return_value
@@ -648,9 +651,14 @@ class Function(Process):
                     self.positional_arguments.append(item[1]["VALUE"])
             if key == "KWARGS":
                 for item in self.arguments[key]:
-                    self.kw_arguments[item["ID"]] = self.eval_expression(
-                        item["EXPRESSION"]
-                    )
+                    if not isinstance(item["ID"], tuple):
+                        self.kw_arguments[item["ID"]] = self.eval_expression(
+                            item["EXPRESSION"]
+                        )
+                    else:
+                        self.kw_arguments[item["ID"][1]["VALUE"]] = self.eval_expression(
+                            item["EXPRESSION"]
+                        )
 
     def run_function(self, pos_arguments, kw_args):
         kw_arguments = {}
@@ -662,6 +670,7 @@ class Function(Process):
             error.raise_error(
                 f"{len(self.positional_arguments)} arguments expected {len(pos_arguments)} were found",
                 file=self.file_path,
+                ln=tree[1]
             )
 
         for i, name in enumerate(self.positional_arguments):
@@ -676,6 +685,14 @@ class Function(Process):
             if item is None:
                 continue
             kw_arguments[item["ID"]] = self.eval_expression(item["EXPRESSION"])
+            if not isinstance(item["ID"], tuple):
+                self.kw_arguments[item["ID"]] = self.eval_expression(
+                    item["EXPRESSION"]
+                )
+            else:
+                self.kw_arguments[item["ID"][1]["VALUE"]] = self.eval_expression(
+                    item["EXPRESSION"]
+                )
 
         for variable in self.kw_arguments:
             if variable not in kw_arguments:
@@ -712,6 +729,7 @@ class Function(Process):
                 errors.variable_referenced_before_assignment_error().raise_error(
                     f'object "{dictionary["CLASS_ATTRIBUTE"][1]["ATTRIBUTE"]}" referenced before assignment',
                     file=self.file_path,
+                    ln=tree[1]
                 )
 
     def return_statement(self, tree):
@@ -756,10 +774,11 @@ class ClassInstance(ClassTemplate):
 
 
 class NamespaceObject(Process):
-    def __init__(self, items, name):
+    def __init__(self, items, name, global_items):
         self.items = items
         self.name = name
         self.objects = self.items
+        self.global_items = global_items
 
     def run_method(self, name_func, pos_arguments, kw_arguments):
         objects = {**self.items}

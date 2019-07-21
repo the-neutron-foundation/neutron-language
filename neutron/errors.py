@@ -1,9 +1,14 @@
+import platform
+import os
+
 class ErrorClass:
     def __init__(self, type):
         self.type = type
 
-    def raise_error(self, msg, ln="?", col="?", file="?"):
-        print(f"in file: {file} line: {ln} column: {col}\nneutron::{self.type}: {msg}.")
+    def raise_error(self, msg, ln="?", file="?"):
+        if platform.system() == "Windows":
+            os.system("color")
+        print(f"\033[91mIn file \"{file}\" line {ln};\033[0m\n\033[1m\033[91m{self.type}\033[0m: \033[93m{msg}\033[0m")
         quit()
 
 

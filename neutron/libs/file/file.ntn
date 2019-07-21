@@ -1,4 +1,4 @@
-class File {
+class file {
   func --init--(this, filename) {
     this::filename = filename;
   }

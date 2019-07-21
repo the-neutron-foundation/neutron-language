@@ -1,0 +1,2 @@
+`errors.ErrorClass("bad_error").raise_error("Something Went Wrong", ln=10, file="path_to_file_where_error_occured")`;
+error("Bad_error")::raise("Something Went Wrong"); // doesn't run
