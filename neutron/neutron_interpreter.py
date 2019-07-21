@@ -689,11 +689,10 @@ class Function(Process):
         for item in kw_args:
             if item is None:
                 continue
-            kw_arguments[item["ID"]] = self.eval_expression(item["EXPRESSION"])
             if not isinstance(item["ID"], tuple):
-                self.kw_arguments[item["ID"]] = self.eval_expression(item["EXPRESSION"])
+                kw_arguments[item["ID"]] = self.eval_expression(item["EXPRESSION"])
             else:
-                self.kw_arguments[item["ID"][1]["VALUE"]] = self.eval_expression(
+                kw_arguments[item["ID"][1]["VALUE"]] = self.eval_expression(
                     item["EXPRESSION"]
                 )
 
