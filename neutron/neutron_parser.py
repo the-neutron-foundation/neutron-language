@@ -522,7 +522,7 @@ class NeutronParser(Parser):
 
     @_("expression '[' expression ']'")
     def get_index(self, p):
-        return ("GET_INDEX", {"EXPRESSION": p.expression0, "INDEX": p.expression1})
+        return ("GET_INDEX", {"EXPRESSION": p.expression0, "INDEX": p.expression1}, p.lineno)
 
     @_("'{' positional_args '}'")
     def _tuple(self, p):
@@ -558,11 +558,11 @@ class NeutronParser(Parser):
 
     @_("expression COLON_COLON ID")
     def class_attribute(self, p):
-        return ("CLASS_ATTRIBUTE", {"CLASS": p[0], "ATTRIBUTE": p[2]})
+        return ("CLASS_ATTRIBUTE", {"CLASS": p[0], "ATTRIBUTE": p[2]}, p.lineno)
 
     @_("ID")
     def id(self, p):
-        return ("ID", {"VALUE": p.ID})
+        return ("ID", {"VALUE": p.ID}, p.lineno)
 
     @_(r"'\' assoc_array_items '\'")
     def assoc_array(self, p):
