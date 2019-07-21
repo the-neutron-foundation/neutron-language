@@ -257,7 +257,6 @@ class AssocArray(DataType):
             value[self.scope.eval_expression(pair[0])] = self.scope.eval_expression(
                 pair[1]
             )
-            print(pair)
         return dict(value)
 
     def __str__(self):
