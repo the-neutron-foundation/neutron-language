@@ -12,11 +12,6 @@ class error {
   }
 
   func raise(this, msg, ln="?", file="?") {
-    `import os
-import platform
-if platform.system() == "Windows":
-  os.system("color")
-print(f"\033[91mIn file \"{var.file}\" line {var.ln};\033[0m\n\033[1m\033[91m{var.this.objects['type']}\033[0m: \033[93m{var.msg}\033[0m")`;
-    quit();
+    `errors.ErrorClass(var.this.objects["type"]).raise_error(var.msg.value, file=var.file.value, ln=var.ln.value)`;
   }
 }

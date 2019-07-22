@@ -78,7 +78,6 @@ class Process:
         program = dictionary["PROGRAM"]
         iterable = dictionary["ITERABLE"]
         variable_name = dictionary["VARIABLE"][1]["VALUE"]
-        print(self.objects)
         for i in self.eval_expression(iterable):
             if self.global_items["BREAK"]:
                 self.global_items["BREAK"] = False
@@ -211,10 +210,10 @@ class Process:
         program = dictionary["PROGRAM"]
         if self.in_program():
             self.global_items["OBJECTS"][name] = ClassTemplate(
-                program, name, self.global_items
+                program, name, self.global_items, filename=self.file_path
             )
         elif not self.in_program():
-            self.objects[name] = ClassTemplate(program, name, self.global_items)
+            self.objects[name] = ClassTemplate(program, name, self.global_items, filename=self.file_path)
 
     def class_attribute(self, body):
         """Get an attribute of a certian instance of a class."""
@@ -455,6 +454,7 @@ class Process:
         elif name in self.objects:
             value = self.objects[name]
         else:
+            print(self.file_path)
             errors.variable_referenced_before_assignment_error().raise_error(
                 f'object "{name}" referenced before assignment',
                 file=self.file_path,
@@ -602,7 +602,7 @@ class Process:
         elif dictionary_func["ID"][0] == "CLASS_ATTRIBUTE":
             attribute = dictionary_func["ID"][1]["ATTRIBUTE"]
             class_obj = self.eval_expression(dictionary_func["ID"][1]["CLASS"])
-            traceback_log.append({"FILE": self.file_path, "LINE": tree[1], "SCOPE": f'{dictionary_func["ID"][1]["CLASS"]}::{dictionary_func["ID"][1]["ATTRIBUTE"]}'})
+            traceback_log.append({"FILE": self.file_path, "LINE": tree[1], "SCOPE": f'{class_obj.name}::{dictionary_func["ID"][1]["ATTRIBUTE"]}'})
             return_value = class_obj.run_method(
                 attribute,
                 new_pos_arguments,
