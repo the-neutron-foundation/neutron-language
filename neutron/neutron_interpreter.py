@@ -10,6 +10,7 @@ except ModuleNotFoundError:
 from os import path
 import numpy as np
 
+traceback_log = []
 
 class Process:
     def __init__(self, tree, filename="?", imported=False):
@@ -558,6 +559,7 @@ class Process:
 
     def object_call(self, tree):
         """Execute a function call."""
+        global traceback_log
         dictionary_func = tree[0]
         dictionary = dictionary_func["FUNCTION_ARGUMENTS"]
         new_pos_arguments = []
@@ -574,6 +576,7 @@ class Process:
         if dictionary_func["ID"][0] == "ID":
             name = dictionary_func["ID"][1]["VALUE"]
             function_obj = self.eval_expression(dictionary_func["ID"])
+            traceback_log.append({"FILE": self.file_path, "LINE": tree[1], "SCOPE": f'{name}'})
             if isinstance(function_obj, ClassTemplate):
                 return_value = ClassInstance(
                     function_obj,
@@ -599,6 +602,7 @@ class Process:
         elif dictionary_func["ID"][0] == "CLASS_ATTRIBUTE":
             attribute = dictionary_func["ID"][1]["ATTRIBUTE"]
             class_obj = self.eval_expression(dictionary_func["ID"][1]["CLASS"])
+            traceback_log.append({"FILE": self.file_path, "LINE": tree[1], "SCOPE": f'{dictionary_func["ID"][1]["CLASS"]}::{dictionary_func["ID"][1]["ATTRIBUTE"]}'})
             return_value = class_obj.run_method(
                 attribute,
                 new_pos_arguments,

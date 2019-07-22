@@ -1,5 +1,7 @@
 import platform
 import os
+import linecache
+from neutron_interpreter import traceback_log
 
 
 class ErrorClass:
@@ -9,9 +11,14 @@ class ErrorClass:
     def raise_error(self, msg, ln="?", file="?"):
         if platform.system() == "Windows":
             os.system("color")
-        print(
-            f'\033[91mIn file "{file}" line {ln};\033[0m\n\033[1m\033[91m{self.type}\033[0m: \033[93m{msg}\033[0m'
-        )
+        for traceback in traceback_log:
+            print(
+                f' \033[91mIn file "{traceback["FILE"]}" line {traceback["LINE"]} in {traceback["SCOPE"]};\033[0m'
+            )
+            print(f'   {linecache.getline(traceback["FILE"], traceback["LINE"]).lstrip()}', end="")
+        print(f' \033[91mIn file "{file}" line {ln};\033[0m\n', end="")
+        print(f'   {linecache.getline(file, ln).lstrip()}', end="")
+        print(f'\033[1m\033[91m{self.type}\033[0m: \033[93m{msg}\033[0m')
         quit()
 
 
