@@ -102,7 +102,7 @@ class Process:
         if isinstance(dictionary["ID"], str):
             if dictionary["ID"] not in self.objects:
                 errors.variable_referenced_before_assignment_error().raise_error(
-                    f'variable "{name}" referenced before assignment',
+                    f'object "{name}" referenced before assignment',
                     file=self.file_path,
                     ln=tree[1],
                 )
@@ -217,6 +217,7 @@ class Process:
 
     def class_attribute(self, body):
         """Get an attribute of a certian instance of a class."""
+        line = body[1]
         body = body[0]
         if self.type == "FUNCTION" and body["CLASS"] == "this":
             if isinstance(self.objects["this"], ClassTemplate):
@@ -226,13 +227,20 @@ class Process:
                     value = self.objects["this"].objects[body["ATTRIBUTE"]]
                 except KeyError:
                     errors.variable_referenced_before_assignment_error().raise_error(
-                        f'variable "{name}" referenced before assignment',
+                        f'object "{body["ATTRIBUTE"]}" referenced before assignment',
                         file=self.file_path,
-                        ln=tree[1],
+                        ln=line,
                     )
 
         else:
-            value = self.eval_expression(body["CLASS"]).objects[body["ATTRIBUTE"]]
+            try:
+                value = self.eval_expression(body["CLASS"]).objects[body["ATTRIBUTE"]]
+            except KeyError:
+                errors.variable_referenced_before_assignment_error().raise_error(
+                    f'object "{body["ATTRIBUTE"]}" referenced before assignment',
+                    file=self.file_path,
+                    ln=line,
+                )
 
         return value
 
@@ -447,7 +455,7 @@ class Process:
             value = self.objects[name]
         else:
             errors.variable_referenced_before_assignment_error().raise_error(
-                f'variable "{name}" referenced before assignment',
+                f'object "{name}" referenced before assignment',
                 file=self.file_path,
                 ln=tree[1],
             )
@@ -675,7 +683,6 @@ class Function(Process):
             error.raise_error(
                 f"{len(self.positional_arguments)} arguments expected {len(pos_arguments)} were found",
                 file=self.file_path,
-                ln=tree[1],
             )
 
         for i, name in enumerate(self.positional_arguments):
