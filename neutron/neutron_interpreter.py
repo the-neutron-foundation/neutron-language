@@ -454,7 +454,6 @@ class Process:
         elif name in self.objects:
             value = self.objects[name]
         else:
-            print(self.file_path)
             errors.variable_referenced_before_assignment_error().raise_error(
                 f'object "{name}" referenced before assignment',
                 file=self.file_path,

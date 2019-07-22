@@ -528,13 +528,45 @@ class NeutronParser(Parser):
     def _tuple(self, p):
         return ("TUPLE", {"ITEMS": p.positional_args})
 
+    @_("'{' positional_args ',' '}'")
+    def _tuple(self, p):
+        return ("TUPLE", {"ITEMS": p.positional_args})
+
     @_("'[' positional_args ']'")
     def _list(self, p):
         return ("LIST", {"ITEMS": p.positional_args})
 
-    @_("'(' positional_args ')'")
+    @_("'[' positional_args ',' ']'")
+    def _list(self, p):
+        return ("LIST", {"ITEMS": p.positional_args})
+
+    @_("'(' items ')'")
     def _numpy(self, p):
-        return ("NUMPY", {"ITEMS": p.positional_args})
+        return ("NUMPY", {"ITEMS": p.items})
+
+    @_("'(' items ',' ')'")
+    def _numpy(self, p):
+        return ("NUMPY", {"ITEMS": p.items})
+
+    @_("'(' expression ',' ')'")
+    def _numpy(self, p):
+        return ("NUMPY", {"ITEMS": (p.expression,)})
+
+    @_("'(' ')'")
+    def _numpy(self, p):
+        return ("NUMPY", {"ITEMS": ()})
+
+    @_("'(' ',' ')'")
+    def _numpy(self, p):
+        return ("NUMPY", {"ITEMS": ()})
+
+    @_("items ',' expression")
+    def items(self, p):
+        return p.items + (p.expression,)
+
+    @_("expression ',' expression")
+    def items(self, p):
+        return (p.expression,)
 
     @_("INT")
     def int(self, p):
