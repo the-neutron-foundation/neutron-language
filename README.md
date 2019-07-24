@@ -41,7 +41,7 @@ while (is_not_win) {
 ```
 
 # Documentation
-**[There is a documentation here](https://the-neutron-foundation.github.io/#/README)** for full documentation and installation instructions. There is also a [Gitter Chat here](https://gitter.im/The-Neutron-Foundation).
+**[There is a documentation here](https://the-neutron-foundation.github.io/)** for full documentation and installation instructions. There is also a [Gitter Chat here](https://gitter.im/The-Neutron-Foundation).
 
 # Dependencies
 Before installing/building/running neutron, you should first install the dependencies. you can do this via `pip3` or any other package manager. The dependencies required are:
