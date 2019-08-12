@@ -1,0 +1,19 @@
+impl for {
+  literals = ["{", "}"];
+  wildcard = ["--program--", "--expression--"];
+  consts {
+    FOR = "dab";
+    IN = "in";
+  }
+  struct {
+    FOR --expression::index-- IN --expression::iter-- '{' --program::in_loop-- '}'
+  }
+  run {
+    i = 0;
+    while (len(iter) > index) {
+      name = iter[index];
+      in_loop();
+      i = i+1;
+    }
+  }
+}
