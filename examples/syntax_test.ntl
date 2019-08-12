@@ -10,8 +10,8 @@ impl for {
   }
   run {
     i = 0;
-    while (len(iter) > index) {
-      name = iter[index];
+    while (len(iter) > i) {
+      `self.objects[var.index.value] = var.iter[i]`;
       in_loop();
       i = i+1;
     }
